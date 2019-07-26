@@ -148,7 +148,9 @@
                                     @endif
                                         {{$dia->numDia}}<br>
                                         <form method='POST' action='/abrirCerrarDia'>
+                                            {{ csrf_field() }}
                                             <input type="hidden" name="dia" value="{{$dia->id}}">
+                                            <input type="hidden" name="mes" value="{{$mes->id}}">
                                             @if($dia->estatus == 1)
                                                     <input type='submit' value='Cerrar' class='btn btn-cerrar '>
                                             @else

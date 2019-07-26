@@ -32,4 +32,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/mes/{id?}', 'MesController@mes')->name('mes');
     Route::post('/mes/{id?}', 'MesController@mes')->name('mes');
 
+    Route::post('/abrirCerrarDia', 'DiaController@abrirCerrarDia');
+
 });

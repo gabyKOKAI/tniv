@@ -68,6 +68,7 @@ class MesController extends Controller
             $mes->id = -1;
             $mes->ano = Date('Y');
             $mes->mes = Date('m');
+            $diasMes = [];
         }
 
         return view('mes.mes')->
