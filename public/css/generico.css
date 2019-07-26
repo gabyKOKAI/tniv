@@ -1,0 +1,94 @@
+.center {
+    text-align:center;
+}
+
+.font30{
+    font-size:30%;
+
+}
+.font50{
+    font-size:50%;
+
+}
+.font70{
+    font-size:70%;
+
+}
+
+.font100{
+    font-size:100%;
+
+}
+
+.font120{
+    font-size:120%;
+
+}
+
+.font140{
+    font-size:140%;
+
+}
+
+.font150{
+    font-size:160%;
+
+}
+
+.font160{
+    font-size:160%;
+
+}
+
+.font200{
+    font-size:200%;
+
+}
+
+.red {
+    background-color:red;
+    color:white;
+}
+
+.gris{
+    background-color:#343434;
+    color:white;
+
+}
+
+.grisO{
+    background-color:darkgray;
+    color:white;
+
+}
+
+.black {
+    background-color:black;
+    color:white;
+}
+.white {
+    background-color:white;
+    color:black;
+}
+
+.redBorder{
+    border-style: dotted;
+    border-color: red;
+}
+
+.fontBlack{
+    color:black;
+}
+
+.fontWhite{
+    color:white;
+}
+
+.fontBold{
+     font-weight: bold;
+}
+
+.justificado{
+    text-align: justify;
+    text-justify: inter-word;
+}

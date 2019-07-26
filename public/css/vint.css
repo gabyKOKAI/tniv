@@ -1,0 +1,55 @@
+/*body{
+	background-color: #00a299;
+}*/
+
+.imgWelcome{
+        background-image: url('/images/vint.jpg');
+        //background-repeat: no-repeat;
+        //background-size: 1000px 1000px;
+}
+
+.imgLogo{
+	background-color: #00a299;
+	color:white;
+}
+
+/* unvisited link */
+a:link {
+  color: blue;
+}
+
+/* visited link */
+a:visited {
+  color: lightblue;
+}
+
+/* mouse over link */
+a:hover {
+  color: hotpink;
+}
+
+/* selected link */
+a:active {
+  color: blue;
+}
+
+.border {
+    display: inline-block;
+    border:solid 1px darkblue;
+    margin: 0px;
+    /*background-color: #DCDCDC;*/
+ }
+
+ .btn-cerrar{
+    color:black;
+    /*background-color:#227dc7;
+    border-color:#007bff*/
+    background-color:PaleGreen;
+    border-color:PaleGreen
+}
+
+.btn-abrir{
+    color:Black;
+    background-color:lightgray;
+    border-color:lightgray
+}

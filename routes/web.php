@@ -12,5 +12,24 @@
 */
 
 Route::get('/', function () {
+    /*return view('construccion');*/
     return view('welcome');
+})->name('home');;
+
+Auth::routes();
+
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('/usuarios', 'UsuarioController@lista');
+
+    Route::get('/registraUsuario',function () {
+        return view('auth.register');
+    });
+
+    Route::get('/sucursales', 'SucursalController@lista');
+
+    Route::get('/meses', 'MesController@lista')->name('meses');
+    Route::post('/mesesP', 'MesController@lista')->name('mesesP');
+    Route::get('/mes/{id?}', 'MesController@mes')->name('mes');
+    Route::post('/mes/{id?}', 'MesController@mes')->name('mes');
+
 });
