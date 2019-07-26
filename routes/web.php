@@ -30,8 +30,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/meses', 'MesController@lista')->name('meses');
     Route::post('/mesesP', 'MesController@lista')->name('mesesP');
     Route::get('/mes/{id?}', 'MesController@mes')->name('mes');
-    Route::post('/mes/{id?}', 'MesController@mes')->name('mes');
+    Route::post('/mes/{id?}', 'MesController@mes')->name('mesP');
+    Route::put('/mes/guardar/{id?}','MesController@guardar');
 
-    Route::post('/abrirCerrarDia', 'DiaController@abrirCerrarDia');
+    Route::post('/abrirCerrarDia/{tipo}', 'DiaController@abrirCerrarDia');
+    Route::get('/dia/{id?}', 'DiaController@dia')->name('dia');
 
 });

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use tniv\Sucursale;
 use tniv\Mese;
 use tniv\Dia;
+use DateTime;
 
 class MesController extends Controller
 {
@@ -59,7 +60,7 @@ class MesController extends Controller
         $estatusSelected = request('estatus');
 
         if($mes){
-            $sucursaleSelected = $mes->sucursale_id;
+            $sucursaleSelected = $mes->sucursal_id;
             $estatusSelected = $mes->estatus;
             $diasMes = Dia::where('mes_id', 'LIKE', $id)->get();
         }
@@ -79,5 +80,36 @@ class MesController extends Controller
                 'estatusSelected'=>$estatusSelected,
                 'diasMes'=>$diasMes
                 ]);
+	}
+
+	public function guardar(Request $request,$id) {
+	    setlocale(LC_TIME, 'es_ES');
+        $mes = Mese::find($id);
+
+        if (!$mes) {
+            # Instantiate a new Concepto Model object
+            $mes = new Mese();
+            $res = "creado";
+         } else {
+            $res = "actualizado";
+        }
+
+        # Set the parameters
+        $mes->mes = $request->input('mes');
+        $mes->ano = $request->input('ano');
+        $mes->estatus = $request->input('estatus');
+
+        $sucursal = Sucursale::find($request->input('sucursal_id'));
+        $mes->sucursal()->associate($sucursal); # <--- Associate sucursal with this mes
+
+        $mes->save();
+
+        setlocale(LC_TIME, 'es_ES');
+        $fecha = DateTime::createFromFormat('!m', $mes->mes);
+        $mes2 = strftime("%B", $fecha->getTimestamp());
+
+        #return view('layouts.prueba');
+		# Redirect the user to the page to view
+		return redirect('/mes/'.$mes->id)->with('success', 'El mes '.$mes2.' fue '.$res);
 	}
 }

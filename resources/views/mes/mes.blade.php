@@ -46,7 +46,7 @@
                                             <input type='number' name='ano' id='ano' value='{{$mes->ano}}'  class='form-control' required>
                                         @else
                                             <input type="hidden" name="ano" value="{{$mes->ano}}">
-                                            <input type='number' name='ano' id='ganancia_MME' value='{{$mes->ano}}'  class='form-control' disabled>
+                                            <input type='number' name='ano' id='ano' value='{{$mes->ano}}'  class='form-control' disabled>
                                         @endif
                                     </div>
                                 </div>
@@ -85,7 +85,7 @@
                                         @if($mes->id == -1)
                                             <input type='submit' value='Crear Mes' class='btn btn-primary btn-small'>
                                         @else
-                                            <input type='submit' value='Guarda Mes' class='btn btn-primary btn-small'>
+                                            <input type='submit' value='Actualiza' class='btn btn-primary btn-small'>
                                         @endif
                                 </div>
                             </div>
@@ -146,8 +146,9 @@
                                     @else
                                         <div class="col-sm-2 border" align="center">
                                     @endif
-                                        {{$dia->numDia}}<br>
-                                        <form method='POST' action='/abrirCerrarDia'>
+                                        <a href="{{ URL::to('dia/'.$dia->id)}}">{{$dia->numDia}}</a>
+                                        <br>
+                                        <form method='POST' action='/abrirCerrarDia/Mes'>
                                             {{ csrf_field() }}
                                             <input type="hidden" name="dia" value="{{$dia->id}}">
                                             <input type="hidden" name="mes" value="{{$mes->id}}">
