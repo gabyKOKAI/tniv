@@ -13,18 +13,20 @@ class MesesTableSeeder extends Seeder
      */
     public function run()
     {
-         $meses = [
-            [1,'Cerrado',"CDMX Sucursal"],
-            [2,'Cerrado',"CDMX Sucursal"],
-            [7,'Abierto',"CDMX Sucursal"],
-            [8,'Abierto',"CDMX Sucursal"],
-            [11,'Inactivo',"CDMX Sucursal"],
-            [1,'Cerrado',"CDMX Domicilio"],
-            [2,'Cerrado',"CDMX Domicilio"],
-            [7,'Abierto',"CDMX Domicilio"],
-            [8,'Abierto',"CDMX Domicilio"],
-            [11,'Inactivo',"CDMX Domicilio"]
+         #$meses = [
+          #  [1,'Cerrado',"CDMX Sucursal"],
+          #  [2,'Cerrado',"CDMX Sucursal"],
+          #  [7,'Abierto',"CDMX Sucursal"],
+          #  [8,'Abierto',"CDMX Sucursal"],
+          #  [11,'Inactivo',"CDMX Sucursal"],
+          #  [1,'Cerrado',"CDMX Domicilio"],
+          #  [2,'Cerrado',"CDMX Domicilio"],
+          #  [7,'Abierto',"CDMX Domicilio"],
+          #  [8,'Abierto',"CDMX Domicilio"],
+          #  [11,'Inactivo',"CDMX Domicilio"],
 
+         $meses = [
+            [1,'Cerrado',"Cancun"]
         ];
         $count = count($meses);
         foreach ($meses as $key => $mes) {

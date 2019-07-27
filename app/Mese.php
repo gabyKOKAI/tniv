@@ -3,6 +3,7 @@
 namespace tniv;
 
 use Illuminate\Database\Eloquent\Model;
+use tniv\Sucursale;
 
 class Mese extends Model
 {
@@ -35,7 +36,7 @@ class Mese extends Model
 
         foreach($columnas as $columna){
             if(request()->has($columna) and request($columna)!= 'all' and request($columna)!= ''){
-                $meses = $meses->where($columna,'LIKE','%'.request($columna).'%');
+                $meses = $meses->where($columna,'LIKE',request($columna));
                 $queries[$columna] = request($columna);
             }
         }
@@ -46,6 +47,11 @@ class Mese extends Model
             $queries['sort'] = request('sort');
 		}
 
+        $sucursales = Sucursale::getSucursales();
+        foreach($sucursales as $sucursal){
+            $arraySuc[] = $sucursal->id;
+        }
+        $meses = $meses->whereIn('sucursal_id', $arraySuc);
 
 		$meses = $meses ->orderBy('ano', 'DESC')
 		                ->orderBy('mes', 'DESC')

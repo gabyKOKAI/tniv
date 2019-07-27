@@ -1,13 +1,13 @@
 <div>
     <div class="row">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
         </div>
-        <div class="col-sm-6 align-center">
+        <div class="col-sm-8 align-center">
             <form method='POST' action='/mesesP'>
                 <?php echo e(csrf_field()); ?>
 
                 @if(count($anosForDropdown)>1)
-                <div class="col-sm-4 form-group control-label" align="left">
+                <div class="col-sm-3 form-group control-label" align="left">
                     <label for='ano'>Año</label>
                         <select name="ano"  class="form-control">
                         <option value="all" selected="selected">Todos</option>
@@ -19,7 +19,7 @@
                 @endif
 
                 @if(count($mesesForDropdown)>1)
-                <div class="col-sm-4 form-group control-label" align="center">
+                <div class="col-sm-3 form-group control-label" align="center">
                     <label for='mes'>Mes</label>
                         <select name="mes"  class="form-control">
                         <option value="all" selected="selected">Todos</option>
@@ -36,7 +36,7 @@
                 @endif
 
                 @if(count($sucursalesForDropdown)>1)
-                <div class="col-sm-4 form-group control-label" align="center">
+                <div class="col-sm-3 form-group control-label" align="center">
                     <label for='sucursal'>Sucursales</label>
                         <select name="sucursal_id"  class="form-control">
                         <option value="all" selected="selected"> Todas </option>
@@ -48,7 +48,7 @@
                 @endif
 
                 @if(count($estatusForDropdown)>1)
-                <div class="col-sm-4 form-group control-label" align="center">
+                <div class="col-sm-3 form-group control-label" align="center">
                     <label for='estatus'>Estatus</label>
                     <select name="estatus"  class="form-control">
                     <option value="all" selected="selected"> Todos </option>

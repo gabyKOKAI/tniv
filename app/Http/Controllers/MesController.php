@@ -59,7 +59,7 @@ class MesController extends Controller
         $sucursaleSelected = request('sucursale_id');
         $estatusSelected = request('estatus');
 
-        if($mes){
+        if($mes and Sucursale::verificaSucursal($mes->sucursal_id)){
             $sucursaleSelected = $mes->sucursal_id;
             $estatusSelected = $mes->estatus;
             $diasMes = Dia::where('mes_id', 'LIKE', $id)->get();
@@ -72,14 +72,76 @@ class MesController extends Controller
             $diasMes = [];
         }
 
+
         return view('mes.mes')->
-        with([  'mes' => $mes,
-                'sucursalesForDropdown' => $sucursalesForDropdown,
-                'sucursaleSelected'=>$sucursaleSelected,
-                'estatusForDropdown' => $estatusForDropdown,
-                'estatusSelected'=>$estatusSelected,
-                'diasMes'=>$diasMes
-                ]);
+            with([  'mes' => $mes,
+                    'sucursalesForDropdown' => $sucursalesForDropdown,
+                    'sucursaleSelected'=>$sucursaleSelected,
+                    'estatusForDropdown' => $estatusForDropdown,
+                    'estatusSelected'=>$estatusSelected,
+                    'diasMes'=>$diasMes
+                    ]);
+	}
+
+    public function mesNuevo(Request $request,$id= '-1') {
+	    return $this->mes($request,-1);
+	}
+
+	public function mesVecino(Request $request,$dir,$id= '-1') {
+	    $mes = Mese::find($id);
+	    $ano = $mes->ano;
+
+	    if($dir == 'a'){
+	        $res = 'anterior';
+
+	        if($mes->mes == 1){
+	            $numMes = 12;
+	            $ano = $ano -1;
+            }else{
+                $numMes = $mes->mes - 1;
+            }
+        }elseif($dir == 'd'){
+	        $res = 'siguiente';
+
+	        if($mes->mes == 12){
+	            $numMes = 1;
+	            $ano = $ano + 1;
+            }else{
+                $numMes = $mes->mes + 1;
+            }
+	    }
+	    $mesNew = Mese::where('sucursal_id','=',$mes->sucursal_id)->where('mes','=',$numMes)->where('ano','=',$ano)->first();
+
+        if($mesNew){
+            return redirect('/mes/'.$mesNew->id)->with('info', 'Se muestra el mes '.$res);
+        }
+        else{
+            return redirect('/mes/'.$mes->id)->with('warning', 'No se puede mostrar el mes '.$res.' porque no existe, favor de crearlo.');
+        }
+	}
+
+	public function mesActual(Request $request,$idSuc= '-1') {
+	    if($idSuc == '-1'){
+	        # Get sucursales
+            $sucursales = Sucursale::getSucursales();
+            if(count($sucursales)>1){
+	            return view('mes.sucursalMes')->with(['sucursales' => $sucursales]);
+	        }else{
+	            $idSuc = $sucursales->first()->id;
+	        }
+
+	    }
+
+            $fecha = new DateTime();
+            $ano = strftime("%Y", $fecha->getTimestamp());
+            $mes = strftime("%m", $fecha->getTimestamp());
+	    $mes = Mese::where('sucursal_id','=',$idSuc)->where('mes','=',$mes)->where('ano','=',$ano)->first();
+
+	    if($mes){
+            return redirect('/mes/'.$mes->id)->with('info', 'Se muestra el mes actual.');
+        }else{
+            return redirect('/mes/-1')->with('info', 'El mes no se ha creado, favor de crearlo.');
+        }
 	}
 
 	public function guardar(Request $request,$id) {
@@ -87,29 +149,81 @@ class MesController extends Controller
         $mes = Mese::find($id);
 
         if (!$mes) {
-            # Instantiate a new Concepto Model object
-            $mes = new Mese();
-            $res = "creado";
+            $mes = Mese::where('mes', 'LIKE', $request['mes'])->where('ano', 'LIKE', $request['ano'])->where('sucursal_id', 'LIKE', $request['sucursal_id'])->first();
+            if (!$mes) {
+                # Instantiate a new Model object
+                $mes = new Mese();
+                $res = "creado";
+            }else{
+                $res = "ya existe";
+            }
          } else {
             $res = "actualizado";
         }
 
+        if($res == "ya existe"){
+            setlocale(LC_TIME, 'es_ES');
+            $fecha = DateTime::createFromFormat('!m', $mes->mes);
+            $mes2 = strftime("%B", $fecha->getTimestamp());
+            return redirect('/mes/'.$mes->id)->with('warning', 'El mes '.$mes2.' del '.$mes->ano.' ya estaba creado para la sucursal');
+        }
+        else{
+            # Set the parameters
+            $mes->mes = $request->input('mes');
+            $mes->ano = $request->input('ano');
+            $mes->estatus = $request->input('estatus');
+
+            $sucursal = Sucursale::find($request->input('sucursal_id'));
+            $mes->sucursal()->associate($sucursal); # <--- Associate sucursal with this mes
+
+            $mes->save();
+
+            if($res == "creado"){
+                foreach (range(1, 31, 1) as $dia1){
+                    $formato = 'd-m-Y';
+                    $mesNuevo = DateTime::createFromFormat($formato, $dia1.'-'.$mes->mes.'-'.$mes->ano)->format('m');
+                    if($mesNuevo==$mes->mes){
+                        $request['dia']= $dia1;
+                        $this->crearDia($request);
+                    }
+                }
+            }
+
+            setlocale(LC_TIME, 'es_ES');
+            $fecha = DateTime::createFromFormat('!m', $mes->mes);
+            $mes2 = strftime("%B", $fecha->getTimestamp());
+
+            #return view('layouts.prueba');
+            # Redirect the user to the page to view
+            return redirect('/mes/'.$mes->id)->with('success', 'El mes '.$mes2.' fue '.$res);
+        }
+	}
+
+	public function crearDia(Request $request) {
+        $mes = Mese::where('mes', 'LIKE', $request['mes'])->where('ano', 'LIKE', $request['ano'])->where('sucursal_id', 'LIKE', $request['sucursal_id'])->first();
+        #dd($mes);
+        # Instantiate a new Model object
+        $dia = new Dia();
+
         # Set the parameters
-        $mes->mes = $request->input('mes');
-        $mes->ano = $request->input('ano');
-        $mes->estatus = $request->input('estatus');
-
-        $sucursal = Sucursale::find($request->input('sucursal_id'));
-        $mes->sucursal()->associate($sucursal); # <--- Associate sucursal with this mes
-
-        $mes->save();
-
+        $dia->numDia = $request->input('dia');
         setlocale(LC_TIME, 'es_ES');
-        $fecha = DateTime::createFromFormat('!m', $mes->mes);
-        $mes2 = strftime("%B", $fecha->getTimestamp());
+        $formato = 'd-m-Y';
+        #$diaSemana = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano)->format('l');
+        setlocale(LC_TIME, 'es_ES');
+        $fecha = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano);
+        $dia->diaSemana = strftime("%A", $fecha->getTimestamp());
+        if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo"){
+            $dia->estatus = 0;
+        }else{
+            $dia->estatus = 1;
+        }
+        $dia->mes_id = $mes->id;
 
-        #return view('layouts.prueba');
-		# Redirect the user to the page to view
-		return redirect('/mes/'.$mes->id)->with('success', 'El mes '.$mes2.' fue '.$res);
+        $dia->mes()->associate($mes);
+
+        $dia->save();
+
+        return true;
 	}
 }

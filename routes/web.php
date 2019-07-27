@@ -32,6 +32,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/mes/{id?}', 'MesController@mes')->name('mes');
     Route::post('/mes/{id?}', 'MesController@mes')->name('mesP');
     Route::put('/mes/guardar/{id?}','MesController@guardar');
+    Route::get('mesVecino/{dir}/{id}','MesController@mesVecino');
+    Route::get('mesActual/{idSuc}','MesController@mesActual');
 
     Route::post('/abrirCerrarDia/{tipo}', 'DiaController@abrirCerrarDia');
     Route::get('/dia/{id?}', 'DiaController@dia')->name('dia');

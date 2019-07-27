@@ -17,48 +17,29 @@
             @if(count($meses)>0)
                 <div class="container center">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-12 center">
+                            <br>
+                            <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
                         </div>
-                        <div class="col-sm-6 align-self-center">
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12 align-self-center">
 
-                        <table class="table table-hover table-striped .table-striped table-responsive">
-                            <thead>
-                                <tr>
-                                    <!--th class="center">#</th-->
-                                    <th class="center">Mes-Año <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a></th>
-
-                                    <th class="center">Sucursal</th>
-                                    <th class="center">Estatus</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                 @foreach($meses as $mes)
+                            @foreach($meses as $mes)
                                     <?php
-                                    setlocale(LC_TIME, 'es_ES');
+                                        setlocale(LC_TIME, 'es_ES');
+                                        $fecha = DateTime::createFromFormat('!m', $mes->mes);
+                                        $mes1 = strftime("%B", $fecha->getTimestamp()); // marzo
                                     ?>
-                                    <tr>
-                                        <!--td> <a href="{{ URL::to('mes/' . $mes->id) }}">{{$mes->id}}</a></td-->
-                                        <td class="center">
-                                            <?php
-                                                $fecha = DateTime::createFromFormat('!m', $mes->mes);
-                                                $mes1 = strftime("%B", $fecha->getTimestamp()); // marzo
-                                            ?>
-                                            <a href="{{ URL::to('mes/'.$mes->id)}}">{{$mes1}} {{$mes->ano}}</a>
+                                    <div class="col-sm-3">
+                                        <form method='POST' action='{{ URL::to('mes/' . $mes->id) }}'>
+                                            {{ csrf_field() }}
+                                            <input type='submit' value='{{$mes1}} {{$mes->ano}},{{$mes->sucursal->nombre}}' class="mes_{{$mes->estatus}}">
 
-                                        </td>
-                                        <td>{{$mes->sucursal->nombre}}</td>
-                                        <td>{{$mes->estatus}}</td>
-                                        <!--td>
-                                            <a href="{{ URL::to('mes/'.$mes->id)}}" class="glyphicon glyphicon-edit"></a>
-                                        </td-->
+                                        </form>
+                                    </div>
+                            @endforeach
 
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-
-                        </div>
-                        <div class="col-sm-3">
                         </div>
                 </div>
             </div>

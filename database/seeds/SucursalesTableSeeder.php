@@ -15,8 +15,8 @@ class SucursalesTableSeeder extends Seeder
         $sucursales = [
             ['CDMX Sucursal','080000', '183000', '140000', 'Calle Isla 31, Col. Ampliación Los Alpes', '(55)1954 3350','(55)2171 5408'],
             ['CDMX Domicilio','080000', '183000', '140000', 'A domicilio', '(55)1954 3350','(55)2171 5408'],
-            ['Cancún','080000', '183000', '140000', 'Plaza Azuna, COnsultorio 822, Av. Sayil, Lote 2 Mzn 5 SM06, Zona Hotelera, Cancún, Quintana Roo', '(998) 214 5652',''],
-            ['Merida','080000', '183000', '140000', 'Cenit Medical Center, Calle 15 Nº 501 x 18 y 22, Piso 8, consultorio 805, Fracc. Altabrisa. 97130, Mérida.', '(999) 269 0862',''],
+            ['Cancún Sucursal','080000', '183000', '140000', 'Plaza Azuna, COnsultorio 822, Av. Sayil, Lote 2 Mzn 5 SM06, Zona Hotelera, Cancún, Quintana Roo', '(998) 214 5652',''],
+            ['Merida Sucursal','080000', '183000', '140000', 'Cenit Medical Center, Calle 15 Nº 501 x 18 y 22, Piso 8, consultorio 805, Fracc. Altabrisa. 97130, Mérida.', '(999) 269 0862',''],
         ];
         $count = count($sucursales);
         foreach ($sucursales as $key => $sucursal) {

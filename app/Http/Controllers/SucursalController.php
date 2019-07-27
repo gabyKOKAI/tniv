@@ -9,7 +9,7 @@ class SucursalController extends Controller
 {
     public function lista()
     {
-		$sucursales = Sucursale::paginate(15);
+		$sucursales = Sucursale::all();
 
 		return view('sucursal.sucursalLista')->with(['sucursales' => $sucursales]);
     }

@@ -23,7 +23,7 @@ class Cliente extends Model
 
         foreach($columnas as $columna){
             if(request()->has($columna) and request($columna)!= 'all' and request($columna)!= ''){
-                $clientes = $clientes->where($columna,'LIKE','%'.request($columna).'%');
+                $clientes = $clientes->where($columna,'LIKE',request($columna));
                 $queries[$columna] = request($columna);
             }
         }

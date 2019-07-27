@@ -18,7 +18,10 @@ class DiaController extends Controller
 
         $estatusSelected = request('estatus');
 
-        if($dia){
+        $mes = Mese::where('id', 'LIKE', $dia->mes_id)->first();
+        $sucursal = Sucursale::where('id','LIKE',$mes->sucursal_id)->first();
+
+        if($dia and Sucursale::verificaSucursal($mes->sucursal_id)){
             $estatusSelected = $dia->estatus;
             $horasDia = Hora::where('dia_id', 'LIKE', $id)->get();
         }
@@ -27,9 +30,6 @@ class DiaController extends Controller
             $dia->id = -1;
             $horasDia = [];
         }
-
-        $mes = Mese::where('id', 'LIKE', $dia->mes_id)->first();
-        $sucursal = Sucursale::where('id','LIKE',$mes->sucursal_id)->first();
 
         return view('dia.dia')->
         with([  'dia' => $dia,

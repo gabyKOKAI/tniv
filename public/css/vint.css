@@ -35,8 +35,8 @@ a:active {
 
 .border {
     display: inline-block;
-    border:solid 1px darkblue;
-    margin: 0px;
+    border:solid .5px darkblue;
+    padding: 4px;
     /*background-color: #DCDCDC;*/
  }
 
@@ -45,11 +45,36 @@ a:active {
     /*background-color:#227dc7;
     border-color:#007bff*/
     background-color:PaleGreen;
-    border-color:PaleGreen
+    border-color:PaleGreen;
+
 }
 
 .btn-abrir{
     color:Black;
     background-color:lightgray;
-    border-color:lightgray
+    border-color:lightgray;
+}
+
+.mes_Abierto{
+    color:white;
+    background-color: Green;
+    border-color:Green;
+    padding: 4px;
+    margin: 4px;
+}
+
+.mes_Cerrado{
+    color:black;
+    background-color: lightgray;
+    border-color:lightgray;
+    padding: 4px;
+    margin: 4px;
+}
+
+.mes_Inactivo{
+    color:white;
+    background-color: Black;
+    border-color:Black;
+    padding: 4px;
+    margin: 4px;
 }

@@ -19,13 +19,9 @@
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="container center">
                             <div class="row">
-                                @if(count($sucursalesForDropdown)>1)
+                                @if(count($sucursalesForDropdown)>0)
                                 <div class="col-sm-3 form-group required control-label" align="center">
                                     <label for='sucursal'>Sucursal</label>
-
-                                    @if($sucursaleSelected>-1)
-                                        <a href="{{ URL::to('sucursal/'.$sucursaleSelected)}}" class="glyphicon glyphicon-edit"></a>
-                                    @endif
                                     @if($mes->id == -1)
                                         <select name="sucursal_id"  class="form-control" required>
                                     @else
@@ -91,8 +87,12 @@
                             </div>
                </form>
                             @if($mes->id <> -1)
-                                <div class="row">
-
+                            <div class="row">
+                                <div class="col-sm-12 align-self-center">
+                                    <a href="{{ URL::to('mesVecino/a/'.$mes->id)}}" class="glyphicon glyphicon-chevron-left"></a>
+                                    <a href="{{ URL::to('mesVecino/d/'.$mes->id)}}" class="glyphicon glyphicon-chevron-right"></a>
+                                    <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
+                               </div>
                                 <div class="col-sm-1 border" align="center">
                                 Do
                                 </div>
@@ -122,7 +122,7 @@
                                         @if($dia->diaSemana == "martes")
                                             <?php $espacioDiv = 3 ?>
                                         @endif
-                                        @if($dia->diaSemana == "miercoles")
+                                        @if($dia->diaSemana == "miércoles")
                                             <?php $espacioDiv = 5 ?>
                                         @endif
                                         @if($dia->diaSemana == "jueves")
@@ -131,8 +131,11 @@
                                         @if($dia->diaSemana == "viernes")
                                             <?php $espacioDiv = 9 ?>
                                         @endif
-                                        @if($dia->diaSemana == "sabado")
+                                        @if($dia->diaSemana == "sábado")
                                             <?php $espacioDiv = 11 ?>
+                                        @endif
+                                        @if($dia->diaSemana == "domingo")
+                                            <?php $espacioDiv = 0 ?>
                                         @endif
                                         <div class="col-sm-{{$espacioDiv}}" align="center">
                                             <br>
@@ -141,7 +144,7 @@
 
 
 
-                                    @if($dia->diaSemana == "sabado" or $dia->diaSemana == "domingo")
+                                    @if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo")
                                         <div class="col-sm-1 border" align="center">
                                     @else
                                         <div class="col-sm-2 border" align="center">
@@ -160,7 +163,7 @@
                                         </form>
                                     </div>
                                 @endforeach
-                                </div>
+                            </div>
                             @endif
 
                         </div>
