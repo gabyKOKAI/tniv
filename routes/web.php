@@ -37,6 +37,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/abrirCerrarDia/{tipo}', 'DiaController@abrirCerrarDia');
     Route::get('/dia/{id?}', 'DiaController@dia')->name('dia');
+    Route::get('diaVecino/{dir}/{id}','DiaController@diaVecino');
+    Route::get('diaActual/{idSuc}','DiaController@diaActual');
+
+    Route::post('/abrirCerrarHora', 'HoraController@abrirCerrarHora');
 
     Route::get('/clientes', 'ClienteController@lista')->name('clientes');
     Route::post('/clientesP', 'ClienteController@lista')->name('clientesP');

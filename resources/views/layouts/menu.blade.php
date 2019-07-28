@@ -22,7 +22,8 @@
                     </a>
                      <ul class="dropdown-menu">
                             <li><a href="/meses">Meses</a></li>
-                            <li><a href="/mesActual/-1">MesActual</a></li>
+                            <li><a href="/mesActual/-1">Este Mes</a></li>
+                            <li><a href="/diaActual/-1">Hoy</a></li>
                      </ul>
                 </li>
                 <li class="dropdown">

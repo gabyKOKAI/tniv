@@ -21,6 +21,7 @@ class CreateSucursalesTable extends Migration
             $table->time('horaInicio')->default('08:00:00')->nullable(false);
             $table->time('horaFin')->default('17:30:00')->nullable(false);
             $table->time('horaComida')->default('14:00:00')->nullable(false);
+            $table->integer('numCitasMax')->default(1)->nullable(false);
             $table->string('direccion')->nullable(true);
             $table->string('telefono1')->nullable(true);
             $table->string('telefono2')->nullable(true);

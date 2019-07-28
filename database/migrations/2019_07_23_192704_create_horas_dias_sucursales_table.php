@@ -17,9 +17,9 @@ class CreateHorasDiasSucursalesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->integer('hora')->nullable(false);
+            $table->time('hora')->nullable(false);
             $table->integer('numCitasMax')->default(1)->nullable(false);
-            $table->string('estatus')->default("Inactivo")->nullable(false); #Abierto, Cerrado, Inactivo
+            $table->boolean('estatus')->default(False)->nullable(false);
 
             $table->unsignedBigInteger('dia_id');
 			$table->foreign('dia_id')->references('id')->on('dias');

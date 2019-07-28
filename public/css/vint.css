@@ -34,7 +34,7 @@ a:active {
 }
 
 .border {
-    display: inline-block;
+    /*display: inline-block;*/
     border:solid .5px darkblue;
     padding: 4px;
     /*background-color: #DCDCDC;*/
@@ -44,8 +44,8 @@ a:active {
     color:black;
     /*background-color:#227dc7;
     border-color:#007bff*/
-    background-color:PaleGreen;
-    border-color:PaleGreen;
+    background-color:Aquamarine;
+    border-color:Aquamarine;
 
 }
 
@@ -53,6 +53,23 @@ a:active {
     color:Black;
     background-color:lightgray;
     border-color:lightgray;
+}
+
+ .btn-cerrarH{
+    color:black;
+    /*background-color:#227dc7;
+    border-color:#007bff*/
+    background-color:SkyBlue;
+    border-color:SkyBlue;
+    padding: 1px;
+
+}
+
+.btn-abrirH{
+    color:Black;
+    background-color:lightgray;
+    border-color:lightgray;
+    padding: 1px;
 }
 
 .mes_Abierto{

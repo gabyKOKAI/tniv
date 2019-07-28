@@ -26,12 +26,12 @@ class MesesTableSeeder extends Seeder
           #  [11,'Inactivo',"CDMX Domicilio"],
 
          $meses = [
-            [1,'Cerrado',"Cancun"]
+            [1,'Cerrado',"Cancún"]
         ];
         $count = count($meses);
         foreach ($meses as $key => $mes) {
 
-            $sucursal_id = Sucursale::where('nombre', '=', $mes[2])->pluck('id')->first();
+            $sucursal_id = Sucursale::where('nombre', 'like', "%$mes[2]%")->pluck('id')->first();
 
             Mese::insert([
                 'created_at' => Carbon\Carbon::now()->subDays($count)->toDateTimeString(),

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use tniv\Sucursale;
 use tniv\Mese;
 use tniv\Dia;
+use tniv\Hora;
 use DateTime;
 
 class MesController extends Controller
@@ -83,10 +84,6 @@ class MesController extends Controller
                     ]);
 	}
 
-    public function mesNuevo(Request $request,$id= '-1') {
-	    return $this->mes($request,-1);
-	}
-
 	public function mesVecino(Request $request,$dir,$id= '-1') {
 	    $mes = Mese::find($id);
 	    $ano = $mes->ano;
@@ -113,7 +110,8 @@ class MesController extends Controller
 	    $mesNew = Mese::where('sucursal_id','=',$mes->sucursal_id)->where('mes','=',$numMes)->where('ano','=',$ano)->first();
 
         if($mesNew){
-            return redirect('/mes/'.$mesNew->id)->with('info', 'Se muestra el mes '.$res);
+            return redirect('/mes/'.$mesNew->id);
+            #->with('info', 'Se muestra el mes '.$res);
         }
         else{
             return redirect('/mes/'.$mes->id)->with('warning', 'No se puede mostrar el mes '.$res.' porque no existe, favor de crearlo.');
@@ -125,7 +123,7 @@ class MesController extends Controller
 	        # Get sucursales
             $sucursales = Sucursale::getSucursales();
             if(count($sucursales)>1){
-	            return view('mes.sucursalMes')->with(['sucursales' => $sucursales]);
+	            return view('sucursal.sucursalMes')->with(['sucursales' => $sucursales]);
 	        }else{
 	            $idSuc = $sucursales->first()->id;
 	        }
@@ -138,7 +136,8 @@ class MesController extends Controller
 	    $mes = Mese::where('sucursal_id','=',$idSuc)->where('mes','=',$mes)->where('ano','=',$ano)->first();
 
 	    if($mes){
-            return redirect('/mes/'.$mes->id)->with('info', 'Se muestra el mes actual.');
+            return redirect('/mes/'.$mes->id);
+            #->with('info', 'Se muestra el mes actual.');
         }else{
             return redirect('/mes/-1')->with('info', 'El mes no se ha creado, favor de crearlo.');
         }
@@ -183,8 +182,7 @@ class MesController extends Controller
                     $formato = 'd-m-Y';
                     $mesNuevo = DateTime::createFromFormat($formato, $dia1.'-'.$mes->mes.'-'.$mes->ano)->format('m');
                     if($mesNuevo==$mes->mes){
-                        $request['dia']= $dia1;
-                        $this->crearDia($request);
+                        $this->crearDia($dia1, $sucursal, $mes);
                     }
                 }
             }
@@ -199,14 +197,12 @@ class MesController extends Controller
         }
 	}
 
-	public function crearDia(Request $request) {
-        $mes = Mese::where('mes', 'LIKE', $request['mes'])->where('ano', 'LIKE', $request['ano'])->where('sucursal_id', 'LIKE', $request['sucursal_id'])->first();
-        #dd($mes);
+	public function crearDia($dia1, $sucursal, $mes) {
         # Instantiate a new Model object
         $dia = new Dia();
 
         # Set the parameters
-        $dia->numDia = $request->input('dia');
+        $dia->numDia = $dia1;
         setlocale(LC_TIME, 'es_ES');
         $formato = 'd-m-Y';
         #$diaSemana = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano)->format('l');
@@ -223,6 +219,40 @@ class MesController extends Controller
         $dia->mes()->associate($mes);
 
         $dia->save();
+
+        $start = new \DateTime($sucursal->horaInicio);
+        $end = new \DateTime($sucursal->horaFin);
+        $start = $start->sub(new \DateInterval('PT30M'));
+        while($start < $end){
+            $hr = $start->add(new \DateInterval('PT30M'));
+            $this->crearHora($hr, $sucursal,$dia);
+        }
+
+        return true;
+	}
+
+	public function crearHora($hr, $sucursal,$dia) {
+
+        # Instantiate a new Model object
+        $hora = new Hora();
+
+        # Set the parameters
+        $hora->hora = $hr->format('H:i:s');
+        $hora->numCitasMax = $sucursal->numCitasMax;
+        $hrComida = new \DateTime($sucursal->horaComida);
+        $hrComida2 = new \DateTime($sucursal->horaComida);
+        $hrComida2 = $hrComida2->add(new \DateInterval('PT30M'));
+
+        if($hr == $hrComida or $hr == $hrComida2){
+            $hora->estatus = 0;
+        }else{
+            $hora->estatus = 1;
+        }
+        $hora->dia_id = $dia->id;
+
+        $hora->dia()->associate($dia);
+
+        $hora->save();
 
         return true;
 	}
