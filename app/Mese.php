@@ -4,6 +4,7 @@ namespace tniv;
 
 use Illuminate\Database\Eloquent\Model;
 use tniv\Sucursale;
+use Session;
 
 class Mese extends Model
 {
@@ -48,9 +49,10 @@ class Mese extends Model
 		}
 
         $sucursales = Sucursale::getSucursales();
-        foreach($sucursales as $sucursal){
-            $arraySuc[] = $sucursal->id;
-        }
+        ##foreach($sucursales as $sucursal){
+        $arraySuc[] = Session::get('sucursalSession')->id;
+        ##}
+
         $meses = $meses->whereIn('sucursal_id', $arraySuc);
 
 		$meses = $meses ->orderBy('ano', 'DESC')

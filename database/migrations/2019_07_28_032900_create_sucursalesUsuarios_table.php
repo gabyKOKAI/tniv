@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSucursalesUsuarioTable extends Migration
+class CreateSucursalesUsuariosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateSucursalesUsuarioTable extends Migration
      */
     public function up()
     {
-        Schema::create('sucursales_usuario', function (Blueprint $table) {
+        Schema::create('sucursalesUsuarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->timestamps();
 
-             $table->string('estatus')->default("Inactivo")->nullable(false); #Activo, Inactivo
+            $table->boolean('estatus')->default(False)->nullable(false); #Activo, Inactivo
 
             $table->unsignedBigInteger('usuario_id');
 			$table->foreign('usuario_id')->references('id')->on('users');
@@ -34,6 +34,6 @@ class CreateSucursalesUsuarioTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sucursales_usuario');
+        Schema::dropIfExists('sucursalesUsuario');
     }
 }

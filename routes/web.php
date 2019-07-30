@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Http\Request;
+use tniv\Sucursale;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,10 +13,12 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/', function (Request $request) {
+    $request->session()->put('sucursalesSession', Sucursale::getSucursales());
+    $request->session()->put('sucursalSession', Sucursale::getSucursales()->first());
     /*return view('construccion');*/
     return view('welcome');
-})->name('home');;
+})->name('home');
 
 Auth::routes();
 
@@ -26,6 +30,14 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::get('/sucursales', 'SucursalController@lista');
+    Route::get('/sucursalSelected/{id}', function (Request $request, $id) {
+        $request->session()->put('sucursalesSession', Sucursale::getSucursales());
+        $request->session()->put('sucursalSession', Sucursale::getSucursales()->first());
+        $suc = Sucursale::where('id','=',$id)->first();
+        $request->session()->put('sucursalSession', $suc);
+        #return back()->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
+        return redirect('/meses/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
+    })->name('home');
 
     Route::get('/meses', 'MesController@lista')->name('meses');
     Route::post('/mesesP', 'MesController@lista')->name('mesesP');
@@ -33,12 +45,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/mes/{id?}', 'MesController@mes')->name('mesP');
     Route::put('/mes/guardar/{id?}','MesController@guardar');
     Route::get('mesVecino/{dir}/{id}','MesController@mesVecino');
-    Route::get('mesActual/{idSuc}','MesController@mesActual');
+    Route::get('mesActual','MesController@mesActual');
 
     Route::post('/abrirCerrarDia/{tipo}', 'DiaController@abrirCerrarDia');
     Route::get('/dia/{id?}', 'DiaController@dia')->name('dia');
     Route::get('diaVecino/{dir}/{id}','DiaController@diaVecino');
-    Route::get('diaActual/{idSuc}','DiaController@diaActual');
+    Route::get('diaActual','DiaController@diaActual');
 
     Route::post('/abrirCerrarHora', 'HoraController@abrirCerrarHora');
 

@@ -8,6 +8,7 @@ use tniv\Dia;
 use tniv\Mese;
 use tniv\Sucursale;
 use DateTime;
+use Session;
 
 class DiaController extends Controller
 {
@@ -56,6 +57,7 @@ class DiaController extends Controller
 	    $diaNew = Dia::where('mes_id','=',$dia->mes_id)->where('numDia','=',$numDia)->first();
 
         if($diaNew){
+            Session::flash('message', 'Se muestra el dia '.$res);
             return redirect('/dia/'.$diaNew->id);
             #->with('info', 'Se muestra el dia '.$res);
         }
@@ -64,23 +66,13 @@ class DiaController extends Controller
         }
 	}
 
-	public function diaActual(Request $request,$idSuc= '-1') {
-	    if($idSuc == '-1'){
-	        # Get sucursales
-            $sucursales = Sucursale::getSucursales();
-            if(count($sucursales)>1){
-	            return view('sucursal.sucursalDia')->with(['sucursales' => $sucursales]);
-	        }else{
-	            $idSuc = $sucursales->first()->id;
-	        }
-	    }
-
+	public function diaActual(Request $request) {
         $fecha = new DateTime();
         $ano = strftime("%Y", $fecha->getTimestamp());
         $mes = strftime("%m", $fecha->getTimestamp());
         $dia = strftime("%d", $fecha->getTimestamp());
 
-	    $mes = Mese::where('sucursal_id','=',$idSuc)->where('mes','=',$mes)->where('ano','=',$ano)->first();
+	    $mes = Mese::where('sucursal_id','=',Session::get('sucursalSession')->id)->where('mes','=',$mes)->where('ano','=',$ano)->first();
 
 
 	    if($mes){

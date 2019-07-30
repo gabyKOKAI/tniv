@@ -37,7 +37,8 @@
                                         ?>
                                         <br>
                                         <a href="{{ URL::to('diaVecino/a/'.$dia->id)}}" class="glyphicon glyphicon-chevron-left"></a>
-                                        {{$dia->numDia}} de  {{$mes2}} <a href="{{ URL::to('mes/'.$mes->id)}}" class="glyphicon glyphicon-calendar"></a> del {{$mes->ano}}, {{$sucursal->nombre}}
+                                        {{$dia->numDia}} de  {{$mes2}} <a href="{{ URL::to('mes/'.$mes->id)}}" class="glyphicon glyphicon-calendar"></a> del {{$mes->ano}}
+                                        <!--, {{$sucursal->nombre}}-->
                                         <a href="{{ URL::to('diaVecino/d/'.$dia->id)}}" class="glyphicon glyphicon-chevron-right"></a>
 
 

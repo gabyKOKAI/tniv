@@ -3,6 +3,7 @@
 namespace tniv;
 
 use Illuminate\Database\Eloquent\Model;
+use Session;
 
 class Cliente extends Model
 {
@@ -35,6 +36,7 @@ class Cliente extends Model
 		//}
 
 
+        //$clientes = $clientes->where('sucursal_id','=',Session::get('sucursalSession')->id);
 		$clientes = $clientes->paginate(15,['*'], 'clientes_p')->appends($queries);
 
         return $clientes ;

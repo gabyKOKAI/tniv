@@ -3,6 +3,7 @@
 namespace tniv;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Sucursale extends Model
 {
@@ -33,11 +34,16 @@ class Sucursale extends Model
             }
         }
 
-        ##GOP ojo filtrar las que puede ver el usuario, por ahora esta solo numeros de prueba
-        foreach(range(1,4,2) as $sucIdAllow){
-            $arraySuc[] = $sucIdAllow;
+        ##filtrar las que puede ver el usuario, por ahora esta solo numeros de prueba
+        $user = Auth::user();
+        if($user){
+            $sucursalesPermitidas = SucursalesUsuario::where('estatus','=',1)->where('usuario_id','=',$user->id)->get();
+            foreach($sucursalesPermitidas as $sucIdAllow){
+            #foreach(range(1,3,1) as $sucIdAllow){
+                $arraySuc[] = $sucIdAllow->sucursal_id;
+            }
+            $sucursales = $sucursales->wherein('id',$arraySuc);
         }
-        $sucursales = $sucursales->wherein('id',$arraySuc);
 
 		if(request()->has('sort'))
 		{
@@ -46,7 +52,6 @@ class Sucursale extends Model
 		}
 
 		$sucursales = $sucursales->paginate(15,['*'], '$sucursales_p')->appends($queries);
-
         return $sucursales ;
     }
 

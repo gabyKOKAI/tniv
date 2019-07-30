@@ -8,6 +8,7 @@ use tniv\Mese;
 use tniv\Dia;
 use tniv\Hora;
 use DateTime;
+use Session;
 
 class MesController extends Controller
 {
@@ -20,9 +21,6 @@ class MesController extends Controller
 
     	$meses = Mese::getMeses();
 
-        # Get sucursales
-        $sucursalesForDropdown = Sucursale::all();
-        #dd($sucursalesForDropdown);
         # Get anos
         $anosForDropdown = Mese::distinct()->get(['ano']);
         # Get meses
@@ -32,15 +30,12 @@ class MesController extends Controller
         $estatusForDropdown = Mese::getEstatusDropDown();
 
         #Poner valores anteriores en selecciones
-        $sucursaleSelected = request('sucursale_id');
         $anoSelected = request('ano');
         $mesSelected = request('mes');
         $estatusSelected = request('estatus');
 
 		return view('mes.mesLista')->
 		with([  'meses' => $meses,
-		        'sucursalesForDropdown' => $sucursalesForDropdown,
-		        'sucursaleSelected'=>$sucursaleSelected,
 		        'anosForDropdown' => $anosForDropdown,
 		        'anoSelected'=>$anoSelected,
 		        'mesesForDropdown' => $mesesForDropdown,
@@ -52,16 +47,13 @@ class MesController extends Controller
     public function mes(Request $request,$id= '-1') {
 	    $mes = Mese::find($id);
 
-	    # Get sucursales
-        $sucursalesForDropdown = Sucursale::all();
         # Get estatus
         $estatusForDropdown = Mese::getEstatusDropDown();
 
-        $sucursaleSelected = request('sucursale_id');
         $estatusSelected = request('estatus');
 
-        if($mes and Sucursale::verificaSucursal($mes->sucursal_id)){
-            $sucursaleSelected = $mes->sucursal_id;
+        $sucSes = Session::get('sucursalSession')->id;
+        if($mes and Sucursale::verificaSucursal($mes->sucursal_id) and $sucSes  == $mes->sucursal_id){
             $estatusSelected = $mes->estatus;
             $diasMes = Dia::where('mes_id', 'LIKE', $id)->get();
         }
@@ -76,8 +68,6 @@ class MesController extends Controller
 
         return view('mes.mes')->
             with([  'mes' => $mes,
-                    'sucursalesForDropdown' => $sucursalesForDropdown,
-                    'sucursaleSelected'=>$sucursaleSelected,
                     'estatusForDropdown' => $estatusForDropdown,
                     'estatusSelected'=>$estatusSelected,
                     'diasMes'=>$diasMes
@@ -118,22 +108,11 @@ class MesController extends Controller
         }
 	}
 
-	public function mesActual(Request $request,$idSuc= '-1') {
-	    if($idSuc == '-1'){
-	        # Get sucursales
-            $sucursales = Sucursale::getSucursales();
-            if(count($sucursales)>1){
-	            return view('sucursal.sucursalMes')->with(['sucursales' => $sucursales]);
-	        }else{
-	            $idSuc = $sucursales->first()->id;
-	        }
-
-	    }
-
+	public function mesActual(Request $request) {
             $fecha = new DateTime();
             $ano = strftime("%Y", $fecha->getTimestamp());
             $mes = strftime("%m", $fecha->getTimestamp());
-	    $mes = Mese::where('sucursal_id','=',$idSuc)->where('mes','=',$mes)->where('ano','=',$ano)->first();
+	    $mes = Mese::where('sucursal_id','=', Session::get('sucursalSession')->id)->where('mes','=',$mes)->where('ano','=',$ano)->first();
 
 	    if($mes){
             return redirect('/mes/'.$mes->id);
@@ -148,7 +127,7 @@ class MesController extends Controller
         $mes = Mese::find($id);
 
         if (!$mes) {
-            $mes = Mese::where('mes', 'LIKE', $request['mes'])->where('ano', 'LIKE', $request['ano'])->where('sucursal_id', 'LIKE', $request['sucursal_id'])->first();
+            $mes = Mese::where('mes', 'LIKE', $request['mes'])->where('ano', 'LIKE', $request['ano'])->where('sucursal_id', 'LIKE', Session::get('sucursalSession')->id)->first();
             if (!$mes) {
                 # Instantiate a new Model object
                 $mes = new Mese();
@@ -172,7 +151,7 @@ class MesController extends Controller
             $mes->ano = $request->input('ano');
             $mes->estatus = $request->input('estatus');
 
-            $sucursal = Sucursale::find($request->input('sucursal_id'));
+            $sucursal = Sucursale::find(Session::get('sucursalSession')->id);
             $mes->sucursal()->associate($sucursal); # <--- Associate sucursal with this mes
 
             $mes->save();

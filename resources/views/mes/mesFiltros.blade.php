@@ -35,18 +35,6 @@
                 </div>
                 @endif
 
-                @if(count($sucursalesForDropdown)>1)
-                <div class="col-sm-3 form-group control-label" align="center">
-                    <label for='sucursal'>Sucursales</label>
-                        <select name="sucursal_id"  class="form-control">
-                        <option value="all" selected="selected"> Todas </option>
-                        @foreach($sucursalesForDropdown as $sucursale1)
-                            <option value="{{ $sucursale1->id }}" {{ $sucursale1->id == $sucursaleSelected ? 'selected="selected"' : '' }}> {{ $sucursale1->nombre }} </option>
-                        @endforeach
-                    </select>
-                </div>
-                @endif
-
                 @if(count($estatusForDropdown)>1)
                 <div class="col-sm-3 form-group control-label" align="center">
                     <label for='estatus'>Estatus</label>
@@ -59,7 +47,8 @@
                 </div>
                 @endif
 
-                <div class="col-sm-12 align-self-center">
+                <div class="col-sm-2 align-self-center">
+                    <br>
                     <input type='submit' value='Aplicar Filtros' class='btn btn-primary btn-small'>
                     </form>
                 </div>

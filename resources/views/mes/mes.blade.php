@@ -19,21 +19,6 @@
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="container center">
                             <div class="row">
-                                @if(count($sucursalesForDropdown)>0)
-                                <div class="col-sm-3 form-group required control-label" align="center">
-                                    <label for='sucursal'>Sucursal</label>
-                                    @if($mes->id == -1)
-                                        <select name="sucursal_id"  class="form-control" required>
-                                    @else
-                                        <input type="hidden" name="sucursal_id" value="{{$sucursaleSelected}}">
-                                        <select name="sucursal_id"  class="form-control" disabled>
-                                    @endif
-                                        @foreach($sucursalesForDropdown as $sucursale1)
-                                            <option value="{{ $sucursale1->id }}" {{ $sucursale1->id == $sucursaleSelected ? 'selected="selected"' : '' }}> {{ $sucursale1->nombre }} </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @endif
 
                                 <div class="col-sm-2 form-group control-label" align="center">
                                     <label for='ano'>Año</label>

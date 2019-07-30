@@ -19,18 +19,12 @@ class ClienteController extends Controller
 
         # Get estatus
         $estatusForDropdown = Cliente::getEstatusDropDown();
-        # Get sucursales
-        $sucursalesForDropdown = Sucursale::all();
-        #dd($sucursalesForDropdown);
 
         #Poner valores anteriores en selecciones
         $estatusSelected = request('estatus');
-        $sucursaleSelected = request('sucursale_id');
 
 		return view('cliente.clienteLista')->
 		with([  'clientes' => $clientes,
-		        'sucursalesForDropdown' => $sucursalesForDropdown,
-		        'sucursaleSelected'=>$sucursaleSelected,
 		        'estatusForDropdown' => $estatusForDropdown,
                 'estatusSelected'=>$estatusSelected]);
 
@@ -39,16 +33,12 @@ class ClienteController extends Controller
     public function cliente(Request $request,$id= '-1') {
 	    $cliente = Cliente::find($id);
 
-	    # Get sucursales
-        $sucursalesForDropdown = Sucursale::all();
         # Get estatus
         $estatusForDropdown = Cliente::getEstatusDropDown();
 
-        $sucursaleSelected = request('sucursale_id');
         $estatusSelected = request('estatus');
 
         if($cliente){
-            $sucursaleSelected = $cliente->sucursale_id;
             $estatusSelected = $sucursal->estatus;
         }
         else{
@@ -58,8 +48,6 @@ class ClienteController extends Controller
 
         return view('cliente.cliente')->
         with([  'cliente' => $cliente,
-                'sucursalesForDropdown' => $sucursalesForDropdown,
-                'sucursaleSelected'=>$sucursaleSelected,
                 'estatusForDropdown' => $estatusForDropdown,
                 'estatusSelected'=>$estatusSelected,
                 ]);
