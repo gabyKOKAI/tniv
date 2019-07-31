@@ -56,6 +56,32 @@
 
 }
 
+.azul{
+    background-color:DeepSkyBlue;
+    color:white;
+
+}
+
+.ivory{
+    background-color:ivory;
+    color:black;
+}
+
+.silver{
+    background-color:silver;
+    color:white;
+}
+
+.SandyBrown{
+    background-color:SandyBrown;
+    color:white;
+}
+
+.SeaGreen{
+    background-color: rgb(0,162,153,.5);
+    color:white;
+}
+
 .grisO{
     background-color:darkgray;
     color:white;

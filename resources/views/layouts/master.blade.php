@@ -29,7 +29,7 @@
 
 </head>
 <body>
-
+    <?php setlocale(LC_TIME, 'es_ES'); ?>
     <header class="imgLogo">
         <div class="container center imgLogo">
             <div class="row">

@@ -40,6 +40,12 @@ a:active {
     /*background-color: #DCDCDC;*/
  }
 
+.btn-mes{
+    color:white;
+    background-color: rgba(0, 0, 0, 0);
+    /*border-color:white;*/
+}
+
  .btn-cerrar{
     color:black;
     /*background-color:#227dc7;
@@ -47,6 +53,13 @@ a:active {
     background-color:Aquamarine;
     border-color:Aquamarine;
 
+}
+
+.btn-filtro{
+    color:black;
+    background-color:gray;
+    border-color:gray;
+    padding: 2px;
 }
 
 .btn-abrir{
@@ -75,23 +88,35 @@ a:active {
 .mes_Abierto{
     color:white;
     background-color: Green;
-    border-color:Green;
+    border-color:white;
     padding: 4px;
-    margin: 4px;
+    margin: 0px;
+    border-style: groove;
 }
 
 .mes_Cerrado{
     color:black;
     background-color: lightgray;
-    border-color:lightgray;
+    border-color:white;
     padding: 4px;
-    margin: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.mes_Nuevo{
+    color:black;
+    background-color: white;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
 }
 
 .mes_Inactivo{
     color:white;
     background-color: Black;
-    border-color:Black;
+    border-color:white;
     padding: 4px;
-    margin: 4px;
+    margin: 0px;
+    border-style: groove;
 }

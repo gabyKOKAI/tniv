@@ -21,6 +21,7 @@
                             <div class="row">
 
                                 <div class="col-sm-2 form-group control-label" align="center">
+                                    <a href="{{ URL::to('meses/'.$mes->ano)}}" class="glyphicon glyphicon-calendar"></a>
                                     <label for='ano'>Año</label>
                                     <div class="input-group">
                                         @if($mes->id == -1)
@@ -33,7 +34,7 @@
                                 </div>
 
                                 <div class="col-sm-2 form-group control-label" align="center">
-                                    <label for='mes'>Mes</label>
+                                    <label for='mes'>Mes </label>
                                         @if($mes->id == -1)
                                             <select name="mes"  class="form-control" required>
                                         @else

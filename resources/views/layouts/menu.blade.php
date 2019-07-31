@@ -20,9 +20,21 @@
                             Agenda<span class="caret"></span>
                     </a>
                      <ul class="dropdown-menu">
+                             <?php
+                                date_default_timezone_set('America/Mexico_City');
+                                $fecha = date('d/m/Y', time());
+                                $mesFecha = date('m', time());
+                                $mesFecha = DateTime::createFromFormat('!m', $mesFecha);
+                                setlocale(LC_TIME, 'es');
+                                $mesFecha1 = strftime("%B", $mesFecha->getTimestamp());
+                                $anoFecha = date('Y', time());
+                            ?>
+
                             <li><a href="/meses">Meses</a></li>
-                            <li><a href="/mesActual">Este Mes</a></li>
-                            <li><a href="/diaActual">Hoy</a></li>
+                            <li><a href="/anoActual">Este Año ({{$anoFecha}})</a></li>
+                            <li><a href="/mesActual">Este Mes ({{$mesFecha1}})</a></li>
+                            <li><a href="/diaActual">Hoy ({{$fecha}})</a></li>
+
                      </ul>
                 </li>
                 @endif

@@ -1,76 +1,110 @@
-<div class="row">
-    <div class="col-sm-12 align-right">
-            <!--div class="container">
-                <div class="row">
-                    <div class="col-sm-4 align-left">
-                        <hr>
-                    </div>
-                    <div class="col-sm-4 align-center">
-                         <h3 class="center">Meses
-                         </h3>
-                    </div>
-                    <div class="col-sm-4 align-left">
-                        <hr>
-                    </div>
-                </div>
-            </div-->
-            @if(count($meses)>0)
-                <div class="container center">
-                    <div class="row">
-                        <div class="col-sm-12 center">
-                            <br>
-                            <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-12 align-self-center">
+@if(count($meses)>0)
+    <a href="{{ URL::to('mes/-1/')}}" class="btn btn-primary btn-small">Crear Mes de otro año</a>
+    <?php
+        $anoAnt = 1900;
+        $mesAnt = 0;
+    ?>
+    @foreach($meses as $mes)
+        <?php
+            $anoAct = $mes->ano;
+            $mesAct = $mes->mes;
+            setlocale(LC_TIME, 'es_ES');
+            $fecha = DateTime::createFromFormat('!m', $mes->mes);
+            $mes1 = strftime("%B", $fecha->getTimestamp());
+        ?>
+        @if($anoAnt != $anoAct)
 
-                            @foreach($meses as $mes)
-                                    <?php
-                                        setlocale(LC_TIME, 'es_ES');
-                                        $fecha = DateTime::createFromFormat('!m', $mes->mes);
-                                        $mes1 = strftime("%B", $fecha->getTimestamp()); // marzo
-                                    ?>
-                                    <div class="col-sm-3">
-                                        <form method='POST' action='{{ URL::to('mes/' . $mes->id) }}'>
-                                            {{ csrf_field() }}
-                                            <input type='submit' value='{{$mes1}} {{$mes->ano}},{{$mes->sucursal->nombre}}' class="mes_{{$mes->estatus}}">
-
-                                        </form>
-                                    </div>
-                            @endforeach
-
-                        </div>
-                </div>
-            </div>
-
-                <div class="container center">
-                    <div class="row">
-                        <div class="col-sm-12 align-self-center">
-
-                            <!-- { {$meses->lastPage()} } -->
-                            <!-- { {$meses->hasMorePages()} } -->
-                            <!-- { {$meses->url()} } -->
-                            <!-- { {$meses->nextPageUrl()} } -->
-                            <!-- { {$meses->lastItem()} } -->
-                            <!-- { {$meses->firstItem()} } -->
-                            <!-- { {$meses->count()} } -->
-                            <!-- { {$meses->perPage()} } -->
-                            <!-- { {$meses->currentPage()} } -->
-                            <!-- { {$meses->render()} } -->
-                        </div>
+            @if($mesAnt < 12 and $anoAnt != 1900)
+                @foreach(range($mesAnt+1,12,1) as $mesVacio)
+                    <div class="col-sm-2 mes_Nuevo" align="center">
+                        <form method='POST' action='/mes/guardar/-1'>
+                            {{ csrf_field() }}
+                            <input type="hidden" name="ano" value="{{$mes->ano}}">
+                            <input type="hidden" name="mes" value="{{$mes->mes}}">
+                            <input type="hidden" name="estatus" value="Inactivo">
+                            <?php
+                                setlocale(LC_TIME, 'es_ES');
+                                $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
+                                $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
+                            ?>
+                            <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-primary btn-small'>
+                        </form>
                     </div>
-                </div>
-            @else
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-12 align-center">
-                            <h4 class="center">
-                                Sin Meses <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
             @endif
+            <div class="col-sm-12">
+                <br>
+            </div>
+            <div class="col-sm-12 SeaGreen border align-self-center">
+                {{$mes->ano}}
+            </div>
+            <?php
+                $mesAnt = 0;
+            ?>
+         @endif
+
+         @if($mesAnt+1 < $mesAct)
+            @foreach(range($mesAnt+1,$mesAct-1,1) as $mesVacio)
+                <div class="col-sm-2 mes_Nuevo" align="center">
+                    <form method='POST' action='/mes/guardar/-1'>
+                        {{ csrf_field() }}
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="ano" value="{{$anoAct}}">
+                        <input type="hidden" name="mes" value="{{$mesVacio}}">
+                        <input type="hidden" name="estatus" value="Inactivo">
+                        <?php
+                            setlocale(LC_TIME, 'es_ES');
+                            $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
+                            $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
+                        ?>
+                        <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-primary btn-small'>
+                    </form>
+                </div>
+            @endforeach
+         @endif
+
+        <div class="col-sm-2 mes_{{$mes->estatus}}" align="center">
+            <form method='POST' action='{{ URL::to('mes/' . $mes->id) }}'>
+                {{ csrf_field() }}
+                <input type='submit' value='{{$mes1}}' class="btn btn-mes">
+            </form>
+        </div>
+
+        <?php
+            $anoAnt = $anoAct;
+            $mesAnt = $mesAct;
+        ?>
+        @if($anoAnt != $anoAct)
+        @endif
+    @endforeach
+    @if($mesAnt < 12 and $anoAnt != 1900)
+        @foreach(range($mesAnt+1,12,1) as $mesVacio)
+            <div class="col-sm-2 mes_Nuevo" align="center">
+                <form method='POST' action='/mes/guardar/-1'>
+                    {{ csrf_field() }}
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="ano" value="{{$mes->ano}}">
+                    <input type="hidden" name="mes" value="{{$mesVacio}}">
+                    <input type="hidden" name="estatus" value="Inactivo">
+                    <?php
+                        setlocale(LC_TIME, 'es_ES');
+                        $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
+                        $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
+                    ?>
+                    <input type='submit' value='Crear {{$mesVacio1}} {{$mes->ano}}' class='btn btn-primary btn-small'>
+                </form>
+            </div>
+        @endforeach
+    @endif
+
+@else
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 align-center">
+                <h4 class="center">
+                    Sin Meses <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
+                </h4>
+            </div>
+        </div>
     </div>
-</div>
+@endif

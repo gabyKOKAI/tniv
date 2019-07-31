@@ -12,13 +12,16 @@ use Session;
 
 class MesController extends Controller
 {
-    public function lista(Request $request)
+    public function lista(Request $request, $ano=-1)
     {
         #Parametros por defecto en la lista
-        if(!request()->has('estatus')){
-            $request['estatus'] = "Abierto";
+        #if(!request()->has('estatus')){
+            #$request['estatus'] = "Abierto";
+        #}
+        if($ano != -1){
+            $request['ano'] = $ano;
+            $request['estatus'] = "all";
         }
-
     	$meses = Mese::getMeses();
 
         # Get anos
@@ -30,6 +33,7 @@ class MesController extends Controller
         $estatusForDropdown = Mese::getEstatusDropDown();
 
         #Poner valores anteriores en selecciones
+
         $anoSelected = request('ano');
         $mesSelected = request('mes');
         $estatusSelected = request('estatus');
@@ -108,10 +112,16 @@ class MesController extends Controller
         }
 	}
 
+    public function anoActual(Request $request) {
+        $fecha = new DateTime();
+        $ano = strftime("%Y", $fecha->getTimestamp());
+        return redirect('/meses/'.$ano);
+	}
+
 	public function mesActual(Request $request) {
-            $fecha = new DateTime();
-            $ano = strftime("%Y", $fecha->getTimestamp());
-            $mes = strftime("%m", $fecha->getTimestamp());
+        $fecha = new DateTime();
+        $ano = strftime("%Y", $fecha->getTimestamp());
+        $mes = strftime("%m", $fecha->getTimestamp());
 	    $mes = Mese::where('sucursal_id','=', Session::get('sucursalSession')->id)->where('mes','=',$mes)->where('ano','=',$ano)->first();
 
 	    if($mes){

@@ -56,7 +56,7 @@ class Mese extends Model
         $meses = $meses->whereIn('sucursal_id', $arraySuc);
 
 		$meses = $meses ->orderBy('ano', 'DESC')
-		                ->orderBy('mes', 'DESC')
+		                ->orderBy('mes', 'ASC')
                         ->paginate(15,['*'], 'meses_p')->appends($queries);
 
         return $meses ;
