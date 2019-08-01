@@ -6,7 +6,7 @@
                         <hr>
                     </div>
                     <div class="col-sm-4 align-center">
-                         <h3 class="center">Meses
+                         <h3 class="center">Clientes
                          </h3>
                     </div>
                     <div class="col-sm-4 align-left">
@@ -34,9 +34,9 @@
                             <tbody>
                                  @foreach($clientes as $cliente)
                                     <tr>
-                                        <td>{{$cliente->nombre}}</td>
+                                        <td><a href="{{ URL::to('cliente/'.$cliente->id)}}">{{$cliente->nombre}}</a></td>
                                         <td>{{$cliente->numCliente}}</td>
-                                        <td>{{$cliente->correo}}</td>
+                                        <td><a href="{{ URL::to('usuario/'.$cliente->user_id)}}">{{$cliente->correo}}</a></td>
                                         <td>{{$cliente->estatus}}</td>
                                     </tr>
                                 @endforeach

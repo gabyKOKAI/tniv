@@ -13,7 +13,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    Usuario
+                    Usuario <a href="{{ URL::to('usuarios/')}}" class="glyphicon glyphicon glyphicon glyphicon-th-list"></a>
                 </div>
 
                 <div class="panel-body">
