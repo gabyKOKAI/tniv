@@ -68,6 +68,21 @@ a:active {
     border-color:lightgray;
 }
 
+.btn-sucPermitida{
+    color:black;
+    background-color:Lime;
+    border-color:Lime;
+    padding: 1px;
+
+}
+
+.btn-sucNoPermitida{
+    color:Black;
+    background-color:lightgray;
+    border-color:lightgray;
+    padding: 1px;
+}
+
  .btn-cerrarH{
     color:black;
     /*background-color:#227dc7;

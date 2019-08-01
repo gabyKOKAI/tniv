@@ -22,25 +22,31 @@ Route::get('/', function (Request $request) {
     return view('welcome');
 })->name('home');
 
+Route::get('/home', function (Request $request){
+        return redirect('/');
+    });
+
 Auth::routes();
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/usuarios', 'UsuarioController@lista');
+    Route::get('/usuario/{id?}', 'UsuarioController@usuario')->name('usuario');
+    Route::post('/usuario/{id?}', 'UsuarioController@usuario')->name('usuarioP');
+    Route::put('/usuario/guardar/{id?}','UsuarioController@guardar');
 
-    Route::get('/registraUsuario',function () {
-        return view('auth.register');
-    });
+    #Route::get('/registraUsuario',function () {return view('auth.register');});
+
 
     Route::get('/sucursales', 'SucursalController@lista');
     Route::get('/sucursalSelected/{id}', function (Request $request, $id) {
-        #$request->session()->put('sucursalesSession', Sucursale::getSucursales());
-        #$request->session()->put('sucursalSession', Sucursale::getSucursales()->first());
         $suc = Sucursale::where('id','=',$id)->first();
         $request->session()->put('sucursalSession', $suc);
         #return back()->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
         #return redirect('/meses/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
         return redirect('/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
-    })->name('home');
+    });
+    Route::post('/modificaEstatusSucUsu', 'SucursalController@modificaEstatus');
+
 
     Route::get('/meses/{ano?}', 'MesController@lista')->name('meses');
     Route::post('/mesesP', 'MesController@lista')->name('mesesP');

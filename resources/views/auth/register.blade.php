@@ -34,6 +34,25 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('sucursal') ? ' has-error' : '' }}">
+                            <label for="sucursal" class="col-md-4 control-label">Sucursal</label>
+                            {{ $sucursalesForDropdown =  tniv\Sucursale::getSucursales() }}
+                            <div class="col-md-6">
+                                <select name="sucursal"  class="form-control" required>
+                                @foreach($sucursalesForDropdown as $sucursal)
+                                <option value="{{ $sucursal->id }}"> {{ $sucursal->nombre }} </option>
+                                @endforeach
+                                </select>
+
+
+                                @if ($errors->has('sucursal'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('sucursal') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 

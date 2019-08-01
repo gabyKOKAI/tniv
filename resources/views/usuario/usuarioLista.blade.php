@@ -22,14 +22,17 @@
                                                 <!--th class="center">#</th-->
                                                 <th class="center">Nombre</th>
                                                 <th class="center">Correo </th>
+                                                <th class="center">Rol </th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                              @foreach($usuarios as $usuario)
                                                 <tr>
                                                     <!--td>{{$usuario->id}}</td-->
-                                                    <td> {{$usuario->name}}</td>
+                                                    <td> <a href="{{ URL::to('usuario/'.$usuario->id)}}">{{$usuario->name}}</a></td>
+
                                                     <td> {{$usuario->email}}</td>
+                                                    <td> {{$usuario->rol}}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

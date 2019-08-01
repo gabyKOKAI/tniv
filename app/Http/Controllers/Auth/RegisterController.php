@@ -3,6 +3,8 @@
 namespace tniv\Http\Controllers\Auth;
 
 use tniv\User;
+use tniv\SucursalesUsuario;
+use Carbon\Carbon;
 use tniv\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -28,7 +30,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -63,10 +65,31 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'rol' => 'ClienteNuevo',
+            'estatus' => 'ClienteNuevo',
         ]);
+
+        SucursalesUsuario::insert([
+            'created_at' => Carbon::now()->subDays(1)->toDateTimeString(),
+            'updated_at' => Carbon::now()->subDays(1)->toDateTimeString(),
+            'estatus' => 1,
+            'usuario_id' => $user->id,
+            'sucursal_id' => $data['sucursal']
+        ]);
+
+        return $user;
+    }
+
+    protected function redirectTo()
+    {
+        if (auth()->user()->role == 1) {
+            return '/';
+        }
+        return '/';
     }
 }

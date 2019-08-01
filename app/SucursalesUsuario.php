@@ -18,4 +18,14 @@ class SucursalesUsuario extends Model
     {
         return $this->hasMany('\tniv\Sucursale');
     }
+
+    public static function getSucursalesUsuario($idUsuario, $idSucursal){
+        $estatusUsuarioSucursal = SucursalesUsuario::where('usuario_id','=',$idUsuario)->where('sucursal_id','=',$idSucursal)->first();
+        if($estatusUsuarioSucursal){
+            return $estatusUsuarioSucursal->estatus;
+        }else{
+            return 0;
+        }
+    }
+
 }
