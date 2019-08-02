@@ -27,6 +27,8 @@ class UsuarioController extends Controller
         if($estatusUsuarioSucursal){
             $usuario = User::find($id);
 
+            //GOP checar que tenga el rol que puede editar si no no deje verlo
+
             if($usuario){
                 $rolSelected = $usuario->rol;
             }
