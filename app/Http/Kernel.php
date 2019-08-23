@@ -52,6 +52,11 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'auth' => \tniv\Http\Middleware\Authenticate::class,
+        'master' => \tniv\Http\Middleware\MasterMiddleware::class,
+        'admin' => \tniv\Http\Middleware\AdminMiddleware::class,
+        'adminSucursal' => \tniv\Http\Middleware\AdminSucursalMiddleware::class,
+        'cliente' => \tniv\Http\Middleware\ClienteMiddleware::class,
+        'clienteNuevo' => \tniv\Http\Middleware\ClienteNuevoMiddleware::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,

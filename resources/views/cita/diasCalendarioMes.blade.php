@@ -1,10 +1,13 @@
-@if($mes->id <> -1)
+@if($mesSelect->id <> -1 and $mesSelect->estatus == "Abierto")
     <div class="row">
-        <div class="col-sm-12 align-self-center">
-            <a href="{{ URL::to('mesVecino/a/'.$mes->id)}}" class="glyphicon glyphicon-chevron-left"></a>
-            <a href="{{ URL::to('mesVecino/d/'.$mes->id)}}" class="glyphicon glyphicon-chevron-right"></a>
-            <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
-       </div>
+        <div class="col-sm-12" align="center">
+            <br>
+        </div>
+        <div class="col-sm-12 azul border align-self-center">
+            Dias Disponibles para el mes de {{$mesSelectedNombre}} del {{$mesSelect->ano}}:
+        </div>
+    </div>
+    <div class="row">
         <div class="col-sm-1 border" align="center">
         Do
         </div>
@@ -54,34 +57,27 @@
                 </div>
             @endif
 
-
+            @if($diaSelect->id == $dia->id)
+                <?php $diaEstatusDiseño = "dia_activo" ?>
+            @else
+                @if($dia->estatus == 1)
+                    <?php $diaEstatusDiseño = "dia_Abierto" ?>
+                    <a href="{{ URL::to('agendaCita/'.$mesSelect->id.'/'.$dia->id)}}">
+                @else
+                    <?php $diaEstatusDiseño = "dia_Cerrado" ?>
+                @endif
+            @endif
 
             @if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo")
-                <div class="col-sm-1 border" align="center">
+                <div class="col-sm-1 {{$diaEstatusDiseño}}" align="center">
             @else
-                <div class="col-sm-2 border" align="center">
+                <div class="col-sm-2 {{$diaEstatusDiseño}}" align="center">
             @endif
-                <a href="{{ URL::to('dia/'.$dia->id)}}">{{$dia->numDia}}</a>
-                <br>
-                <form method='POST' action='/abrirCerrarDia/Mes'>
-                    {{ csrf_field() }}
-                    <input type="hidden" name="dia" value="{{$dia->id}}">
-                    <input type="hidden" name="mes" value="{{$mes->id}}">
-                    @if($mes->estatus == "Abierto" or $mes->estatus == "Inactivo")
-                        @if($dia->estatus == 1)
-                                <input type='submit' value='Cerrar' class='btn btn-cerrar '>
-                        @else
-                                <input type='submit' value='Abrir' class='btn btn-abrir'>
-                        @endif
-                    @elseif($mes->estatus == "Cerrado")
-                        @if($dia->estatus == 1)
-                                <input type='submit' value='Cerrar' class='btn btn-cerrar ' disabled>
-                        @else
-                                <input type='submit' value='Abrir' class='btn btn-abrir' disabled>
-                        @endif
-                    @endif
-                </form>
+                {{$dia->numDia}}
             </div>
+            @if($dia->estatus == 1)
+                </a>
+            @endif
         @endforeach
     </div>
 @endif

@@ -39,4 +39,12 @@ class SucursalController extends Controller
         return redirect('/usuario/'.$sucUsu->usuario_id)->with('success', 'Se cambiaron los permisos' )->withInput();
 
 	 }
+
+	 public function seleccionaSucursal(Request $request, $id) {
+        $suc = Sucursale::where('id','=',$id)->first();
+        $request->session()->put('sucursalSession1', $suc);
+        #return back()->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
+        #return redirect('/meses/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
+        return redirect('/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
+    }
 }

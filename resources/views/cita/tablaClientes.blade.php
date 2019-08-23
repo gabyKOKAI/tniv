@@ -2,14 +2,14 @@
     <div class="col-sm-12 align-right">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-4 align-left">
+                    <div class="col-sm-1 align-left">
                         <hr>
                     </div>
-                    <div class="col-sm-4 align-center">
-                         <h3 class="center">Clientes
+                    <div class="col-sm-10 align-center">
+                         <h3 class="center">Selecciona el clientes para hacer cita el {{$fecha}}
                          </h3>
                     </div>
-                    <div class="col-sm-4 align-left">
+                    <div class="col-sm-1 align-left">
                         <hr>
                     </div>
                 </div>
@@ -24,24 +24,26 @@
                         <table class="table table-hover table-striped .table-striped table-responsive">
                             <thead>
                                 <tr>
-                                    <!--th class="center">#</th-->
                                     <th class="center"># Cliente </th>
-                                    <th class="center">Nombre <a href="{{ URL::to('cliente/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a></th>
+                                    <th class="center">Nombre</th>
                                     <th class="center">Correo</th>
-                                    <th class="center">Estatus</th>
+                                    <th class="center">Acción</th>
                                 </tr>
                             </thead>
                             <tbody>
                                  @foreach($clientes as $cliente)
                                     <tr>
                                         <td>{{$cliente->numCliente}}</td>
-                                        <td><a href="{{ URL::to('cliente/'.$cliente->id)}}">{{$cliente->nombre}}</a></td>
-                                        @if(in_array(Auth::user()->rol, ['Master','Admin']))
-                                            <td><a href="{{ URL::to('usuario/'.$cliente->user_id)}}">{{$cliente->correo}}</a></td>
-                                        @else
-                                            <td>{{$cliente->correo}}</td>
-                                        @endif
-                                        <td>{{$cliente->estatus}}</td>
+                                        <td>{{$cliente->nombre}}</td>
+                                        <td>{{$cliente->correo}}</td>
+                                        <td>
+                                         <form method='POST' action='/agendarCita'>
+                                            {{ csrf_field() }}
+                                            <input type="hidden" name="hora" value="{{$hora->id}}">
+                                            <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
+                                            <input type='submit' value='Agendar Cita' class='btn btn-cerrarH '>
+                                        </form>
+                                        </td>
                                     </tr>
                                 @endforeach
                             </tbody>

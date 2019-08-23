@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use tniv\Sucursale;
+use tniv\Cita;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,10 +15,17 @@ use tniv\Sucursale;
 */
 
 Route::get('/', function (Request $request) {
-    $request->session()->put('sucursalesSession', Sucursale::getSucursales());
-    if(!Session::get('sucursalSession')){
-        $request->session()->put('sucursalSession', Sucursale::getSucursales()->first());
+    $sucursales = Sucursale::getSucursales();
+    $request->session()->put('sucursalesSession', $sucursales);
+    $proxCita = Cita::getProximaCita();
+    $request->session()->put('proxCita', $proxCita);
+
+    if(Session::get('sucursalSession1')){
+        $suc = Session::get('sucursalSession1');
+    }else{
+        $suc = Sucursale::where('id','=',$sucursales->first()->id)->first();
     }
+    $request->session()->put('sucursalSession', $suc);
     /*return view('construccion');*/
     return view('welcome');
 })->name('home');
@@ -28,25 +36,28 @@ Route::get('/home', function (Request $request){
 
 Auth::routes();
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('/usuarios', 'UsuarioController@lista');
+Route::get('/unauthorized', function (Request $request){
+        return view('errors.unauthorized');
+    })->name('unauthorized');
+
+Route::group(['middleware' => ['auth','master']], function () {
+});
+
+Route::group(['middleware' => ['auth','admin']], function () {
+    Route::get('/usuarios', 'UsuarioController@lista')->name('usuarios');
     Route::get('/usuario/{id?}', 'UsuarioController@usuario')->name('usuario');
     Route::post('/usuario/{id?}', 'UsuarioController@usuario')->name('usuarioP');
     Route::put('/usuario/guardar/{id?}','UsuarioController@guardar');
 
     #Route::get('/registraUsuario',function () {return view('auth.register');});
 
-
     Route::get('/sucursales', 'SucursalController@lista');
-    Route::get('/sucursalSelected/{id}', function (Request $request, $id) {
-        $suc = Sucursale::where('id','=',$id)->first();
-        $request->session()->put('sucursalSession', $suc);
-        #return back()->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
-        #return redirect('/meses/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
-        return redirect('/')->with('success', 'Cambiaste a la sucursal '.$suc->nombre);
-    });
-    Route::post('/modificaEstatusSucUsu', 'SucursalController@modificaEstatus');
 
+});
+
+Route::group(['middleware' => ['auth','adminSucursal']], function () {
+
+    Route::post('/modificaEstatusSucUsu', 'SucursalController@modificaEstatus');
 
     Route::get('/meses/{ano?}', 'MesController@lista')->name('meses');
     Route::post('/mesesP', 'MesController@lista')->name('mesesP');
@@ -66,7 +77,29 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/abrirCerrarHora', 'HoraController@abrirCerrarHora');
 
     Route::get('/clientes', 'ClienteController@lista')->name('clientes');
-    Route::post('/clientesP', 'ClienteController@lista')->name('clientesP');
-    Route::get('/clientes/{id?}', 'ClienteController@cliente')->name('cliente');
+    Route::get('/cliente/{id?}', 'ClienteController@cliente')->name('cliente');
+    Route::post('/clientes', 'ClienteController@lista')->name('clientes');
+
+    Route::post('/agendarCitaACliente','CitaController@agendarCitaACliente');
+    Route::get('/tomoCita/{id?}','CitaController@tomarCita');
+    Route::get('/perdioCita/{id?}','CitaController@perderCita');
+    Route::get('/reagendaCita/{id?}','CitaController@reagendarCita');
+});
+
+Route::group(['middleware' => ['auth','cliente']], function () {
+    Route::get('/sucursalSelected/{id}','SucursalController@seleccionaSucursal');
+
+    Route::get('/clienteUser/{idUser}', 'ClienteController@clienteUser')->name('clienteUser');
+    Route::put('/cliente/guardar/{id?}','ClienteController@guardar');
+
+    Route::get('/agendaCita/{idMes?}/{idDia?}','CitaController@citasDisponibles');
+    Route::post('/agendarCita','CitaController@agendarCita');
+    Route::get('/cancelaCita/{id?}','CitaController@cancelarCita');
 
 });
+
+Route::group(['middleware' => ['auth','clienteNuevo']], function () {
+    Route::get('/clienteUser/{idUser}', 'ClienteController@clienteUser')->name('clienteUser');
+    Route::put('/cliente/guardar/{id?}','ClienteController@guardar');
+});
+

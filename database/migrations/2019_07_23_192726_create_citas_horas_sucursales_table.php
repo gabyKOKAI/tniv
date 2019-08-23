@@ -17,9 +17,8 @@ class CreateCitasHorasSucursalesTable extends Migration
             $table->bigIncrements('id');
             $table->timestamps();
 
-            $table->integer('hora')->nullable(false);
-            $table->integer('numCitasMax')->default(1)->nullable(false);
             $table->string('estatus')->default("Inactivo")->nullable(false); #Abierto, Cerrado, Inactivo
+            $table->string('nota')->default("");
 
             $table->unsignedBigInteger('hora_id');
 			$table->foreign('hora_id')->references('id')->on('horas');

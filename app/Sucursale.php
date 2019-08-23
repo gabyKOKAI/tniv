@@ -34,7 +34,6 @@ class Sucursale extends Model
             }
         }
 
-        ##filtrar las que puede ver el usuario, por ahora esta solo numeros de prueba
         if( Auth::user() ){
             $user = Auth::user();
             if($user){

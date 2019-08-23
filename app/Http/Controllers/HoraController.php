@@ -14,7 +14,8 @@ class HoraController extends Controller
         # Set the parameters
         if($hora    ->estatus == 1){
             $hora->estatus = 0;
-            #GOP checar que no haya citas para poder cerrarlo
+            #al cerrar el dia el cliente no puede agendar,
+            #pero no se eliminan las citas previamente agendadas
             $res = "cerró";
         }
         else{

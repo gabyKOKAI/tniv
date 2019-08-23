@@ -4,6 +4,7 @@ namespace tniv\Http\Controllers\Auth;
 
 use tniv\User;
 use tniv\SucursalesUsuario;
+use tniv\Cliente;
 use Carbon\Carbon;
 use tniv\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -70,8 +71,7 @@ class RegisterController extends Controller
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-            'rol' => 'ClienteNuevo',
-            'estatus' => 'ClienteNuevo',
+            'rol' => 'ClienteNuevo'
         ]);
 
         SucursalesUsuario::insert([
@@ -82,6 +82,25 @@ class RegisterController extends Controller
             'sucursal_id' => $data['sucursal']
         ]);
 
+        $cliente = Cliente::where('correo', 'LIKE', $data['email'])->first();
+        if (!$cliente) {
+            # Instantiate a new Model object
+            $cliente = new Cliente();
+            $res = "creado";
+        }else{
+            $res = "ya existe";
+        }
+
+        if($res == "creado"){
+            # Set the parameters
+            $cliente->nombre = $data['name'];
+            $cliente->correo = $data['email'];
+            $cliente->numCliente = '---';
+            $cliente->estatus = 'ClienteNuevo';
+            $cliente->seEntero = "probando";
+            $cliente->user_id = $user->id;
+            $cliente->save();
+        }
         return $user;
     }
 

@@ -69,9 +69,9 @@
                                     @endforeach
                                 </select>
 
-                                @if ($errors->has('email'))
+                                @if ($errors->has('rol'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong>{{ $errors->first('rol') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -83,13 +83,15 @@
                                 @if($usuario->id == -1)
                                     <input type='submit' value='Crear Usuario' class='btn btn-primary btn-small'>
                                 @else
-                                    <input type='submit' value='Actualiza' class='btn btn-primary btn-small'>
+                                    <input type='submit' value='Actualizar' class='btn btn-primary btn-small'>
                                 @endif
                             </div>
                         </div>
                     </form>
                     @if(in_array(Auth::user()->rol, ['Master','Admin']))
-                        @include('usuario.sucursalesUsuario')
+                        @if($usuario->id != -1)
+                            @include('usuario.sucursalesUsuario')
+                        @endif
                     @endif
                 </div>
             </div>

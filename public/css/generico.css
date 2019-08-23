@@ -88,6 +88,12 @@
 
 }
 
+.grisC{
+    background-color:lightgray;
+    color:black;
+
+}
+
 .black {
     background-color:black;
     color:white;
@@ -117,4 +123,9 @@
 .justificado{
     text-align: justify;
     text-justify: inter-word;
+}
+
+.SkyBlue{
+    color:black;
+    background-color:SkyBlue;
 }

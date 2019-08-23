@@ -13,15 +13,15 @@ class ClientesTableSeeder extends Seeder
     public function run()
     {
         $clientes = [
-            ['Jimena','1', 'jime@gmail.com', 'Activo', 'Amigo', '1'],
-            ['Fernanda','2', 'fer@gmail.com', 'Activo', 'Anuncio', '1'],
-            ['Maria','3', 'maria@gmail.com', 'Activo', 'Amigo', '2'],
-            ['Macarena','4', 'maca@gmail.com', 'Inactivo', 'Amigo', '2'],
+            ['Jimena','1', 'cliente@kokai.com.mx', 'Activo', 'Amigo', '5'],
+            ['Fernanda','2', 'fer@gmail.com', 'Activo', 'Anuncio', '6'],
+            ['Maria','3', 'maria@gmail.com', 'Activo', 'Amigo', '4'],
+            ['Macarena','4', 'maca@gmail.com', 'Inactivo', 'Amigo', '7'],
         ];
         $count = count($clientes);
         foreach ($clientes as $key => $cliente) {
 
-        	
+
             Cliente::insert([
                 'created_at' => Carbon\Carbon::now()->subDays($count)->toDateTimeString(),
                 'updated_at' => Carbon\Carbon::now()->subDays($count)->toDateTimeString(),

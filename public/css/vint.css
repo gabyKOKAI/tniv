@@ -13,6 +13,19 @@
 	color:white;
 }
 
+#iconoCita a:link {
+    color: blue;
+}
+#iconoCita a:visited {
+    color: blue;
+}
+#iconoCita a:hotpink {
+    color: #f00;
+}
+#iconoCita a:blue {
+    color: #f00;
+}
+
 /* unvisited link */
 a:link {
   color: blue;
@@ -41,7 +54,6 @@ a:active {
  }
 
 .btn-mes{
-    color:white;
     background-color: rgba(0, 0, 0, 0);
     /*border-color:white;*/
 }
@@ -101,8 +113,8 @@ a:active {
 }
 
 .mes_Abierto{
-    color:white;
-    background-color: Green;
+    color:black;
+    background-color: SkyBlue;
     border-color:white;
     padding: 4px;
     margin: 0px;
@@ -110,6 +122,42 @@ a:active {
 }
 
 .mes_Cerrado{
+    color:black;
+    background-color: lightgray;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.mes_Inactivo{
+    color:white;
+    background-color: Black;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.mes_activo{
+    color:white;
+    background-color: Blue;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.mes_disponible{
+    color:black;
+    background-color: SkyBlue;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.mes_no_disponible{
     color:black;
     background-color: lightgray;
     border-color:white;
@@ -127,9 +175,65 @@ a:active {
     border-style: groove;
 }
 
-.mes_Inactivo{
+
+
+.dia_Abierto{
+    color:black;
+    background-color:SkyBlue;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.dia_activo{
     color:white;
-    background-color: Black;
+    background-color: Blue;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.dia_Cerrado{
+    color:black;
+    background-color: lightgray;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.estatusCita_Agendada{
+    color:black;
+    background-color:SkyBlue;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.estatusCita_Cancelada{
+    color:black;
+    background-color:white;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.estatusCita_Tomada{
+    color:black;
+    background-color:lightgray;
+    border-color:white;
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
+
+.estatusCita_Perdida{
+    color:white;
+    background-color:Black;
     border-color:white;
     padding: 4px;
     margin: 0px;

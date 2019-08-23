@@ -57,5 +57,14 @@
             </div>
         </div>
     </div>
+    @else
+    <div class="container center">
+        <div class="row">
+            <div class="col-sm-12 align-center">
+                <h1 class="center">Usuarios <a href="/usuario/-1" class="glyphicon glyphicon glyphicon-plus-sign"></a></h1>
+
+            </div>
+        </div>
+    </div>
     @endif
 @endsection

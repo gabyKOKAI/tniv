@@ -7,6 +7,8 @@ use tniv\Hora;
 use tniv\Dia;
 use tniv\Mese;
 use tniv\Sucursale;
+use tniv\Cita;
+use tniv\Cliente;
 use DateTime;
 use Session;
 
@@ -26,6 +28,17 @@ class DiaController extends Controller
         if($dia and Sucursale::verificaSucursal($mes->sucursal_id)){
             $estatusSelected = $dia->estatus;
             $horasDia = Hora::where('dia_id', 'LIKE', $id)->get();
+            foreach ($horasDia as $hora){
+                $hora->citas = Cita::where('hora_id','=',$hora->id)->get();
+                $citasActivas = 0;
+                foreach ($hora->citas as $cita){
+                    $cita->nomCliente = Cliente::find($cita->cliente_id)->nombre;
+                    if(in_array($cita->estatus, ['Agendada','Tomada','Perdida'])){
+                        $citasActivas = $citasActivas + 1;
+                    }
+                }
+                $hora->citasActivas  = $citasActivas;
+            }
         }
         else{
             $dia = new Dia;
@@ -91,7 +104,8 @@ class DiaController extends Controller
         # Set the parameters
         if($dia->estatus == 1){
             $dia->estatus = 0;
-            #GOP checar que no haya citas para poder cerrarlo
+            #al cerrar el dia el cliente no puede agendar,
+            #pero no se eliminan las citas previamente agendadas
             $res = "cerró";
         }
         else{

@@ -11,34 +11,35 @@ class Cliente extends Model
 
     public static function getEstatusDropDown()
     {
-        $estatus = ['Activo', 'Inactivo', 'SinServicios', 'Terminado'];
+        $estatus = ['Activo', 'Inactivo', 'ClienteNuevo', 'SinServicios', 'Terminado'];
         return $estatus;
     }
 
     public static function getClientes()
     {
-        $clientes = Cliente::query();
+        $clientes = Cliente::join('sucursalesUsuarios', 'clientes.user_id', '=', 'sucursalesUsuarios.usuario_id')
+            ->select('clientes.id', 'clientes.nombre', 'clientes.numCliente', 'clientes.correo', 'sucursalesUsuarios.estatus', 'clientes.estatus')
+            ->where('sucursalesUsuarios.sucursal_id', '=', Session::get('sucursalSession')->id)
+            ->where('sucursalesUsuarios.estatus', '=', 1);
         $queries = [];
 
-        $columnas = ['sucursal_id', 'estatus'];
-
-        foreach($columnas as $columna){
-            if(request()->has($columna) and request($columna)!= 'all' and request($columna)!= ''){
-                $clientes = $clientes->where($columna,'LIKE',request($columna));
-                $queries[$columna] = request($columna);
-            }
+        if(request()->has("estatus") and request("estatus")!= 'all' and request("estatus")!= ''){
+            $clientes = $clientes->where("clientes.estatus",'=',request("estatus"));
+                $queries["estatus"] = request("estatus");
         }
 
-		//if(request()->has('sort'))
-		//{
-          //  $meses = $meses->orderBy('ano',request('sort'));
-          //  $queries['sort'] = request('sort');
-		//}
+        if(request()->has("nombre") and request("nombre")!= 'all' and request("nombre")!= ''){
+            $clientes = $clientes->where("clientes.nombre",'like', "%".request("nombre")."%");
+            $queries["nombre"] = request("nombre");
+        }
 
+        if(request()->has("correo") and request("correo")!= 'all' and request("correo")!= ''){
+            $clientes = $clientes->where("clientes.correo",'like', "%".request("correo")."%");
+            $queries["correo"] = request("correo");
+        }
 
-        //$clientes = $clientes->where('sucursal_id','=',Session::get('sucursalSession')->id);
 		$clientes = $clientes->paginate(15,['*'], 'clientes_p')->appends($queries);
 
-        return $clientes ;
+        return $clientes;
     }
 }

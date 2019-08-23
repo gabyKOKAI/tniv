@@ -12,4 +12,11 @@ class Hora extends Model
         # Define an inverse one-to-many relationship.
         return $this->belongsTo('tniv\Dia');
     }
+
+    public static function getHoras($estatus, $id)
+    {
+        $horas = Hora::where('dia_id', 'LIKE', $id)->get();
+
+        return $horas ;
+    }
 }

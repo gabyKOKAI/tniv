@@ -25,9 +25,7 @@ class UsuarioController extends Controller
         $rolSelected = request('rol');
 
         if($estatusUsuarioSucursal){
-            $usuario = User::find($id);
-
-            //GOP checar que tenga el rol que puede editar si no no deje verlo
+            $usuario = User::where('id','=',$id)->wherein('rol', User::getRolesDropDown())->first();
 
             if($usuario){
                 $rolSelected = $usuario->rol;
