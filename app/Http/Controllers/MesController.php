@@ -198,7 +198,7 @@ class MesController extends Controller
         setlocale(LC_TIME, 'es_ES');
         $fecha = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano);
         $dia->diaSemana = utf8_encode(strftime("%A", $fecha->getTimestamp()));
-        if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo"){
+        if($dia->diaSemana == utf8_encode("sábado") or $dia->diaSemana == "domingo"){
             $dia->estatus = 0;
         }else{
             $dia->estatus = 1;
