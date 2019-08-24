@@ -18,13 +18,18 @@
                             <div class="row">
                                     @if($mes->estatus=="Abierto")
                                         <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
-                                    @elseif($mes->estatus=="Inactivo")
-                                        <div class="col-sm-12 form-group required control-label grisC" align="center">
-                                    @else
-                                        <div class="col-sm-12 form-group required control-label red" align="center">
-                                    @endif
                                             El mes esta {{$mes->estatus}}
                                         </div>
+                                    @elseif($mes->estatus=="Inactivo")
+                                        <div class="col-sm-12 form-group required control-label grisC" align="center">
+                                            El mes esta {{$mes->estatus}}
+                                        </div>
+                                    @elseif($mes->estatus=="Cerrado")
+                                        <div class="col-sm-12 form-group required control-label red" align="center">
+                                            El mes esta {{$mes->estatus}}
+                                        </div>
+                                    @endif
+
 
                                     <form method='POST' action='/abrirCerrarDia/Dia'>
                                         {{ csrf_field() }}
@@ -35,7 +40,7 @@
                                                 <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
                                                     El día esta abierto <input type='submit' value='Cerrar Día' class='btn btn-cerrar '>
                                                 </div>
-                                            @else
+                                            @elseif($mes->estatus=="Cerrado")
                                                 <div class="col-sm-12 form-group required control-label red" align="center">
                                                     El día esta cerrado <input type='submit' value='Abrir Día' class='btn btn-abrir'>
                                                 </div>
@@ -93,7 +98,7 @@
                                                         <!-- @ else
                                                             <input type='submit' value='Cerrar' class='btn btn-cerrarH ' disabled>
                                                         @ endif-->
-                                                @else
+                                                @elseif($mes->estatus=="Cerrado")
                                                         <input type='submit' value='Abrir' class='btn btn-abrirH'>
                                                 @endif
                                             @else
@@ -150,7 +155,7 @@
                                                         <input type='submit' value='Cerrado' class='btn btn-abrirH ' disabled>
                                                     @endif
                                                 @endif
-                                            @else
+                                            @elseif($mes->estatus=="Cerrado")
                                                 @if($hora->estatus == 1 and $hora->citasActivas<$hora->numCitasMax)
                                                     <input type='submit' value='Agendar Cita' class='btn btn-cerrarH 'disabled>
                                                 @else

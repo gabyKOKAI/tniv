@@ -10,13 +10,18 @@
         <div class="row">
             @if($mes->estatus=="Abierto")
                 <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
-            @elseif($mes->estatus=="Inactivo")
-                <div class="col-sm-12 form-group required control-label grisC" align="center">
-            @else
-                <div class="col-sm-12 form-group required control-label red" align="center">
-            @endif
                     El mes esta {{$mes->estatus}}
                 </div>
+            @elseif($mes->estatus=="Inactivo")
+                <div class="col-sm-12 form-group required control-label grisC" align="center">
+                    El mes esta {{$mes->estatus}}
+                </div>
+            @elseif($mes->estatus=="Cerrado")
+                <div class="col-sm-12 form-group required control-label red" align="center">
+                    El mes esta {{$mes->estatus}}
+                </div>
+            @endif
+
             <div class="col-sm-12 align-center">
                @if($mes->id != -1)
                     <form method='POST' action='/mes/guardar/{{$mes->id}}'>
