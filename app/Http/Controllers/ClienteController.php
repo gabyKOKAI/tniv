@@ -117,7 +117,7 @@ class ClienteController extends Controller
                 if(in_array($cliente->estatus, ['Activo', 'Terminado'])){
                     $usuario->rol = 'Cliente';
                 }elseif(in_array($cliente->estatus, ['Inactivo'])){
-                    $usuario->password = 'TEPORALkokai123456.!*?';
+                    #$usuario->password = 'TEPORALkokai123456.!*?';
                     $usuario->rol = 'Inactivo';
                 }elseif(in_array($cliente->estatus, ['ClienteNuevo', 'SinServicios'])){
                     $usuario->rol = 'ClienteNuevo';
