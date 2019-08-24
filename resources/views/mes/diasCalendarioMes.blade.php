@@ -28,6 +28,7 @@
         </div>
         @foreach($diasMes as $dia)
             @if($dia->numDia == 1)
+                <?php $espacioDiv = 0 ?>
                 @if($dia->diaSemana == "lunes")
                     <?php $espacioDiv = 1 ?>
                 @endif
