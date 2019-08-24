@@ -190,6 +190,7 @@ class MesController extends Controller
         # Instantiate a new Model object
         $dia = new Dia();
 
+
         # Set the parameters
         $dia->numDia = $dia1;
         setlocale(LC_TIME, 'es_ES');
@@ -198,6 +199,7 @@ class MesController extends Controller
         setlocale(LC_TIME, 'es_ES');
         $fecha = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano);
         $dia->diaSemana = strftime("%A", $fecha->getTimestamp());
+        $dia->diaSemana = "sááábado";
         if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo"){
             $dia->estatus = 0;
         }else{
@@ -208,6 +210,10 @@ class MesController extends Controller
         $dia->mes()->associate($mes);
 
         $dia->save();
+
+
+
+
 
         $start = new \DateTime($sucursal->horaInicio);
         $end = new \DateTime($sucursal->horaFin);
