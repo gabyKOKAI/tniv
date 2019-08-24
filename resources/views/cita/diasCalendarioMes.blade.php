@@ -67,7 +67,7 @@
                     <?php $diaEstatusDiseño = "dia_Cerrado" ?>
                 @endif
             @endif
-
+            {{$dia->diaSemana}}
             @if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo")
                 <div class="col-sm-1 {{$diaEstatusDiseño}}" align="center">
             @else
