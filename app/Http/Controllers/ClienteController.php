@@ -61,13 +61,14 @@ class ClienteController extends Controller
 	    $cliente = Cliente::where('user_id','=',$id)->first();
 
         if(!$cliente){
-            $cliente = new Cliente;
-            $cliente->id = -1;
+            return redirect('/')->with('warning', 'No tiene un cliente asociado, pongase en contacto con alguien de la sucursal.');
+        }else{
+            return view('cliente.cliente')->
+            with([  'cliente' => $cliente
+                ]);
         }
 
-        return view('cliente.cliente')->
-        with([  'cliente' => $cliente
-                ]);
+
 	}
 
 	public function guardar(Request $request,$id) {
