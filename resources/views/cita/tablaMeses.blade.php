@@ -13,7 +13,7 @@
             $mes1 = strftime("%B", $fecha->getTimestamp());
         ?>
         @if($anoAnt != $anoAct)
-
+            <span class="hidden-xs">
             @if($mesAnt < 12 and $anoAnt != 1900)
                 @foreach(range($mesAnt+1,12,1) as $mesVacio)
                     <div class="col-sm-2 mes_no_disponible" align="center">
@@ -26,6 +26,7 @@
                     </div>
                 @endforeach
             @endif
+            </span>
             <div class="col-sm-12">
                 <br>
             </div>
@@ -37,6 +38,7 @@
             ?>
          @endif
 
+        <span class="hidden-xs">
          @if($mesAnt+1 < $mesAct)
             @foreach(range($mesAnt+1,$mesAct-1,1) as $mesVacio)
                  <div class="col-sm-2 mes_no_disponible" align="center">
@@ -49,7 +51,7 @@
                     </div>
             @endforeach
          @endif
-
+        </span>
 
             @if($mes->id == $mesSelect->id)
                 <div class="col-sm-2 mes_activo" align="center">
@@ -71,6 +73,7 @@
         @if($anoAnt != $anoAct)
         @endif
     @endforeach
+    <span class="hidden-xs">
     @if($mesAnt < 12 and $anoAnt != 1900)
         @foreach(range($mesAnt+1,12,1) as $mesVacio)
              <div class="col-sm-2 mes_no_disponible" align="center">
@@ -83,6 +86,7 @@
                     </div>
         @endforeach
     @endif
+    </span>
 </div>
 @else
     <div class="container">

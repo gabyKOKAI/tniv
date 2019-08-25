@@ -98,7 +98,7 @@
                                                         <!-- @ else
                                                             <input type='submit' value='Cerrar' class='btn btn-cerrarH ' disabled>
                                                         @ endif-->
-                                                @elseif($mes->estatus=="Cerrado")
+                                                @else
                                                         <input type='submit' value='Abrir' class='btn btn-abrirH'>
                                                 @endif
                                             @else
@@ -140,7 +140,7 @@
                                             <br>
                                         @ endif-->
                                     </div>
-                                    <div class="col-sm-1" align="left">
+                                    <div class="col-sm-1" align="center">
                                     <form method='POST' action='/agendarCitaACliente'>
                                             {{ csrf_field() }}
                                             <input type="hidden" name="hora" value="{{$hora->id}}">

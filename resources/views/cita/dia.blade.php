@@ -12,6 +12,10 @@
         @if($diaSelect->id <> -1 and $diaSelect->estatus == 1)
                 @foreach($horasDia as $hora)
 
+
+                 @if($hora->estatus == 0)
+                    <span class="hidden-xs">
+                @endif
                 @if($hora->estatus == 1)
                     <div class="col-sm-2 border" align="center">
                 @else
@@ -34,6 +38,9 @@
                             @endif
                         </form>
                     </div>
+                 @if($hora->estatus == 0)
+                    </span>
+                @endif
                 @endforeach
         @endif
 </div>
