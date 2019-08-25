@@ -18,7 +18,12 @@
                         <?php $proxCita = session('proxCita'); ?>
                         @if($proxCita == -1)
                              <li class="dropdown" id="menu">
+
                                 <a href="/agendaCita">Solicitar Cita</a>
+                                <!--form method='POST' action='/agendaCita'>
+                                {{ csrf_field() }}
+                                <input type='submit' value='Solicitar Cita' class='btn btn-cerrar '>
+                                </form-->
                             </li>
                         @endif
                         @if($proxCita != -1)

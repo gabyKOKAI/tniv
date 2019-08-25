@@ -1,30 +1,30 @@
 @if($mes->id <> -1)
     <div class="row">
-        <div class="col-sm-12 align-self-center">
+        <div class="col-xs-12 align-self-center">
             <a href="{{ URL::to('mesVecino/a/'.$mes->id)}}" class="glyphicon glyphicon-chevron-left"></a>
             <a href="{{ URL::to('mesVecino/d/'.$mes->id)}}" class="glyphicon glyphicon-chevron-right"></a>
             <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
         </div>
         <span class="hidden-xs">
-            <div class="col-sm-1 border hidden-md-down" align="center">
+            <div class="col-xs-1 border hidden-md-down" align="center">
             Do
             </div>
-            <div class="col-sm-2 border" align="center">
+            <div class="col-xs-2 border" align="center">
             Lu
             </div>
-            <div class="col-sm-2 border" align="center">
+            <div class="col-xs-2 border" align="center">
             Ma
             </div>
-            <div class="col-sm-2 border" align="center">
+            <div class="col-xs-2 border" align="center">
             Mi
             </div>
-            <div class="col-sm-2 border" align="center">
+            <div class="col-xs-2 border" align="center">
             Ju
             </div>
-            <div class="col-sm-2 border" align="center">
+            <div class="col-xs-2 border" align="center">
             Vi
             </div>
-            <div class="col-sm-1 border" align="center">
+            <div class="col-xs-1 border" align="center">
             Sa
             </div>
         </span>
@@ -52,16 +52,16 @@
                 @if($dia->diaSemana == "domingo")
                     <?php $espacioDiv = 0 ?>
                 @endif
-                <div class="col-sm-{{$espacioDiv}}" align="center">
+                <div class="col-xs-{{$espacioDiv}}" align="center">
                     <br>
                 </div>
             @endif
 
 
             @if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo")
-                <div class="col-sm-1 border" align="center">
+                <div class="col-xs-1 border" align="center">
             @else
-                <div class="col-sm-2 border" align="center">
+                <div class="col-xs-2 border" align="center">
             @endif
             <form method='POST' action='/abrirCerrarDia/Mes'>
                 <span class="hidden-lg hidden-md hidden-sm">

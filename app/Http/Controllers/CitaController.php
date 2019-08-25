@@ -10,11 +10,14 @@ use tniv\Cita;
 use tniv\Cliente;
 use tniv\User;
 use Datetime;
+use URL;
+use Redirect;
 
 class CitaController extends Controller
 {
     public function citasDisponibles(Request $request, $idMes = -1,$idDia = -1)
     {
+        #dd($request);
         $request['estatus'] = "abierto";
         $meses = Mese::getMeses();
 
@@ -46,9 +49,12 @@ class CitaController extends Controller
             $horas = [];
         }
 
-
-		return view('cita.citasDisponibles')->
-		with([  'meses' => $meses,
+		#return view('cita.citasDisponibles')->with(
+		#return Redirect::to("agendaCita/3/60#mes_seleccionado_3")->with(
+		#return Route::view("/agendaCita/3/60#mes_seleccionado_3", "cita.citasDisponibles",
+		$url = URL::route('agendaCita') .'#mes_seleccionado_3';
+        return Redirect::to($url)->with(
+		[ 'meses' => $meses,
 		        'mesSelect' => $mes,
 		        'diasMes'=>$diasMes,
 		        'diaSelect' => $dia,

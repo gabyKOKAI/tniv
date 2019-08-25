@@ -92,7 +92,7 @@ Route::group(['middleware' => ['auth','cliente']], function () {
     Route::get('/clienteUser/{idUser}', 'ClienteController@clienteUser')->name('clienteUser');
     Route::put('/cliente/guardar/{id?}','ClienteController@guardar');
 
-    Route::get('/agendaCita/{idMes?}/{idDia?}','CitaController@citasDisponibles');
+    Route::get('/agendaCita/{idMes?}/{idDia?}','CitaController@citasDisponibles')->name('agendaCita');
     Route::post('/agendarCita','CitaController@agendarCita');
     Route::get('/cancelaCita/{id?}','CitaController@cancelarCita');
 
