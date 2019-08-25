@@ -35,18 +35,18 @@
                                         {{ csrf_field() }}
                                         <input type="hidden" name="dia" value="{{$dia->id}}">
                                         <input type="hidden" name="mes" value="{{$mes->id}}">
-                                        @if($mes->estatus=="Abierto" or $mes->estatus=="Inactivo")
+                                            @if($mes->estatus=="Abierto" or $mes->estatus=="Inactivo")
                                             @if($dia->estatus == 1)
                                                 <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
                                                     El día esta abierto <input type='submit' value='Cerrar Día' class='btn btn-cerrar '>
                                                 </div>
-                                            @elseif($mes->estatus=="Cerrado")
+                                            @else
                                                 <div class="col-sm-12 form-group required control-label red" align="center">
                                                     El día esta cerrado <input type='submit' value='Abrir Día' class='btn btn-abrir'>
                                                 </div>
                                             @endif
                                         @else
-                                        @if($dia->estatus == 1)
+                                            @if($dia->estatus == 1)
                                                 <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
                                                     El día esta abierto <input type='submit' value='Cerrar Día' class='btn btn-cerrar ' disabled>
                                                 </div>

@@ -55,7 +55,7 @@ class User extends Authenticatable
         }
         if($rol == 'Admin'){
             if(in_array($route, ['usuario','usuarios'])){
-                $estatus = ['Admin', 'AdminSucursal','Cliente', 'ClienteNuevo', 'Inactivo'];
+                $estatus = ['Admin', 'AdminSucursal', 'Inactivo'];
             }elseif(in_array($route, ['cliente','clientes'])){
                 $estatus = ['Cliente', 'ClienteNuevo', 'Inactivo'];
             }
