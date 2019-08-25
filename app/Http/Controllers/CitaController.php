@@ -49,11 +49,11 @@ class CitaController extends Controller
             $horas = [];
         }
 
-		#return view('cita.citasDisponibles')->with(
+		return view('cita.citasDisponibles')->with(
 		#return Redirect::to("agendaCita/3/60#mes_seleccionado_3")->with(
 		#return Route::view("/agendaCita/3/60#mes_seleccionado_3", "cita.citasDisponibles",
-		$url = URL::route('agendaCita') .'#mes_seleccionado_3';
-        return Redirect::to($url)->with(
+		#$url = URL::route('agendaCita') .'#mes_seleccionado_3';
+        #return Redirect::to($url)->with(
 		[ 'meses' => $meses,
 		        'mesSelect' => $mes,
 		        'diasMes'=>$diasMes,
