@@ -11,6 +11,7 @@ use tniv\Cita;
 use tniv\Cliente;
 use DateTime;
 use Session;
+date_default_timezone_set("America/Mexico_City");
 
 class DiaController extends Controller
 {
@@ -31,8 +32,26 @@ class DiaController extends Controller
             foreach ($horasDia as $hora){
                 $hora->citas = Cita::where('hora_id','=',$hora->id)->get();
                 $citasActivas = 0;
+
+                $fecha_actual = new DateTime("now");
+                $fecha_dada = Cita::regresaFechaFormato($hora);
+                $hora->pasada = 0;
+
+                if($fecha_actual > $fecha_dada){
+                    $hora->pasada = 1;
+                }
+
                 foreach ($hora->citas as $cita){
                     $cita->nomCliente = Cliente::find($cita->cliente_id)->nombre;
+
+                    $fecha_actual = new DateTime("now");
+                    $fecha_dada = Cita::regresaFechaFormato($hora);
+                    $cita->pasada = 0;
+
+                    if($fecha_actual > $fecha_dada){
+                        $cita->pasada = 1;
+                    }
+
                     if(in_array($cita->estatus, ['Agendada','Tomada','Perdida'])){
                         $citasActivas = $citasActivas + 1;
                     }
@@ -123,4 +142,5 @@ class DiaController extends Controller
             return redirect('/dia/'.$dia->id)->with('success', 'Se '.$res.' el dia '.$dia->numDia)->withInput();
         }
 	 }
+
 }

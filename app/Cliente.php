@@ -42,4 +42,25 @@ class Cliente extends Model
 
         return $clientes;
     }
+
+    public static function getNumServicio($id = -1){
+        $usuario = auth()->user();
+        if($usuario){
+            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                $cliente = Cliente::find($id);
+                if($cliente){
+                    return 0; #GOP falta obterner el numero de servicios
+                }else{
+                    return 0;
+                }
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+                return 1; #GOP falta obterner el numero de servicios
+            }
+        }else{
+            return 0;
+        }
+
+
+    }
 }

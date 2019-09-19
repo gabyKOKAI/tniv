@@ -5,6 +5,8 @@ namespace tniv;
 use Illuminate\Database\Eloquent\Model;
 use tniv\Sucursale;
 use Session;
+use DateTime;
+date_default_timezone_set("America/Mexico_City");
 
 class Mese extends Model
 {
@@ -60,5 +62,23 @@ class Mese extends Model
                         ->paginate(15,['*'], 'meses_p')->appends($queries);
 
         return $meses ;
+    }
+
+    public static function cerrarMes()
+    {
+        $fecha = new DateTime();
+        $fecha->modify('-1 month');
+
+        $ano1 = strftime("%Y", $fecha->getTimestamp());
+        $mes1 = strftime("%m", $fecha->getTimestamp());
+
+        foreach(range(1, $mes1, 1) as $mes2){
+            $meses = Mese::where('mes','=',$mes2)->where('ano','=',$ano1)->get();
+
+            foreach($meses as $mes){
+                $mes->estatus = "Cerrado";
+                $mes->save();
+            }
+        }
     }
 }

@@ -99,7 +99,11 @@
                                                             <input type='submit' value='Cerrar' class='btn btn-cerrarH ' disabled>
                                                         @ endif-->
                                                 @else
+                                                    @if($hora->pasada == 0)
                                                         <input type='submit' value='Abrir' class='btn btn-abrirH'>
+                                                    @else
+                                                        <input type='submit' value='Abrir' class='btn btn-abrirH' disabled>
+                                                    @endif
                                                 @endif
                                             @else
                                                 @if($hora->estatus == 1)
@@ -116,16 +120,24 @@
 
                                                     <!--input type='text' name='cita' id='cita' value='{{$cita->nomCliente}}'  class='' disabled-->
                                                     <div class="col-sm-3 estatusCita_{{$cita->estatus}}" align="left" id="iconoCita">
-                                                        @if($cita->estatus == 'Agendada')
-                                                            <a href="{{ URL::to('/cancelaCita/'.$cita->id)}}" class="glyphicon glyphicon-remove-sign aIconosCitas"></a>
+                                                        @if($cita->estatus == 'Agendada' or $cita->estatus == 'Valoracion')
+                                                            @if($cita->pasada == 0 or in_array(Auth::user()->rol, ['Master','Admin']))
+                                                                <a href="{{ URL::to('/cancelaCita/'.$cita->id)}}" class="glyphicon glyphicon-remove-sign aIconosCitas"></a>
+                                                            @endif
                                                             <a href="{{ URL::to('/tomoCita/'.$cita->id)}}" class="glyphicon glyphicon-ok-sign aIconosCitas"></a>
                                                             <a href="{{ URL::to('/perdioCita/'.$cita->id)}}" class="glyphicon glyphicon-minus-sign aIconosCitas"></a>
                                                         @endif
-                                                        @if(in_array($cita->estatus, ['Cancelada']) and $hora->citasActivas<$hora->numCitasMax)
+                                                        @if(in_array($cita->estatus, ['Cancelada']) and $hora->citasActivas<$hora->numCitasMax and ($cita->pasada == 0 or in_array(Auth::user()->rol, ['Master','Admin'])))
                                                             <a href="{{ URL::to('/reagendaCita/'.$cita->id)}}" class="glyphicon glyphicon-repeat aIconosCitas"></a>
                                                         @endif
-                                                        @if(in_array($cita->estatus, ['Tomada','Perdida']) and in_array(Auth::user()->rol, ['Master','Admin']))
+                                                        @if(in_array($cita->estatus, ['Perdida']) and $hora->citasActivas<$hora->numCitasMax and in_array(Auth::user()->rol, ['Master','Admin']))
                                                             <a href="{{ URL::to('/reagendaCita/'.$cita->id)}}" class="glyphicon glyphicon-repeat aIconosCitas"></a>
+                                                        @endif
+                                                        @if(in_array($cita->estatus, ['Tomada','VTomada']) and in_array(Auth::user()->rol, ['Master','Admin']))
+                                                            <a href="{{ URL::to('/reagendaCita/'.$cita->id)}}" class="glyphicon glyphicon-repeat aIconosCitas"></a>
+                                                        @endif
+                                                        @if($cita->estatus == 'Valoracion' or $cita->estatus == 'VTomada')
+                                                            <span class="glyphicon glyphicon glyphicon-list-alt"></span>
                                                         @endif
 
 
@@ -147,17 +159,17 @@
                                             <input type="hidden" name="estatus" value="Activo">
                                             @if($mes->estatus=="Abierto" or $mes->estatus=="Inactivo")
                                                 @if($hora->estatus == 1 and $hora->citasActivas<$hora->numCitasMax)
-                                                    <input type='submit' value='Agendar Cita' class='btn btn-cerrarH '>
+                                                    <input type='submit' value='Agendar' class='btn btn-cerrarH '>
                                                 @else
                                                     @if($hora->estatus == 1)
                                                         <input type='submit' value='Cupo Completo' class='btn btn-abrirH ' disabled>
                                                     @else
-                                                        <input type='submit' value='Cerrado' class='btn btn-abrirH ' disabled>
+                                                        <input type='submit' value='Agendar' class='btn btn-cerrarH '>
                                                     @endif
                                                 @endif
                                             @elseif($mes->estatus=="Cerrado")
                                                 @if($hora->estatus == 1 and $hora->citasActivas<$hora->numCitasMax)
-                                                    <input type='submit' value='Agendar Cita' class='btn btn-cerrarH 'disabled>
+                                                    <input type='submit' value='Agendar' class='btn btn-cerrarH 'disabled>
                                                 @else
                                                     @if($hora->estatus == 1)
                                                         <input type='submit' value='Cupo Completo' class='btn btn-abrirH ' disabled>

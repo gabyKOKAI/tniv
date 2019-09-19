@@ -15,8 +15,10 @@
 
                     @if(in_array(Auth::user()->rol, ['Cliente']))
                     <li class="dropdown">
-                        <?php $proxCita = session('proxCita'); ?>
-                        @if($proxCita == -1)
+                        <?php $numCitas = session('numCitas'); ?>
+                        <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
+                        <?php $numCitasPosibles = session('numCitasPosibles'); ?>
+                        @if($numCitas < 5 and $numCitasTomPerAg<$numCitasPosibles)
                              <li class="dropdown" id="menu">
 
                                 <a href="/agendaCita">Solicitar Cita</a>
@@ -26,13 +28,23 @@
                                 </form-->
                             </li>
                         @endif
-                        @if($proxCita != -1)
+                        @if($numCitas > 0)
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    Próxima cita el {{$proxCita}}<span class="caret"></span>
+                                Citas   <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="/cancelaCita">Cancelar Cita</a></li>
+                                    <li>Agendadas:{{$numCitas}}</li>
+                                    <li>Tomadas:{{$numCitasTomPerAg - $numCitas}} de {{$numCitasPosibles}}</li>
+                            @foreach($proxCitas as $cita)
+                                    @if($cita->diferenciaDias >= 3)
+                                        <li><a href="/cancelaCita/{{$cita->id}}">Cancelar cita del {{$cita->fecha}}</a></li>
+                                    @else
+                                        <li><a href="/pierdeCita/{{$cita->id}}">Perder cita del {{$cita->fecha}}</a></li>
+                                    @endif
+                            @endforeach
                             </ul>
+                            </li>
                         @endif
                     </li>
                     @endif

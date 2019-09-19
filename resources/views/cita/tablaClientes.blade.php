@@ -27,7 +27,7 @@
                                     <th class="center"># Cliente </th>
                                     <th class="center">Nombre</th>
                                     <th class="center">Correo</th>
-                                    <th class="center">Acción</th>
+                                    <th class="center" colspan="2" >Agendar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -37,12 +37,20 @@
                                         <td>{{$cliente->nombre}}</td>
                                         <td>{{$cliente->correo}}</td>
                                         <td>
-                                         <form method='POST' action='/agendarCita'>
-                                            {{ csrf_field() }}
-                                            <input type="hidden" name="hora" value="{{$hora->id}}">
-                                            <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
-                                            <input type='submit' value='Agendar Cita' class='btn btn-cerrarH '>
-                                        </form>
+                                            <form method='POST' action='/agendarCita'>
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="hora" value="{{$hora->id}}">
+                                                <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
+                                                <input type='submit' value='Cita' class='btn btn-cerrarH '>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form method='POST' action='/agendarValoracion'>
+                                                {{ csrf_field() }}
+                                                <input type="hidden" name="hora" value="{{$hora->id}}">
+                                                <input type="hidden" name="id_cliente" value="{{$cliente->id}}">
+                                                <input type='submit' value='Valoración' class='btn btn-cerrarH '>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach

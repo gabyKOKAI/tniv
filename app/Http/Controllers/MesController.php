@@ -9,6 +9,7 @@ use tniv\Dia;
 use tniv\Hora;
 use DateTime;
 use Session;
+setlocale(LC_TIME, 'es_ES');
 
 class MesController extends Controller
 {
@@ -196,7 +197,8 @@ class MesController extends Controller
         setlocale(LC_TIME, 'es_ES');
         $formato = 'd-m-Y';
         #$diaSemana = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano)->format('l');
-        setlocale(LC_TIME, 'es_ES.UTF8');
+        #setlocale(LC_TIME, 'es_ES.UTF8'); ##GOP ojo cambiar en produccion
+        setlocale(LC_TIME, 'es_ES');
         $fecha = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano);
         $dia->diaSemana = strftime("%A", $fecha->getTimestamp());
         if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo"){

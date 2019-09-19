@@ -3,6 +3,10 @@
 use Illuminate\Http\Request;
 use tniv\Sucursale;
 use tniv\Cita;
+use tniv\Cliente;
+use tniv\Hora;
+use tniv\Dia;
+use tniv\Mese;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,9 +20,22 @@ use tniv\Cita;
 
 Route::get('/', function (Request $request) {
     $sucursales = Sucursale::getSucursales();
+
+    Hora::cerrarHoraSucursales();
+    Dia::cerrarDia();
+    Mese::cerrarMes();
+
+
     $request->session()->put('sucursalesSession', $sucursales);
-    $proxCita = Cita::getProximaCita();
-    $request->session()->put('proxCita', $proxCita);
+    $proxCitas = Cita::getProximasCitas();
+    $request->session()->put('proxCitas', $proxCitas);
+    $numCitas = Cita::getNumCitas(-1);
+    $request->session()->put('numCitas', $numCitas);
+    $numCitasTomPerAg = Cita::getNumCitasTomPerAg(-1);
+    $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
+
+    $numCitasPosibles = $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
+    $request->session()->put('numCitasPosibles', $numCitasPosibles);
 
     if(Session::get('sucursalSession1')){
         $suc = Session::get('sucursalSession1');
@@ -94,7 +111,9 @@ Route::group(['middleware' => ['auth','cliente']], function () {
 
     Route::get('/agendaCita/{idMes?}/{idDia?}','CitaController@citasDisponibles')->name('agendaCita');
     Route::post('/agendarCita','CitaController@agendarCita');
+    Route::post('/agendarValoracion','CitaController@agendarValoracion');
     Route::get('/cancelaCita/{id?}','CitaController@cancelarCita');
+    Route::get('/pierdeCita/{id?}','CitaController@perderCita');
 
 });
 

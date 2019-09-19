@@ -63,7 +63,7 @@
             @endif
             <form method='POST' action='/abrirCerrarDia/Mes'>
                 <a href="{{ URL::to('dia/'.$dia->id)}}">{{$dia->numDia}}</a>
-                <span class="hidden-xs">
+                <span class="hidden-sm">
                     <br>
                 </span>
 
