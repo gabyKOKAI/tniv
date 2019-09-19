@@ -23,11 +23,10 @@ class Hora extends Model
     }
 
     public static function cerrarHoraSucursales(){
-        ##GOP posible archivo de configuracion
-        Hora::cerrarHora("2","1");
-        Hora::cerrarHora("22","2");
-        Hora::cerrarHora("2","3");
-        Hora::cerrarHora("2","4");
+        $sucursales = Sucursale::getSucursales();
+        foreach($sucursales as $sucursal){
+            Hora::cerrarHora($sucursal->horasCancelar,$sucursal->id);
+        }
     }
 
     public static function cerrarHora($tiempo,$sucursal)

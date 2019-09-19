@@ -8,6 +8,7 @@
                 <span class="icon-bar"></span>
             </button>
         </div>
+        <?php $sucsSes = session('sucursalesSession'); ?>
         <div class="collapse navbar-collapse center">
             <ul class="nav navbar-nav center">
                 <?php $sucSes = session('sucursalSession'); ?>
@@ -37,8 +38,8 @@
                                     <li>Agendadas:{{$numCitas}}</li>
                                     <li>Tomadas:{{$numCitasTomPerAg - $numCitas}} de {{$numCitasPosibles}}</li>
                             @foreach($proxCitas as $cita)
-                                    @if($cita->diferenciaDias >= 3)
-                                        <li><a href="/cancelaCita/{{$cita->id}}">Cancelar cita del {{$cita->fecha}}</a></li>
+                                    @if($cita->diferenciaDias >= $sucSes->horasCancelar)
+                                        <li><a href="/cancelaCita/{{$cita->id}}">Cancelar cita del {{$cita->fecha}} </a></li>
                                     @else
                                         <li><a href="/pierdeCita/{{$cita->id}}">Perder cita del {{$cita->fecha}}</a></li>
                                     @endif
@@ -104,7 +105,6 @@
                     @if(Session::has('sucursalesSession'))
 
                         <li class="dropdown" id="menu">
-                            <?php $sucsSes = session('sucursalesSession'); ?>
                             @if(count($sucsSes)>1)
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                                         {{$sucSes->nombre}} <span class="caret"></span>
