@@ -49,7 +49,7 @@ class Cliente extends Model
             if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
                 $cliente = Cliente::find($id);
                 if($cliente){
-                    return 0; #GOP falta obterner el numero de servicios
+                    return 1; #GOP falta obterner el numero de servicios
                 }else{
                     return 0;
                 }

@@ -129,7 +129,9 @@ class CitaController extends Controller
                 if($tipo == "valoracion" and ($numCitas+$numCitasTomadas+$numCitasValoracion<=0)){
                     $cita->estatus = "Valoracion";
                 }else{
-                    $tipo = "cita, ya no puede agendar valoracion,";
+                    if($tipo == "valoracion"){
+                        $tipo = "cita, ya no puede agendar valoracion,";
+                    }
                     $cita->estatus = "Agendada"; #'Agendada', 'Cancelada', 'Tomada', 'Perdida','Valoracion','VTomada'
                 }
                 $cita->hora_id = $request['hora'];

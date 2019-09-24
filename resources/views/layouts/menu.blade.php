@@ -107,7 +107,7 @@
                         <li class="dropdown" id="menu">
                             @if(count($sucsSes)>1)
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                        {{$sucSes->nombre}} <span class="caret"></span>
+                                        {{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar<span class="caret"></span>
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -117,8 +117,8 @@
                                 </ul>
                             @else
                                 @if(Session::has('sucursalSession'))
-                                    <a>{{$sucSes->nombre}}</a>
-                            @endif
+                                    <a>{{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar</a>
+                                @endif
                         </li>
                     @endif
                     <li class="dropdown">
