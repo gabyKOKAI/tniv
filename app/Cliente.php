@@ -18,7 +18,7 @@ class Cliente extends Model
     public static function getClientes()
     {
         $clientes = Cliente::join('sucursalesUsuarios', 'clientes.user_id', '=', 'sucursalesUsuarios.usuario_id')
-            ->select('clientes.id', 'clientes.nombre', 'clientes.numCliente', 'clientes.correo', 'sucursalesUsuarios.estatus', 'clientes.estatus')
+            ->select('clientes.id', 'clientes.nombre', 'clientes.numCliente', 'clientes.correo', 'sucursalesUsuarios.estatus', 'clientes.estatus','clientes.user_id')
             ->where('sucursalesUsuarios.sucursal_id', '=', Session::get('sucursalSession')->id)
             ->where('sucursalesUsuarios.estatus', '=', 1);
         $queries = [];

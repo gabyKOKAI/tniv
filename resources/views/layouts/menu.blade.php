@@ -17,8 +17,6 @@
                     @if(in_array(Auth::user()->rol, ['Cliente']))
                     <li class="dropdown">
                         <?php $numCitas = session('numCitas'); ?>
-                        <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
-                        <?php $numCitasPosibles = session('numCitasPosibles'); ?>
                         @if($numCitas < 5 and $numCitasTomPerAg<$numCitasPosibles)
                              <li class="dropdown" id="menu">
 
@@ -35,8 +33,6 @@
                                 Citas   <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                    <li>Agendadas:{{$numCitas}}</li>
-                                    <li>Tomadas:{{$numCitasTomPerAg - $numCitas}} de {{$numCitasPosibles}}</li>
                             @foreach($proxCitas as $cita)
                                     @if($cita->diferenciaDias >= $sucSes->horasCancelar)
                                         <li><a href="/cancelaCita/{{$cita->id}}">Cancelar cita del {{$cita->fecha}} </a></li>
@@ -127,6 +123,13 @@
                         </a>
 
                         <ul class="dropdown-menu">
+                            <?php $numCitas = session('numCitas'); ?>
+                            <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
+                            <?php $numCitasPosibles = session('numCitasPosibles'); ?>
+
+                            <li>Agendadas:{{$numCitas}}</li>
+                            <li>Tomadas:{{$numCitasTomPerAg - $numCitas}} de {{$numCitasPosibles}}</li>
+                            <li><a href="/clienteUser/{{Auth::user()->id}}">Perfil</a></li>
                             <li>
                                 <a href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
@@ -138,7 +141,6 @@
                                     {{ csrf_field() }}
                                 </form>
                             </li>
-                            <li><a href="/clienteUser/{{Auth::user()->id}}">Perfil</a></li>
 
                         </ul>
                     </li>

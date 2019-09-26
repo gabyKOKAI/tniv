@@ -37,7 +37,7 @@
                                         <td>{{$cliente->numCliente}}</td>
                                         <td><a href="{{ URL::to('cliente/'.$cliente->id)}}">{{$cliente->nombre}}</a></td>
                                         @if(in_array(Auth::user()->rol, ['Master','Admin']))
-                                            <td><a href="{{ URL::to('usuario/'.$cliente->user_id)}}">{{$cliente->correo}}</a></td>
+                                            <td><!--a href="{ { URL::to('usuario/'.$cliente->user_id)} }"-->{{$cliente->correo}}<!--/a--></td>
                                         @else
                                             <td>{{$cliente->correo}}</td>
                                         @endif

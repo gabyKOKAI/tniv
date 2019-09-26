@@ -40,8 +40,8 @@
                     <!--br>
                     VINT
                     <br-->
-                    <!--img src="{{URL::asset('/images/vint.jpg')}}" class="img-responsive" title="Vint"-->
-                   <img src='http://vint.mx/images/vint_blanco.png?crc=31914949' alt='Vint Logo' class="center">
+                    <img src="{{URL::asset('/images/vint.jpg')}}" class="img-responsive imgLogo2" title="Vint">
+                   <!--img src='http://vint.mx/images/vint_blanco.png?crc=31914949' alt='Vint Logo' class="center"-->
                 </div>
                 <div class="col-md-3">
                     @if (Auth::check())

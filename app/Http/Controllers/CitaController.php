@@ -12,6 +12,7 @@ use tniv\User;
 use Datetime;
 use URL;
 use Redirect;
+use Mail;
 
 class CitaController extends Controller
 {
@@ -89,6 +90,22 @@ class CitaController extends Controller
         return $this->agendarCitas($request, "valoracion");
     }
 
+    public function enviarCorreo($nombre, $correo, $subject, $mensaje)
+    {
+        $data = array('nombre'=>$nombre,
+                    'mensaje'=>$mensaje);
+        $emails = array($correo);
+        $emailsBCC = array('gaby@kokai.com.mx');
+
+        $res = Mail::send('emails.contacto',$data, function ($message) use ($emails, $emailsBCC, $subject) {
+			$message->from('contacto@vint.mx','VINT');
+			$message->to($emails);
+			$message->bcc($emailsBCC);
+			$message->subject('[VINT] '.$subject);
+ 		});
+ 		return $res;
+    }
+
     public function agendarCitas(Request $request, $tipo)
     {
         $hora = Hora::find($request['hora']);
@@ -138,6 +155,18 @@ class CitaController extends Controller
                 $cita->cliente_id = $cliente->id;
 
                 $cita->save();
+
+                #Enviar correo
+                $agendadas =  Cita::getNumCitas($request['id_cliente']);
+                $tomadas = Cita::getNumCitasTomPerAg($request['id_cliente']);
+                $posibles = 21*Cliente::getNumServicio($request['id_cliente']);
+                $mensaje = [];
+                $mensaje[0] = "Quedó agendada su ". $tipo.' del '.$fecha.'.';
+                $mensaje[1] = "Le recordamos que tiene agendades ".$agendadas." citas y ha tomado ".$tomadas." de ".$posibles.".";
+                $mensaje[2] = "Para cualquier cambio o cancelación, favor de hacerlo directamente en la página o comunicarte con nosotros.";
+                $mensaje[3] = "Muchas Gracias";
+                $mensaje[4] = "";
+                $this->enviarCorreo($cliente->nombre, $cliente->correo, 'Cita agendada el '.$fecha, $mensaje);
 
                 if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
                     return redirect('dia/'.$dia->id)->with('success', 'Quedó agendada la '. $tipo .' para '.$cliente->nombre.' el '.$fecha);
@@ -189,6 +218,18 @@ class CitaController extends Controller
         $hora = Hora::find($cita->hora_id);
         $dia = Dia::find($hora->dia_id);
         $fecha = Cita::regresaFecha($hora);
+
+        #Enviar correo
+        $agendadas =  Cita::getNumCitas($request['id_cliente']);
+        $tomadas = Cita::getNumCitasTomPerAg($request['id_cliente']);
+        $posibles = 21*Cliente::getNumServicio($request['id_cliente']);
+        $mensaje = [];
+        $mensaje[0] = 'Quedó '.$estatus.' su cita del '.$fecha.'.';
+        $mensaje[1] = "Le recordamos que tiene agendades ".$agendadas." citas y ha tomado ".$tomadas." de ".$posibles.".";
+        $mensaje[2] = "Para cualquier cambio o cancelación, favor de hacerlo directamente en la página o comunicarte con nosotros.";
+        $mensaje[3] = "Muchas Gracias";
+        $mensaje[4] = "";
+        $this->enviarCorreo($cliente->nombre, $cliente->correo, 'Cita '.$estatus.' el '.$fecha, $mensaje);
 
         if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
             return redirect('dia/'.$dia->id)->with('success', 'Quedó '.$estatus.' la cita para el cliente '.$cliente->nombre.' el '.$fecha);

@@ -34,7 +34,7 @@ Route::get('/', function (Request $request) {
     $numCitasTomPerAg = Cita::getNumCitasTomPerAg(-1);
     $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
 
-    $numCitasPosibles = $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
+    $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
     $request->session()->put('numCitasPosibles', $numCitasPosibles);
 
     if(Session::get('sucursalSession1')){
@@ -120,5 +120,7 @@ Route::group(['middleware' => ['auth','cliente']], function () {
 Route::group(['middleware' => ['auth','clienteNuevo']], function () {
     Route::get('/clienteUser/{idUser}', 'ClienteController@clienteUser')->name('clienteUser');
     Route::put('/cliente/guardar/{id?}','ClienteController@guardar');
+
+    Route::get('/contacto', function () {return view('emails.contacto');});
 });
 

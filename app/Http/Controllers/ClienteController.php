@@ -105,7 +105,7 @@ class ClienteController extends Controller
             if (!$usuario) {
                 $usuario = new User;
                 $res1 = "creado";
-                $usuario->password = 'TEPORALkokai123456.!*';
+                #$usuario->password = 'TEPORALkokai123456.!*';
                 $usuario->email = $request->input('correo');
             }else{
                 $res1 = "actualizado";

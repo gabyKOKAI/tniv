@@ -9,8 +9,15 @@
 }
 
 .imgLogo{
-	background-color: #00a299;
+	background-color: #02b1aa;
 	color:white;
+	height:200px;
+}
+
+.imgLogo2{
+	background-color: #02b1aa;
+	color:white;
+	height:190px;
 }
 
 #iconoCita a:link {
@@ -33,7 +40,7 @@ a:link {
 
 /* visited link */
 a:visited {
-  color: lightblue;
+  color: darkblue;
 }
 
 /* mouse over link */
