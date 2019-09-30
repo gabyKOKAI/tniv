@@ -3,7 +3,7 @@
         <div class="col-sm-12" align="center">
             <br>
         </div>
-        <div class="col-sm-12 azul border align-self-center">
+        <div class="col-sm-12 tituloTablaCitas border align-self-center">
             Dias Disponibles para el mes de {{$mesSelectedNombre}} del {{$mesSelect->ano}}:
         </div>
     </div>

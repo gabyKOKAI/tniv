@@ -1,5 +1,5 @@
 @if(count($meses)>0)
-    <a href="{{ URL::to('mes/-1/')}}" class="btn btn-primary btn-small">Crear Mes de otro año</a>
+    <a href="{{ URL::to('mes/-1/')}}" class="btn btn-primary btn-small grisC">Crear Mes de otro año</a>
     <?php
         $anoAnt = 1900;
         $mesAnt = 0;
@@ -27,7 +27,7 @@
                                 $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
                                 $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
                             ?>
-                            <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-primary btn-small'>
+                            <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-crear-mes'>
                         </form>
                     </div>
                 @endforeach
@@ -57,7 +57,7 @@
                             $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
                             $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
                         ?>
-                        <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-primary btn-small'>
+                        <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-crear-mes'>
                     </form>
                 </div>
             @endforeach
@@ -91,7 +91,7 @@
                         $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
                         $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
                     ?>
-                    <input type='submit' value='Crear {{$mesVacio1}} {{$mes->ano}}' class='btn btn-primary btn-small'>
+                    <input type='submit' value='Crear {{$mesVacio1}} {{$mes->ano}}' class='btn btn-crear-mes'>
                 </form>
             </div>
         @endforeach

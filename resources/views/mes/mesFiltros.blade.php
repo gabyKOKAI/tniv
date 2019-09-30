@@ -7,9 +7,17 @@
 
                 <div class="col-sm-12 form-group control-label" align="left">
                     <label for='ano'>Año</label>
-                        <a href="/meses" class="btn btn-filtro">Todos</a>
+                            @if($anoSelected=="")
+                                <a href="/meses" class="btn btn-filtroSelected">Todos</a>
+                            @else
+                                <a href="/meses" class="btn btn-filtro">Todos</a>
+                            @endif
                         @foreach($anosForDropdown as $ano1)
-                            <a href="/meses/{{$ano1->ano}}" class="btn btn-filtro">{{$ano1->ano}}</a>
+                            @if($anoSelected==$ano1->ano)
+                                <a href="/meses/{{$ano1->ano}}" class="btn btn-filtroSelected">{{$ano1->ano}}</a>
+                            @else
+                                <a href="/meses/{{$ano1->ano}}" class="btn btn-filtro">{{$ano1->ano}}</a>
+                            @endif
                         @endforeach
                     </select>
                 </div>

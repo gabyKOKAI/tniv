@@ -263,29 +263,35 @@ class CitaController extends Controller
         #$cita = Cita::where('cliente_id','=',$cliente->id)->where('estatus','=','Agendada')->first();
         $hora = Hora::find($cita->hora_id);
         $dia = Dia::find($hora->dia_id);
-        $cita = Cita::join('horas', 'citas.hora_id', '=', 'horas.id')
-            ->join('dias', 'horas.dia_id', '=', 'dias.id')
-            ->join('meses', 'dias.mes_id', '=', 'meses.id')
-            ->join('clientes', 'citas.cliente_id', '=', 'clientes.id')
-            ->where('cliente_id','=',$cliente->id)
-            ->where('dias.numDia','=',$dia->numDia)
-            ->whereIn('citas.estatus',['Agendada','Valoracion','Tomada','VTomada'])
-            ->select('horas.hora', 'dias.numDia','meses.mes','meses.ano','clientes.nombre','citas.estatus','dias.id as diaId','meses.id as mesId' )
-            ->first();
 
-        if(!$cita){
+        if($cita->estatus == 'Cancelada'){
+            $cita = Cita::join('horas', 'citas.hora_id', '=', 'horas.id')
+                ->join('dias', 'horas.dia_id', '=', 'dias.id')
+                ->join('meses', 'dias.mes_id', '=', 'meses.id')
+                ->join('clientes', 'citas.cliente_id', '=', 'clientes.id')
+                ->where('cliente_id','=',$cliente->id)
+                ->where('dias.numDia','=',$dia->numDia)
+                ->whereIn('citas.estatus',['Agendada','Valoracion','Tomada','VTomada'])
+                ->select('horas.hora', 'dias.numDia','meses.mes','meses.ano','clientes.nombre','citas.estatus','dias.id as diaId','meses.id as mesId' )
+                ->first();
+
+                if(!$cita){
+                    return $this->modificarEstatusCita($request, $id, "Agendada");
+                }else
+                {
+                    #$hora = Hora::find($cita->hora_id);
+                    #$dia = Dia::find($hora->dia_id);
+                    $fecha = Cita::regresaFecha($hora);
+                    if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                        return redirect('dia/'.$dia->id)->with('error', 'El cliente '.$cliente->nombre.' ya tiene 1 cita agendada este dia');
+                    }else{
+                        return redirect('/agendaCita/'.$cita->mesId.'/'.$cita->diaId)->with('error', 'Ya tiene una cita agendada este día.');
+                    }
+                }
+        }else{
             return $this->modificarEstatusCita($request, $id, "Agendada");
-        }else
-        {
-            #$hora = Hora::find($cita->hora_id);
-            #$dia = Dia::find($hora->dia_id);
-            $fecha = Cita::regresaFecha($hora);
-            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
-                return redirect('dia/'.$dia->id)->with('error', 'El cliente '.$cliente->nombre.' ya tiene una cita agendada el '.$fecha);
-            }else{
-                return redirect('/')->with('error', 'Ya tiene una cita agendada el '.$fecha);
-            }
         }
+
     }
 
 }

@@ -67,7 +67,8 @@ class Cita extends Model
         if($usuario){
             $cliente = Cliente::where('user_id','=',$usuario->id)->first();
             if($cliente){
-                $citas = Cita::where('cliente_id','=',$cliente->id)->whereIn('estatus',['Agendada','Valoracion'])->get();
+                #$citas = Cita::where('cliente_id','=',$cliente->id)->whereIn('estatus',['Agendada','Valoracion'])->get();
+                $citas = Cita::where('cliente_id','=',$cliente->id)->whereIn('estatus',['Agendada', 'Tomada', 'Perdida','Valoracion','VTomada'])->get();
                 $res = "";
                 foreach ($citas as $cita){
                     if($cita){
@@ -88,7 +89,7 @@ class Cita extends Model
                         }
                     }
                 }
-                $res = $citas->sortBy('codigoFecha');
+                $res = $citas->sortByDesc('codigoFecha');
             }
          }
         return $res;

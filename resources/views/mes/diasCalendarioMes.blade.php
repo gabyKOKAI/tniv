@@ -2,6 +2,7 @@
     <div class="row">
         <div class="col-xs-12 align-self-center">
             <a href="{{ URL::to('mesVecino/a/'.$mes->id)}}" class="glyphicon glyphicon-chevron-left"></a>
+            {{$mes->ano}} <a href="{{ URL::to('meses/'.$mes->ano)}}" class="glyphicon glyphicon-calendar"></a>
             <a href="{{ URL::to('mesVecino/d/'.$mes->id)}}" class="glyphicon glyphicon-chevron-right"></a>
             <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon-plus-sign"></a>
         </div>

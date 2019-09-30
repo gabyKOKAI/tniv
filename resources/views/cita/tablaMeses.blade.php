@@ -16,7 +16,7 @@
             <span class="hidden-xs">
             @if($mesAnt < 12 and $anoAnt != 1900)
                 @foreach(range($mesAnt+1,12,1) as $mesVacio)
-                    <div class="col-xs-2 mes_no_disponible" align="center">
+                    <div class="col-xs-4 col-sm-2 mes_no_disponible" align="center">
                         <?php
                             setlocale(LC_TIME, 'es_ES');
                             $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
@@ -30,7 +30,7 @@
             <div class="col-xs-12">
                 <br>
             </div>
-            <div class="col-xs-12 azul border align-self-center">
+            <div class="col-xs-12 tituloTablaCitas border align-self-center">
                 {{$mes->ano}}
             </div>
             <?php
@@ -41,7 +41,7 @@
         <span class="hidden-xs">
          @if($mesAnt+1 < $mesAct)
             @foreach(range($mesAnt+1,$mesAct-1,1) as $mesVacio)
-                 <div class="col-xs-2 mes_no_disponible" align="center">
+                 <div class="col-xs-4 col-sm-2 mes_no_disponible" align="center">
                         <?php
                             setlocale(LC_TIME, 'es_ES');
                             $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
@@ -54,12 +54,12 @@
         </span>
 
             @if($mes->id == $mesSelect->id)
-                <div class="col-xs-2 mes_activo" align="center">
+                <div class="col-xs-4 col-sm-2 mes_activo" align="center">
                     {{$mes1}}
                 </div>
             @else
                 <a id="mes_seleccionado_{{$mes->id}}" href="{{ URL::to('agendaCita/' . $mes->id)}}">
-                <div class="col-xs-2 mes_disponible" align="center">
+                <div class="col-xs-4 col-sm-2 mes_disponible" align="center">
                     {{$mes1}}
                 </div>
                 </a>
@@ -77,7 +77,7 @@
     <span class="hidden-xs">
     @if($mesAnt < 12 and $anoAnt != 1900)
         @foreach(range($mesAnt+1,12,1) as $mesVacio)
-             <div class="col-xs-2 mes_no_disponible" align="center">
+             <div class="col-xs-4 col-sm-2 mes_no_disponible" align="center">
                         <?php
                             setlocale(LC_TIME, 'es_ES');
                             $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);

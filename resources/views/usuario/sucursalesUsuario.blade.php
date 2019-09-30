@@ -3,7 +3,7 @@
     <div class="col-sm-12 " align="center">
         <br>
     </div>
-    <div class="col-sm-12 azul" align="center">
+    <div class="col-sm-12 tituloTablaCitas" align="center">
 
         Sucursales
     </div>

@@ -1,4 +1,4 @@
-<div class="col-sm-12 align-self-center">
+<div class="menuVint col-sm-12 align-self-center">
    <div class="navbar navbar-default center" role="navigation" id="navigation">
         <div class="navbar-header">
              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,32 +17,18 @@
                     @if(in_array(Auth::user()->rol, ['Cliente']))
                     <li class="dropdown">
                         <?php $numCitas = session('numCitas'); ?>
+                        <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
+                        <?php $numCitasPosibles = session('numCitasPosibles'); ?>
+                        <li class="dropdown">
+                            <a href="/">Citas</a>
+                        </li>
                         @if($numCitas < 5 and $numCitasTomPerAg<$numCitasPosibles)
                              <li class="dropdown" id="menu">
 
                                 <a href="/agendaCita">Solicitar Cita</a>
-                                <!--form method='POST' action='/agendaCita'>
-                                {{ csrf_field() }}
-                                <input type='submit' value='Solicitar Cita' class='btn btn-cerrar '>
-                                </form-->
                             </li>
                         @endif
-                        @if($numCitas > 0)
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                Citas   <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu">
-                            @foreach($proxCitas as $cita)
-                                    @if($cita->diferenciaDias >= $sucSes->horasCancelar)
-                                        <li><a href="/cancelaCita/{{$cita->id}}">Cancelar cita del {{$cita->fecha}} </a></li>
-                                    @else
-                                        <li><a href="/pierdeCita/{{$cita->id}}">Perder cita del {{$cita->fecha}}</a></li>
-                                    @endif
-                            @endforeach
-                            </ul>
-                            </li>
-                        @endif
+
                     </li>
                     @endif
 
@@ -96,7 +82,7 @@
             <ul class="nav navbar-nav navbar-right">
                 <!-- Authentication Links -->
                 @guest
-                    <li><a href="{{ route('login') }}">Login</a></li>
+                    <li><a href="{{ route('login') }}">Iniciar Sesión</a></li>
                 @else
                     @if(Session::has('sucursalesSession'))
 
@@ -150,4 +136,21 @@
             </ul>
         </div>
     </div>
+    @if(in_array(Auth::user()->rol, ['Master','Admin',"AdminSucursal"]))
+        <?php
+            date_default_timezone_set('America/Mexico_City');
+            $fecha = date('d/m/Y', time());
+            $mesFecha = date('m', time());
+            $mesFecha = DateTime::createFromFormat('!m', $mesFecha);
+            setlocale(LC_TIME, 'es');
+            $mesFecha1 = strftime("%B", $mesFecha->getTimestamp());
+            $anoFecha = date('Y', time());
+        ?>
+        <div class="col-sm-12 hidden-xs hidden-sm center">
+            Agenda: <a class="btn btn-pagInicio" href="/diaActual">Hoy ({{$fecha}})</a>
+            <a class="btn btn-pagInicio" href="/mesActual">{{$mesFecha1}}</a>
+            <a class="btn btn-pagInicio" href="/anoActual">{{$anoFecha}}</a>
+            <a class="btn btn-pagInicio" href="/meses">Meses<br></a>
+        </div>
+    @endif
 </div>

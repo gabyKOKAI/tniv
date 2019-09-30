@@ -9,7 +9,9 @@
                 <input type="hidden" name="hora" value="{{$hora->id}}">
                 <input type="hidden" name="estatus" value="Activo">
 
-
+                <div class="col-sm-2 form-group control-label" align="center">
+                    <a href="/dia/{{$hora->dia_id}}" class="btn btn-primary btn-small">Regresar</a>
+                </div>
                 <div class="col-sm-4 form-group control-label" align="center">
                         <label for='estatus'>Nombre:</label>
                         <input type="text" name="nombre" value='{{ app('request')->input('nombre') }}'>
