@@ -134,4 +134,61 @@ class Cita extends Model
         return Cita::getNumCitasEstatus($idCliente,['VTomada']);
     }
 
+
+    public static function tomarCitas()
+    {
+        $fecha = new DateTime();
+
+        $ano1 = strftime("%Y", $fecha->getTimestamp());
+        $mes1 = strftime("%m", $fecha->getTimestamp());
+        $dia1 = strftime("%d", $fecha->getTimestamp());
+        $hora1 = strftime("%H", $fecha->getTimestamp());
+        $min1 = (int)strftime("%M", $fecha->getTimestamp());
+
+
+	    $meses = Mese::where('mes','=',$mes1)->where('ano','=',$ano1)->get();
+
+	    foreach ($meses as $mes){
+            $dia = Dia::where('mes_id','=',$mes->id)->where('numDia','=',$dia1)->first();
+            foreach(range(1, $hora1, 1) as $hora2){
+                $dateAux = DateTime::createFromFormat('H', $hora2);
+                $horaAux = strftime("%H:00:00", $dateAux->getTimestamp());
+
+                $hora = Hora::where('dia_id','=',$dia->id)->where('hora','=',$horaAux)->first();
+                if($hora){
+                    $citas = Cita::where('hora_id','=',$hora->id)->get();
+                    foreach ($citas as $cita){
+                        if($cita->estatus == "Agendada"){
+                            $cita->estatus = "Tomada";
+                        }
+
+                        if($cita->estatus == "Valoracion"){
+                            $cita->estatus = "VTomada";
+                        }
+                        $cita->save();
+                    }
+                }
+
+                if($hora2<$hora1 or ($hora2=$hora1 and $min1>30)){
+                    $horaAux = strftime("%H:30:00", $dateAux->getTimestamp());
+                    $hora = Hora::where('dia_id','=',$dia->id)->where('hora','=',$horaAux)->first();
+                    if($hora){
+                        $citas = Cita::where('hora_id','=',$hora->id)->get();
+                        foreach ($citas as $cita){
+                            if($cita->estatus == "Agendada"){
+                                $cita->estatus = "Tomada";
+                            }
+
+                            if($cita->estatus == "Valoracion"){
+                                $cita->estatus = "VTomada";
+                            }
+                            $cita->save();
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+
 }

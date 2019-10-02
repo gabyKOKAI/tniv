@@ -107,6 +107,7 @@ class ClienteController extends Controller
                 $res1 = "creado";
                 #$usuario->password = 'TEPORALkokai123456.!*';
                 $usuario->email = $request->input('correo');
+                $usuario->rol = "";
             }else{
                 $res1 = "actualizado";
             }
@@ -114,13 +115,16 @@ class ClienteController extends Controller
                 # Set the parameters
                 $usuario->name = $request->input('nombre');
 
-                if(in_array($cliente->estatus, ['Activo', 'Terminado'])){
-                    $usuario->rol = 'Cliente';
-                }elseif(in_array($cliente->estatus, ['Inactivo'])){
-                    #$usuario->password = 'TEPORALkokai123456.!*?';
-                    $usuario->rol = 'Inactivo';
-                }elseif(in_array($cliente->estatus, ['ClienteNuevo', 'SinServicios'])){
-                    $usuario->rol = 'ClienteNuevo';
+
+                if(!in_array($usuario->rol,['Master', 'Admin', 'AdminSucursal'])){
+                    if(in_array($cliente->estatus, ['Activo', 'Terminado'])){
+                        $usuario->rol = 'Cliente';
+                    }elseif(in_array($cliente->estatus, ['Inactivo'])){
+                        #$usuario->password = 'TEPORALkokai123456.!*?';
+                        $usuario->rol = 'Inactivo';
+                    }elseif(in_array($cliente->estatus, ['ClienteNuevo', 'SinServicios'])){
+                        $usuario->rol = 'ClienteNuevo';
+                    }
                 }
                 $usuario->save();
 

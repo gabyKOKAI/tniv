@@ -22,34 +22,29 @@
 </head>
 <body>
     <?php setlocale(LC_TIME, 'es_ES'); ?>
-    <header class="imgLogo">
-        <div class="container center imgLogo">
+    <header class="imgLogo ">
+        <!--div class="container center"-->
             <div class="row">
-                <div class="col-sm-3 align-self-left">
+                <div class="col-xs-0 col-sm-5 col-md-5 left">
                     <!--a class="btn btn-info" href="{{ URL::previous() }}">back</a-->
                 </div>
-                <div class="col-sm-6 align-self-center">
-                    <!--br>
-                    VINT
-                    <br-->
+                <div class="col-xs-3 col-sm-2 col-md-2 center">
                     <a href="/">
-                        <img src="{{URL::asset('/images/vint.jpg')}}" class="imgLogo2" title="Vint">
+                        <img src="{{URL::asset('/images/vint.jpg')}}" class="img-responsive center" title="Vint">
                     </a>
-                    <!--img src='http://vint.mx/images/vint_blanco.png?crc=31914949' alt='Vint Logo' class="center imgLogo2"-->
                 </div>
-                <div class="col-md-3">
+                <div class="col-xs-9 col-sm-5 center">
                     @if (Auth::check())
-                        <!--form method='POST' id='logout' action='/logout'>
-                            {{ csrf_field() }}
-                            <a href='#' onClick='document.getElementById("logout").submit();'>Cerrar Sesión ()</a>
-                        </form-->
+                        <a href='/logout'>Cerrar Sesión</a>
                     @else
+                        <br>
+                        <br>
                         <div>¿Ya tienes una cuenta? <a href='/login'>Entra aqui</a></div>
-                         <div> ¿Eres nuevo? <a href='/register'>Registrate</a></div>
+                        <div> ¿Eres nuevo? <a href='/register'>Registrate</a></div>
                     @endif
 			    </div>
             </div>
-        </div>
+        <!--/div-->
     </header>
 
 

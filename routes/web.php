@@ -24,6 +24,7 @@ Route::get('/', function (Request $request) {
     Hora::cerrarHoraSucursales();
     Dia::cerrarDia();
     Mese::cerrarMes();
+    Cita::tomarCitas();
 
 
     $request->session()->put('sucursalesSession', $sucursales);
@@ -33,7 +34,6 @@ Route::get('/', function (Request $request) {
     $request->session()->put('numCitas', $numCitas);
     $numCitasTomPerAg = Cita::getNumCitasTomPerAg(-1);
     $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
-
     $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
     $request->session()->put('numCitasPosibles', $numCitasPosibles);
 
