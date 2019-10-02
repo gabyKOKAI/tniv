@@ -35,7 +35,10 @@
                 </div>
                 <div class="col-xs-9 col-sm-5 center">
                     @if (Auth::check())
-                        <a href='/logout'>Cerrar Sesión</a>
+                        <form method='POST' id='logout' action='/logout'>
+                            {{ csrf_field() }}
+                            <a href='#' onClick='document.getElementById("logout").submit();'>Cerrar Sesión</a>
+                        </form>
                     @else
                         <br>
                         <br>
