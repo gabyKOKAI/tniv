@@ -14,7 +14,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="vint.css" pinned="false" current-in-tab="true">
+      <file leaf-file-name="vint.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/public/css/vint.css">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="108">
@@ -24,7 +24,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="vint.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="vint.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/js/vint.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="27">
@@ -207,8 +207,8 @@
         <option value="$PROJECT_DIR$/resources/views/welcome.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/CitaController.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" />
-        <option value="$PROJECT_DIR$/public/js/vint.js" />
         <option value="$PROJECT_DIR$/public/css/vint.css" />
+        <option value="$PROJECT_DIR$/public/js/vint.js" />
       </list>
     </option>
   </component>
@@ -824,18 +824,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/vint.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="56" lean-forward="false" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vint.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="108">
           <caret line="359" column="10" lean-forward="false" selection-start-line="359" selection-start-column="10" selection-end-line="359" selection-end-column="10" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/vint.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="56" lean-forward="false" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
           <folding />
         </state>
       </provider>
