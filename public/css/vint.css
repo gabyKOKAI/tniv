@@ -361,7 +361,7 @@ a:active {
   width: 20;
   position: fixed;
   z-index: 1;
-  top: 50px;
+  top: 0px;
   right: 0;
   background-color: #02b1aa;
   overflow-x: hidden;
