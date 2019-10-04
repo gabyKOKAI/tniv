@@ -11,7 +11,6 @@
     <link href="/css/generico.css" type='text/css' rel='stylesheet'>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
     <script src="{{URL::asset('/js/vint.js')}}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.js"></script>
     <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script-->
@@ -22,24 +21,18 @@
 </head>
 <body>
     <?php setlocale(LC_TIME, 'es_ES'); ?>
-    <header class="imgLogo ">
-        <!--div class="container center"-->
+    <header class="imgLogo hidden-xs">
             <div class="row">
-                <div class="col-xs-0 col-sm-5 col-md-5 left">
+                <div class="col-sm-5 left">
                     <!--a class="btn btn-info" href="{{ URL::previous() }}">back</a-->
                 </div>
-                <div class="col-xs-3 col-sm-2 col-md-2 center">
+                <div class="col-sm-2 center">
                     <a href="/">
                         <img src="{{URL::asset('/images/vint.jpg')}}" class="img-responsive center" title="Vint">
                     </a>
                 </div>
-                <div class="col-xs-9 col-sm-5 center">
-                    @if (Auth::check())
-                        <form method='POST' id='logout' action='/logout'>
-                            {{ csrf_field() }}
-                            <a href='#' onClick='document.getElementById("logout").submit();'>Cerrar Sesión</a>
-                        </form>
-                    @else
+                <div class="col-sm-5 center">
+                    @if (! Auth::check())
                         <br>
                         <br>
                         <div>¿Ya tienes una cuenta? <a href='/login'>Entra aqui</a></div>
@@ -47,13 +40,24 @@
                     @endif
 			    </div>
             </div>
-        <!--/div-->
     </header>
 
-
-    @if(session('message'))
-        <!--div class='alert'>{{ session('message') }}</div-->
+    @if (! Auth::check())
+    <header class="imgLogo hidden-sm hidden-md hidden-lg hidden-xl">
+                <div class="row">
+                    <div class="col-xs-2 center">
+                        <a href="/">
+                            <img src="{{URL::asset('/images/vint.jpg')}}" class="img-responsive center" title="Vint">
+                        </a>
+                    </div>
+                    <div class="col-xs-10 center">
+                            <div>¿Ya tienes una cuenta? <a href='/login'>Entra aqui</a></div>
+                            <div> ¿Eres nuevo? <a href='/register'>Registrate</a></div>
+                    </div>
+                </div>
+        </header>
     @endif
+
     <div class="container center">
         @if (Auth::check())
             @include('layouts.menu')

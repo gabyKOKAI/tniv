@@ -24,7 +24,7 @@ class Cita extends Model
 
     public static function getEstatusDropDown()
     {
-        $estatus = ['Agendada', 'Cancelada', 'Tomada', 'Perdida'];
+        $estatus = ['Agendada', 'Cancelada', 'Tomada', 'Perdida', 'Valoracion', 'VTomada'];
         return $estatus;
     }
 
@@ -57,6 +57,12 @@ class Cita extends Model
         $fechaVacia = DateTime::createFromFormat('!m', $mes->mes);
         $mesDosDig = strftime("%m", $fechaVacia->getTimestamp());
         return DateTime::createFromFormat('Ymd H:i:s', $mes->ano.$mesDosDig.$dia->numDia.' '.$hora->hora);
+    }
+
+    public static function regresaFechaCodigoHoy(){
+        setlocale(LC_TIME, 'es_ES');
+        $fecha = new DateTime();
+        return strftime("%y%m%d", $fecha->getTimestamp());
     }
 
     public static function getProximasCitas()

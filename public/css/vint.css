@@ -20,7 +20,7 @@
     text-align: center;
     font-family: questrial, sans-serif;
     font-weight: 400;
-    font-size: 35px;
+    font-size:5vw;
     color: #00A299;
     line-height: 51px;
 }
@@ -179,7 +179,7 @@ a:active {
 .btn-horaDisponible{
     color:black;
     background-color:#f0b74b;
-    padding: 1px;
+    padding: 10px;
 }
 
 .btn-agendar{
@@ -351,3 +351,43 @@ a:active {
     color: white;
 }
 /*rosa #db52a5*/
+
+.navbar-brand img {
+  max-height: 100%;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 50px;
+  right: 0;
+  background-color: #02b1aa;
+  overflow-x: hidden;
+  transition: .5s;
+  padding-top: 10px;
+}
+
+.letraMenu{
+    padding: 2px 2px 2px 2px;
+    font-size:5vw;
+    color: #f1f1f1;
+    display: block;
+}
+
+
+.sidenav a {
+  padding: 2px 2px 2px 2px;
+  text-decoration: none;,
+  font-size:1vw;
+  color: #f1f1f1;
+  display: block;
+  transition: 0.3s;
+
+}
+
+.sidenav a:hover {
+  color: #818181;
+}
+
