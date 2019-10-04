@@ -28,7 +28,7 @@
         <entry file="file://$PROJECT_DIR$/public/js/vint.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="27">
-              <caret line="1" column="57" lean-forward="false" selection-start-line="1" selection-start-column="57" selection-end-line="1" selection-end-column="57" />
+              <caret line="1" column="56" lean-forward="false" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
               <folding />
             </state>
           </provider>
@@ -835,7 +835,7 @@
     <entry file="file://$PROJECT_DIR$/public/js/vint.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
-          <caret line="1" column="57" lean-forward="false" selection-start-line="1" selection-start-column="57" selection-end-line="1" selection-end-column="57" />
+          <caret line="1" column="56" lean-forward="false" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
           <folding />
         </state>
       </provider>
