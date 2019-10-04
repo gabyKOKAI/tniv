@@ -1,6 +1,6 @@
 function openNav() {
   //document.getElementById("mySidenav").style.width = "20";
-  document.getElementById("mySidenav").style.display = "none";
+  document.getElementById("mySidenav").style.display = "block";
   //alert("Hello! I am an alert box!!");block
 }
 

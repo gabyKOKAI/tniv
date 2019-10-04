@@ -358,10 +358,10 @@ a:active {
 .sidenav {
   display: none;
   height: 100%;
-  width: 30;
+  width: 50%;
   position: fixed;
   z-index: 1;
-  top: 30px;
+  top: 50px;
   right: 0;
   background-color: #02b1aa;
   overflow-x: hidden;
