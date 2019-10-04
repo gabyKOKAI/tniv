@@ -190,9 +190,9 @@
                 <a class="letraMenu" href="/clientes">Clientes</a>
                 <a class="letraMenu" href="/cliente/-1">Registrar Cliente</a>
             @endif
-            <hr>
             @if(Session::has('sucursalesSession'))
                 @if(count($sucsSes)>1)
+                    <hr>
                     @foreach($sucsSes as $suc)
                         @if($sucSes == $suc)
                             <strong>
