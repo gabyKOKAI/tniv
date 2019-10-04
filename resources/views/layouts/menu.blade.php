@@ -1,3 +1,4 @@
+
 <div class="navbar navbar-default menuVint" role="navigation" id="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -6,6 +7,7 @@
             </a-->
             <span class="navbar-brand">
                 @if(Session::has('sucursalSession'))
+                    <?php $sucSes = session('sucursalSession'); ?>
                     <h6>{{$sucSes->nombre}}</h6>
                 @endif
             </span>
@@ -23,9 +25,8 @@
     <div class="collapse navbar-collapse">
         <span class="">
             <ul class="nav navbar-nav ">
-                <?php $sucSes = session('sucursalSession'); ?>
                 @if(Session::has('sucursalSession'))
-
+                    <?php $sucSes = session('sucursalSession'); ?>
                     @if(in_array(Auth::user()->rol, ['Cliente']))
                         <li class="dropdown">
                             <?php $numCitas = session('numCitas'); ?>
