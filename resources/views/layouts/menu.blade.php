@@ -21,7 +21,7 @@
 
     <?php $sucsSes = session('sucursalesSession'); ?>
     <div class="collapse navbar-collapse">
-        <span class="hidden-xs">
+        <span class="">
             <ul class="nav navbar-nav ">
                 <?php $sucSes = session('sucursalSession'); ?>
                 @if(Session::has('sucursalSession'))
