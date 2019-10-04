@@ -17,8 +17,8 @@
       <file leaf-file-name="vint.css" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/public/css/vint.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="594">
-              <caret line="22" column="6" lean-forward="true" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+            <state relative-caret-position="118">
+              <caret line="360" column="11" lean-forward="false" selection-start-line="360" selection-start-column="11" selection-end-line="360" selection-end-column="11" />
               <folding />
             </state>
           </provider>
@@ -136,8 +136,8 @@
       <find>Perfil</find>
       <find>border</find>
       <find>div</find>
-      <find>nav</find>
       <find>logout</find>
+      <find>nav</find>
     </findStrings>
     <replaceStrings>
       <replace>sucursal</replace>
@@ -206,9 +206,9 @@
         <option value="$PROJECT_DIR$/resources/views/layouts/master.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/welcome.blade.php" />
         <option value="$PROJECT_DIR$/public/js/vint.js" />
-        <option value="$PROJECT_DIR$/public/css/vint.css" />
         <option value="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/CitaController.php" />
+        <option value="$PROJECT_DIR$/public/css/vint.css" />
       </list>
     </option>
   </component>
@@ -776,14 +776,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/vint.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="27">
-          <caret line="1" column="56" lean-forward="false" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/master.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="297">
@@ -832,10 +824,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/js/vint.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1" column="56" lean-forward="false" selection-start-line="1" selection-start-column="56" selection-end-line="1" selection-end-column="56" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/css/vint.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="594">
-          <caret line="22" column="6" lean-forward="true" selection-start-line="22" selection-start-column="6" selection-end-line="22" selection-end-column="6" />
+        <state relative-caret-position="118">
+          <caret line="360" column="11" lean-forward="false" selection-start-line="360" selection-start-column="11" selection-end-line="360" selection-end-column="11" />
           <folding />
         </state>
       </provider>
