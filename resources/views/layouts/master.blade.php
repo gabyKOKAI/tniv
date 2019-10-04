@@ -35,8 +35,8 @@
                     @if (! Auth::check())
                         <br>
                         <br>
-                        <div>¿Ya tienes una cuenta? <a href='/login'>Entra aqui</a></div>
-                        <div> ¿Eres nuevo? <a href='/register'>Registrate</a></div>
+                        <div>¿Ya tienes una cuenta? <a href='/login'><span class="glyphicon glyphicon-log-in"> Entra aqui</a></div>
+                        <div> ¿Eres nuevo? <a href='/register'><span class="glyphicon glyphicon-user"></span> Registrate </a></div>
                     @endif
 			    </div>
             </div>
@@ -51,8 +51,8 @@
                         </a>
                     </div>
                     <div class="col-xs-10 center">
-                            <div>¿Ya tienes una cuenta? <a href='/login'>Entra aqui</a></div>
-                            <div> ¿Eres nuevo? <a href='/register'>Registrate</a></div>
+                         <div>¿Ya tienes una cuenta? <a href='/login'><span class="glyphicon glyphicon-log-in"> Entra aqui</a></div>
+                        <div> ¿Eres nuevo? <a href='/register'><span class="glyphicon glyphicon-user"></span> Registrate </a></div>
                     </div>
                 </div>
         </header>
