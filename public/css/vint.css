@@ -357,11 +357,11 @@ a:active {
 
 .sidenav {
   height: 100%;
-  width: 0;
+  width: 10;
   position: fixed;
   z-index: 1;
   top: 30px;
-  left: 0;
+  right: 0;
   background-color: #02b1aa;
   overflow-x: hidden;
   transition: .5s;
