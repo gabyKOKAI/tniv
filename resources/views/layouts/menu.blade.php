@@ -1,9 +1,9 @@
 <div class="navbar navbar-default menuVint" role="navigation" id="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
-			<a class="navbar-brand hidden-sm hidden-md hidden-lg hidden-xl" href="#">
+			<!--a class="navbar-brand hidden-sm hidden-md hidden-lg hidden-xl" href="#">
 				<img src="{{URL::asset('/images/vint.jpg')}}"  title="Vint">
-            </a>
+            </a-->
             <span class="navbar-brand">
                 @if(Session::has('sucursalSession'))
                     <h6>{{$sucSes->nombre}}</h6>
