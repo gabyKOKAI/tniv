@@ -356,7 +356,6 @@ a:active {
 }
 
 .sidenav {
-  display: none;
   height: 100%;
   width: 50%;
   position: fixed;
@@ -374,6 +373,7 @@ a:active {
     font-size:5vw;
     color: #f1f1f1;
     display: block;
+    text-align: left;
 }
 
 

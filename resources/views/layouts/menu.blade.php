@@ -11,17 +11,20 @@
                     <h6>{{$sucSes->nombre}}</h6>
                 @endif
             </span>
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" onclick="openNav()">
+            <!--button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" onclick="openNav()"-->
+            <a href="/menuMovil">
+            <span class="navbar-toggle">
                 <span class="sr-only">Toggle navigation</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
-            </button>
+            </span>
+            </a>
         </div>
     </div>
 
     <?php $sucsSes = session('sucursalesSession'); ?>
-    <div class="collapse navbar-collapse">
+    <div class="hidden-xs hidden-sm hidden-md hidden-lg hidden-xl collapse navbar-collapse">
         <span class="">
             <ul class="nav navbar-nav ">
                 @if(Session::has('sucursalSession'))
@@ -164,8 +167,9 @@
     </div>
 </div>
 
-<span class="hidden-sm hidden-md hidden-lg hidden-xl" style="font-size:30px;cursor:pointer">
-    <div class="navbar-collapse" role="navigation" id="navigation">
+@if(Session::has('abrirMenu') and session('abrirMenu') == 1)
+<span class="hidden-sm hidden-md hidden-lg hidden-xl">
+    <!--div class="navbar-collapse" role="navigation" id="navigation"-->
         <div id="mySidenav" class="sidenav">
             @if(in_array(Auth::user()->rol, ['Cliente']))
                 <?php $numCitas = session('numCitas'); ?>
@@ -215,8 +219,9 @@
                 {{ csrf_field() }}
             </form>
         </div>
-    </div>
+    <!--/div-->
 </span>
+@endif
 
 @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
     <?php

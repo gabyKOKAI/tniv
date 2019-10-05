@@ -36,7 +36,7 @@ Route::get('/', function (Request $request) {
     $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
     $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
     $request->session()->put('numCitasPosibles', $numCitasPosibles);
-
+    $request->session()->put('abrirMenu', 1);
     if(Session::get('sucursalSession1')){
         $suc = Session::get('sucursalSession1');
     }else{
@@ -46,6 +46,18 @@ Route::get('/', function (Request $request) {
     /*return view('construccion');*/
     return view('welcome');
 })->name('home');
+
+Route::get('/menuMovil', function (Request $request) {
+    if(Session::get('abrirMenu')==0){
+        $request->session()->put('abrirMenu', 1);
+    }else{
+        $request->session()->put('abrirMenu', 0);
+    }
+
+    //return view('welcome');
+    return redirect()->back();
+});
+
 
 Route::get('/home', function (Request $request){
         return redirect('/');
