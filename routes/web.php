@@ -26,7 +26,6 @@ Route::get('/', function (Request $request) {
     Mese::cerrarMes();
     Cita::tomarCitas();
 
-
     $request->session()->put('sucursalesSession', $sucursales);
     $proxCitas = Cita::getProximasCitas();
     $request->session()->put('proxCitas', $proxCitas);
@@ -36,7 +35,7 @@ Route::get('/', function (Request $request) {
     $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
     $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
     $request->session()->put('numCitasPosibles', $numCitasPosibles);
-    $request->session()->put('abrirMenu', 0);
+
     if(Session::get('sucursalSession1')){
         $suc = Session::get('sucursalSession1');
     }else{

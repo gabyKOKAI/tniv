@@ -111,15 +111,19 @@ a:active {
 .btn-filtro{
     color:black;
     background-color:lightgray;
-    border-color:lightgray;
+    border-color:white;
     padding: 2px;
+    margin: 3px;
+    border-style: solid;
 }
 
 .btn-filtroSelected{
     color:black;
     background-color:darkgray;
-    border-color:darkgray;
+    border-color:white;
     padding: 2px;
+    margin: 3px;
+    border-style: solid;
 }
 
 .btn-pagInicio{
@@ -366,7 +370,7 @@ a:active {
   top: 50px;
   right: 0;
   background-color: #02b1aa;
-  overflow-x: hidden;
+  overflow-x: scroll;
   transition: .5s;
   padding-top: 10px;
 }
@@ -398,3 +402,8 @@ a:active {
   .sidenav {padding-top: 15px;}
   .sidenav a {font-size: 18px;}
 }
+
+ .hrNoSpace{
+    padding: 0px;
+    margin: 0px;
+  }

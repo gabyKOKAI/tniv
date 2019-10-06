@@ -102,6 +102,10 @@
     background-color:white;
     color:black;
 }
+.grayLG {
+    background-color:#f8f8f8;
+    color:gray;
+}
 
 .redBorder{
     border-style: dotted;

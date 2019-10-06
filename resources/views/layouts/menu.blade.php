@@ -5,21 +5,38 @@
 			<!--a class="navbar-brand hidden-sm hidden-md hidden-lg hidden-xl" href="#"-->
 				<!--img class="imgLogo" src="{{URL::asset('/images/vint.jpg')}}"  title="Vint"/-->
             <!--/a-->
-            <span class="navbar-brand">
+            <span class="navbar-brand hidden-sm hidden-md hidden-lg hidden-xl">
                 @if(Session::has('sucursalSession'))
                     <?php $sucSes = session('sucursalSession'); ?>
                     <h6>{{$sucSes->nombre}}</h6>
                 @endif
             </span>
-            <!--button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse" onclick="openNav()"-->
-            <a href="/menuMovil">
-            <span class="navbar-toggle">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </span>
+
+            <a href="{{ route('logout') }}"
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();">
+                 <span class="navbar-toggle glyphicon glyphicon-log-out grayLG">
+                 </span>
             </a>
+            <a href="/" >
+                <span class="navbar-toggle glyphicon glyphicon-home grayLG">
+                 </span>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
+            @if(!Session::has('abrirMenu'))
+                <a href="/menuMovil">
+                    <span class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </span>
+                </a>
+
+            @endif
+
         </div>
     </div>
 
@@ -120,7 +137,8 @@
                         <li class="dropdown" id="menu">
                             @if(count($sucsSes)>1)
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                                    {{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar<span class="caret"/>
+                                    <!--{{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar-->
+                                    Sucursales<span class="caret"/>
                                 </a>
 
                                 <ul class="dropdown-menu">
@@ -132,34 +150,29 @@
                                 </ul>
                             @else
                                 @if(Session::has('sucursalSession'))
-                                    <a>{{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar</a>
+                                    <a>{{$sucSes->nombre}}</a>
+                                    <!--a>{{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar</a-->
                                 @endif
                             @endif
                         </li>
                     @endif
 
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                           {{ Auth::user()->name }} <span class="caret"/>
-                        </a>
-
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a href="/clienteUser/{{Auth::user()->id}}">Perfil</a>
-                            </li>
-                        </ul>
+                        <a href="/clienteUser/{{Auth::user()->id}}">Perfil {{ Auth::user()->name }}</a>
                     </li>
                     <li class="dropdown">
-                        <li class="dropdown" id="menu">
-                            <a href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();"
-                                class="glyphicon glyphicon-log-out">
-                            </a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                        </li>
+                        <a href="/" class="glyphicon glyphicon-home">
+                        </a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();"
+                            class="glyphicon glyphicon-log-out">
+                        </a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            {{ csrf_field() }}
+                        </form>
                     </li>
                 @endguest
             </ul>
@@ -167,7 +180,7 @@
     </div>
 </div>
 
-@if(Session::has('abrirMenu') and session('abrirMenu') == 1)
+@if(Session::has('abrirMenu'))
 <?php Session::forget('abrirMenu'); ?>
 <span class="hidden-sm hidden-md hidden-lg hidden-xl">
     <!--div class="navbar-collapse" role="navigation" id="navigation"-->
@@ -186,7 +199,7 @@
                 <a class="letraMenu" href="/anoActual">Este Año ({{$anoFecha}})</a>
                 <a class="letraMenu" href="/mesActual">Este Mes ({{$mesFecha1}})</a>
                 <a class="letraMenu" href="/diaActual">Hoy ({{$fecha}})</a>
-                <hr>
+                <hr class="">
                 @if(in_array(Auth::user()->rol, ['Master','Admin']))
                         <a class="letraMenu" href="/usuarios">Usuarios</a>
                         <a class="letraMenu" href="/usuario/-1">Registrar Usuario</a>
@@ -197,7 +210,7 @@
             @endif
             @if(Session::has('sucursalesSession'))
                 @if(count($sucsSes)>1)
-                    <hr>
+                    <hr class="">
                     @foreach($sucsSes as $suc)
                         @if($sucSes == $suc)
                             <strong>
@@ -209,16 +222,11 @@
                     @endforeach
                 @endif
             @endif
-            <hr>
+            <hr class="">
             <a class="letraMenu" href="/clienteUser/{{Auth::user()->id}}">Perfil {{ Auth::user()->name }}</a>
-            <a href="{{ route('logout') }}"
-                onclick="event.preventDefault();
-                document.getElementById('logout-form').submit();"
-                class="glyphicon glyphicon-log-out letraMenu">
-            </a>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                {{ csrf_field() }}
-            </form>
+            <br>
+            <br>
+            <br>
         </div>
     <!--/div-->
 </span>

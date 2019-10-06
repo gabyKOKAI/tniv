@@ -11,7 +11,7 @@ class Cliente extends Model
 
     public static function getEstatusDropDown()
     {
-        $estatus = ['Activo', 'Inactivo', 'ClienteNuevo', 'SinServicios', 'Terminado'];
+        $estatus = ['Activo', 'ClienteNuevo', 'Inactivo', 'Terminado', 'SinServicios'];
         return $estatus;
     }
 

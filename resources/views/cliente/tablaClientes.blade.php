@@ -2,14 +2,14 @@
     <div class="col-sm-12 align-right">
             <div class="container">
                 <div class="row">
-                    <div class="col-sm-4 align-left">
+                    <div class="hidden-xs col-sm-4 align-left">
                         <hr>
                     </div>
                     <div class="col-sm-4 align-center">
                          <h3 class="center">Clientes
                          </h3>
                     </div>
-                    <div class="col-sm-4 align-left">
+                    <div class="hidden-xs col-sm-4 align-left">
                         <hr>
                     </div>
                 </div>
@@ -25,21 +25,24 @@
                             <thead>
                                 <tr>
                                     <!--th class="center">#</th-->
-                                    <th class="center"># Cliente </th>
+                                    <!--th class="center"># Cliente </th-->
                                     <th class="center">Nombre <a href="{{ URL::to('cliente/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a></th>
-                                    <th class="center">Correo</th>
+                                    <!--th class="center">Correo</th-->
                                     <th class="center">Estatus</th>
                                 </tr>
                             </thead>
                             <tbody>
                                  @foreach($clientes as $cliente)
                                     <tr>
-                                        <td>{{$cliente->numCliente}}</td>
+                                        <!--td>{{$cliente->numCliente}}</td-->
                                         <td><a href="{{ URL::to('cliente/'.$cliente->id)}}">{{$cliente->nombre}}</a></td>
                                         @if(in_array(Auth::user()->rol, ['Master','Admin']))
-                                            <td><!--a href="{ { URL::to('usuario/'.$cliente->user_id)} }"-->{{$cliente->correo}}<!--/a--></td>
+                                            <!--td>
+                                            <a href="{ { URL::to('usuario/'.$cliente->user_id)} }">
+                                            {{$cliente->correo}}
+                                            </a></td-->
                                         @else
-                                            <td>{{$cliente->correo}}</td>
+                                            <!--td>{{$cliente->correo}}</td-->
                                         @endif
                                         <td>{{$cliente->estatus}}</td>
                                     </tr>
