@@ -135,9 +135,6 @@ a:active {
 }
 
 
-
-
-
 .btn-abrir{
     color:Black;
     background-color:lightgray;
@@ -150,6 +147,12 @@ a:active {
     border-color:Lime;
     padding: 1px;
 
+}
+
+ .btn-dia{
+    color:black;
+    background-color:#f0b74b;
+    border-color:#f0b74b;
 }
 
 .btn-sucNoPermitida{

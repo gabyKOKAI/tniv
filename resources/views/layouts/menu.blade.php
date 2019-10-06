@@ -168,6 +168,7 @@
 </div>
 
 @if(Session::has('abrirMenu') and session('abrirMenu') == 1)
+<?php Session::forget('abrirMenu'); ?>
 <span class="hidden-sm hidden-md hidden-lg hidden-xl">
     <!--div class="navbar-collapse" role="navigation" id="navigation"-->
         <div id="mySidenav" class="sidenav">
