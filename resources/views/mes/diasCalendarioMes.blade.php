@@ -1,32 +1,32 @@
 @if($mes->id <> -1)
     <div class="row">
-        <div class="col-xs-12 align-self-center">
+        <div class="col-xs-12 align-self-center btn btn-mesDia">
             <a href="{{ URL::to('mesVecino/a/'.$mes->id)}}" class="glyphicon glyphicon-chevron-left"></a>
-            {{$mes->ano}} <a href="{{ URL::to('meses/'.$mes->ano)}}" class="glyphicon glyphicon-calendar"></a>
+            {{$mes->ano}}
             <a href="{{ URL::to('mesVecino/d/'.$mes->id)}}" class="glyphicon glyphicon-chevron-right"></a>
             <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon-plus-sign"></a>
         </div>
-            <div class="col-xs-1 border hidden-md-down" align="center">
-            Do
-            </div>
-            <div class="col-xs-2 border" align="center">
-            Lu
-            </div>
-            <div class="col-xs-2 border" align="center">
-            Ma
-            </div>
-            <div class="col-xs-2 border" align="center">
-            Mi
-            </div>
-            <div class="col-xs-2 border" align="center">
-            Ju
-            </div>
-            <div class="col-xs-2 border" align="center">
-            Vi
-            </div>
-            <div class="col-xs-1 border" align="center">
-            Sa
-            </div>
+        <div class="col-xs-1 fondoCalendario borderCalendario" align="center">
+        Do
+        </div>
+        <div class="col-xs-2 fondoCalendario borderCalendario" align="center">
+        Lu
+        </div>
+        <div class="col-xs-2 fondoCalendario borderCalendario" align="center">
+        Ma
+        </div>
+        <div class="col-xs-2 fondoCalendario borderCalendario" align="center">
+        Mi
+        </div>
+        <div class="col-xs-2 fondoCalendario borderCalendario" align="center">
+        Ju
+        </div>
+        <div class="col-xs-2 fondoCalendario borderCalendario" align="center">
+        Vi
+        </div>
+        <div class="col-xs-1 fondoCalendario borderCalendario" align="center">
+        Sa
+        </div>
         @foreach($diasMes as $dia)
             @if($dia->numDia == 1)
                 <?php $espacioDiv = 0 ?>
@@ -56,43 +56,46 @@
                 </div>
             @endif
 
-
             @if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo")
-                <div class="col-xs-1 border" align="center">
+                @if($dia->estatus == 1)
+                    <div class="col-xs-1 borderCalendario fondoCalendarioCerrar" align="center">
+                @else
+                    <div class="col-xs-1 borderCalendario fondoCalendarioAbrir" align="center">
+                @endif
             @else
-                <div class="col-xs-2 border" align="center">
+                @if($dia->estatus == 1)
+                    <div class="col-xs-2 borderCalendario fondoCalendarioCerrar" align="center">
+                @else
+                    <div class="col-xs-2 borderCalendario fondoCalendarioAbrir" align="center">
+                @endif
             @endif
             <form method='POST' action='/abrirCerrarDia/Mes'>
-                <a class="btn btn-dia" href="{{ URL::to('dia/'.$dia->id)}}">{{$dia->numDia}}</a>
-                <span class="hidden-sm">
-                    <br>
-                </span>
-
+                <a class="btn btn-dia " href="{{ URL::to('dia/'.$dia->id)}}">{{$dia->numDia}}</a>
+                <br>
+                <span class="">
                     {{ csrf_field() }}
                     <input type="hidden" name="dia" value="{{$dia->id}}">
                     <input type="hidden" name="mes" value="{{$mes->id}}">
-                    @if($mes->estatus == "Abierto" or $mes->estatus == "Inactivo")
+                    @if(($mes->estatus == "Abierto" or $mes->estatus == "Inactivo"))
                         @if($dia->estatus == 1)
-                                <i class="	"></i>
-                                    <!--input type='submit' value='Cerrar' class='btn btn-cerrar '-->
-                                    <button type="submit" value="Submit" class='glyphicon glyphicon-remove-sign btn btn-cerrar'> </button>
-
-
-
+                            <!--i class="	"></i-->
+                            <!--input type='submit' value='Cerrar' class='btn btn-cerrar '-->
+                            <button type="submit" value="Submit" class='glyphicon glyphicon-remove-sign btn btn-cerrar'> </button>
                         @else
-                                <!--input type='submit' value='Abrir' class='btn btn-abrir'-->
-                                <button type="submit" value="Submit" class='glyphicon glyphicon-ok-circle btn btn-abrir'> </button>
+                            <!--input type='submit' value='Abrir' class='btn btn-abrir'-->
+                            <button type="submit" value="Submit" class='glyphicon glyphicon-ok-circle btn btn-abrir'> </button>
                         @endif
-                    @elseif($mes->estatus == "Cerrado")
+                    @elseif( ($mes->estatus == "Cerrado"))
                         @if($dia->estatus == 1)
-                                <!--input type='submit' value='Cerrar' class='btn btn-cerrar ' disabled-->
-                                <button type="submit" value="Submit" class='glyphicon glyphicon-remove-sign btn btn-cerrar' disabled> </button>
+                            <!--input type='submit' value='Cerrar' class='btn btn-cerrar ' disabled-->
+                            <button type="submit" value="Submit" class='glyphicon glyphicon-remove-sign btn btn-cerrar' disabled> </button>
                         @else
-                                <!--input type='submit' value='Abrir' class='btn btn-abrir' disabled-->
-                                <button type="submit" value="Submit" class='glyphicon glyphicon-ok-circle btn btn-abrir' disabled> </button>
+                            <!--input type='submit' value='Abrir' class='btn btn-abrir' disabled-->
+                            <button type="submit" value="Submit" class='glyphicon glyphicon-ok-circle btn btn-abrir' disabled> </button>
                         @endif
                     @endif
-                </form>
+                </span>
+            </form>
             </div>
         @endforeach
     </div>

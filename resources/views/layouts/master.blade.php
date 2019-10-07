@@ -21,10 +21,15 @@
 
 </head>
 <body>
+    <?php
+        $sucSes = session('sucursalSession');
+    ?>
     <?php setlocale(LC_TIME, 'es_ES'); ?>
     <header class="imgLogo hidden-xs">
             <div class="row">
-                <div class="col-sm-5 left">
+                <div class="col-sm-1 left">
+                </div>
+                <div class="col-sm-4 left">
                     <!--a class="btn btn-info" href="{{ URL::previous() }}">back</a-->
                 </div>
                 <div class="col-sm-2 center">
@@ -32,19 +37,24 @@
                         <img src="{{URL::asset('/images/vint.jpg')}}" class="img-responsive center" title="Vint">
                     </a>
                 </div>
-                <div class="col-sm-5 center">
+                <div class="col-sm-5 left">
                     @if (! Auth::check())
                         <br>
                         <br>
                         <div>¿Ya tienes una cuenta? <a href='/login'><span class="glyphicon glyphicon-log-in"> Entra aqui</a></div>
                         <div> ¿Eres nuevo? <a href='/register'><span class="glyphicon glyphicon-user"></span> Registrate </a></div>
+                    @elseif(Session::has('sucursalSession'))
+                        <br>
+                        <br>
+                        <br>
+                        <h6>{{$sucSes->nombre}}</h6>
                     @endif
 			    </div>
             </div>
     </header>
 
     @if (! Auth::check())
-    <header class="imgLogo hidden-sm hidden-md hidden-lg hidden-xl">
+        <header class="imgLogo hidden-sm hidden-md hidden-lg hidden-xl">
                 <div class="row">
                     <div class="col-xs-2 center">
                         <a href="/">
@@ -62,6 +72,7 @@
     <div class="container center">
         @if (Auth::check())
             @include('layouts.menu')
+            @include('layouts.menuMovil')
         @endif
         @include('layouts.message')
     </div>

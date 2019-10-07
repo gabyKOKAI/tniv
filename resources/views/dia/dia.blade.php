@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @push('head')
-    <link href="/css/dia.css" type='text/css' rel='stylesheet'>
+    <!--link href="/css/dia.css" type='text/css' rel='stylesheet'-->
 @endpush
 
 @section('content')
@@ -11,68 +11,54 @@
             @if($dia->id == -1)
                 No tienes acceso a esta información! Favor de contactar al administrador.
             @else
-            <div class="col-sm-12 align-center">
+            <div class="col-xs-12 align-center">
                        <input type="hidden" name="_method" value="PUT">
                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <div class="container center">
                             <div class="row">
-                                    @if($mes->estatus=="Abierto")
-                                        <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
-                                            El mes esta {{$mes->estatus}}
-                                        </div>
-                                    @elseif($mes->estatus=="Inactivo")
-                                        <div class="col-sm-12 form-group required control-label grisC" align="center">
-                                            El mes esta {{$mes->estatus}}
-                                        </div>
-                                    @elseif($mes->estatus=="Cerrado")
-                                        <div class="col-sm-12 form-group required control-label red" align="center">
-                                            El mes esta {{$mes->estatus}}
-                                        </div>
-                                    @endif
 
-
+                                <div class="col-xs-6 letraNormal mes_{{$mes->estatus}} " align="center">
+                                   Mes {{$mes->estatus}}<a href="{{ URL::to('mes/'.$mes->id)}}" class="btn btn-mesDia glyphicon glyphicon-calendar"></a>
+                                </div>
+                                <div class="col-xs-6 dia_estatus letraNormal dia_{{$dia->estatus}}" align="center">
                                     <form method='POST' action='/abrirCerrarDia/Dia'>
                                         {{ csrf_field() }}
                                         <input type="hidden" name="dia" value="{{$dia->id}}">
                                         <input type="hidden" name="mes" value="{{$mes->id}}">
-                                            @if($mes->estatus=="Abierto" or $mes->estatus=="Inactivo")
-                                            @if($dia->estatus == 1)
-                                                <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
-                                                    El día esta abierto <input type='submit' value='Cerrar Día' class='btn btn-cerrar '>
-                                                </div>
-                                            @else
-                                                <div class="col-sm-12 form-group required control-label red" align="center">
-                                                    El día esta cerrado <input type='submit' value='Abrir Día' class='btn btn-abrir'>
-                                                </div>
-                                            @endif
+
+                                        @if($mes->estatus=="Abierto" or $mes->estatus=="Inactivo")
+                                                @if($dia->estatus == 1)
+                                                    Día Abierto<button type="submit" value="Submit" class='glyphicon glyphicon-remove-sign btn btn-cerrar'> </button>
+                                                    <!--input type='submit' value='Cerrar Día' class='btn btn-cerrar '-->
+                                                @else
+                                                    Día Cerrado<button type="submit" value="Submit" class='glyphicon glyphicon-ok-circle btn btn-abrir'> </button>
+                                                    <!--input type='submit' value='' class='glyphicon glyphicon-ok-circle btn btn-abrir'-->
+                                                @endif
                                         @else
                                             @if($dia->estatus == 1)
-                                                <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
-                                                    El día esta abierto <input type='submit' value='Cerrar Día' class='btn btn-cerrar ' disabled>
-                                                </div>
+                                                    Día Abierto<button type="submit" value="Submit" class='glyphicon glyphicon-remove-sign btn btn-cerrar' disabled> </button>
+                                                    <!--input type='submit' value='Cerrar Día' class='btn btn-cerrar ' disabled-->
                                             @else
-                                                <div class="col-sm-12 form-group required control-label red" align="center">
-                                                    El día esta cerrado <input type='submit' value='Abrir Día' class='btn btn-abrir' disabled>
-                                                </div>
+                                                    Día Cerrado
+                                                    <button type="submit" value="Submit" class='glyphicon glyphicon-ok-circle btn btn-abrir' disabled> </button>
+                                                    <input type='submit' value='Abrir Día' class='btn btn-abrir' disabled>
                                             @endif
                                         @endif
                                     </form>
-                                <div class="col-sm-12 form-group required control-label" align="center">
-                                    <div class="input-group">
+                                </div>
+                                <div class="col-xs-12 form-group required control-label" align="center">
+                                    <div class="input-group letraNormal">
                                         <?php
                                             setlocale(LC_TIME, 'es_ES');
                                             $fecha = DateTime::createFromFormat('!m', $mes->mes);
                                             $mes2 = strftime("%B", $fecha->getTimestamp()); // marzo
                                         ?>
                                         <a href="{{ URL::to('diaVecino/a/'.$dia->id)}}" class="glyphicon glyphicon-chevron-left"></a>
-                                        {{$dia->numDia}} de  {{$mes2}} <a href="{{ URL::to('mes/'.$mes->id)}}" class="glyphicon glyphicon-calendar"></a> del {{$mes->ano}}
+                                        {{$dia->numDia}} de  {{$mes2}} del {{$mes->ano}}
                                         <!--, {{$sucursal->nombre}}-->
                                         <a href="{{ URL::to('diaVecino/d/'.$dia->id)}}" class="glyphicon glyphicon-chevron-right"></a>
-
-
                                     </div>
                                 </div>
-
                             </div>
                             @if($dia->id <> -1)
                                 @foreach($horasDia as $hora)
@@ -83,10 +69,10 @@
                                     <div class="row border grisO">
                                 @endif
 
-                                    <div class="col-sm-1" align="center">
+                                    <div class="col-xs-12 col-sm-2 letraNormal" align="center">
                                         {{\Carbon\Carbon::createFromFormat('H:i:s',$hora->hora)->format('g:i a')}}
                                     </div>
-                                    <div class="col-sm-1" align="center">
+                                    <div class="col-xs-2 col-sm-2" align="center">
 
                                         <form method='POST' action='/abrirCerrarHora'>
                                             {{ csrf_field() }}
@@ -114,12 +100,12 @@
                                             @endif
                                         </form>
                                     </div>
-                                    <div class="col-sm-8" align="left">
+                                    <div class="col-xs-8 col-sm-6" align="left">
                                         <!--@ if($hora->estatus == 1)-->
                                             @foreach ($hora->citas as $cita)
 
                                                     <!--input type='text' name='cita' id='cita' value='{{$cita->nomCliente}}'  class='' disabled-->
-                                                    <div class="col-sm-3 estatusCita_{{$cita->estatus}}" align="left" id="iconoCita">
+                                                    <div class="col-xs-12 col-sm-12 estatusCita_{{$cita->estatus}}" align="left" id="iconoCita">
                                                         @if($cita->estatus == 'Agendada' or $cita->estatus == 'Valoracion')
                                                             @if($cita->pasada == 0 or in_array(Auth::user()->rol, ['Master','Admin']))
                                                                 <a href="{{ URL::to('/cancelaCita/'.$cita->id)}}" class="glyphicon glyphicon-remove-sign aIconosCitas"></a>
@@ -137,19 +123,14 @@
                                                             <span class="glyphicon glyphicon glyphicon-list-alt"></span>
                                                         @endif
 
-
-
                                                         {{$cita->nomCliente}}
-
                                                     </div>
-
-
                                             @endforeach
                                         <!--@ else
                                             <br>
                                         @ endif-->
                                     </div>
-                                    <div class="col-sm-1" align="center">
+                                    <div class="col-xs-1 col-sm-1" align="center">
                                     <form method='POST' action='/agendarCitaACliente'>
                                             {{ csrf_field() }}
                                             <input type="hidden" name="hora" value="{{$hora->id}}">
@@ -158,9 +139,10 @@
                                                 @if($hora->estatus == 1 and $hora->citasActivas<$hora->numCitasMax)
                                                     <input type='submit' value='Agendar' class='btn btn-agendar '>
                                                 @else
-                                                    @if($hora->estatus == 1)
-                                                        <input type='submit' value='Cupo Completo' class='btn btn-agendar ' disabled>
+                                                    @if($hora->citasActivas<$hora->numCitasMax)
+                                                        <input type='submit' value='Agendar' class='btn btn-agendar '>
                                                     @else
+                                                        <!--input type='submit' value='Cupo Completo' class='btn btn-agendar ' disabled-->
                                                         <input type='submit' value='Agendar' class='btn btn-agendar '>
                                                     @endif
                                                 @endif
@@ -168,10 +150,10 @@
                                                 @if($hora->estatus == 1 and $hora->citasActivas<$hora->numCitasMax)
                                                     <input type='submit' value='Agendar' class='btn btn-agendar 'disabled>
                                                 @else
-                                                    @if($hora->estatus == 1)
-                                                        <input type='submit' value='Cupo Completo' class='btn btn-agendar ' disabled>
-                                                    @else
+                                                    @if($hora->citasActivas<$hora->numCitasMax)
                                                         <input type='submit' value='Cerrado' class='btn btn-agendar ' disabled>
+                                                    @else
+                                                        <input type='submit' value='Cupo Completo' class='btn btn-agendar ' disabled>
                                                     @endif
                                                 @endif
                                             @endif

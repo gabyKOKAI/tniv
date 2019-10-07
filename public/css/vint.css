@@ -94,18 +94,59 @@ a:active {
     /*background-color: #DCDCDC;*/
  }
 
+.borderCalendario {
+    /*display: inline-block;*/
+    border:solid .5px black;
+    padding: 1px;
+    /*background-color: #DCDCDC;*/
+ }
+
+.fondoCalendario{
+    font-size: 4vw;
+}
+
+.fondoCalendarioCerrar, .dia_1{
+    color:black;
+    background-color:Aquamarine;
+    border-color:white;
+    font-size: 1.5rem;
+}
+
+.fondoCalendarioAbrir, .dia_0{
+    color:Black;
+    background-color:lightgray;
+    border-color:white;
+    font-size: 1.5rem;
+}
+
 .btn-mes{
     background-color: rgba(0, 0, 0, 0);
+    font-size: 1.1rem;
     /*border-color:white;*/
 }
 
- .btn-cerrar{
+ .btn-cerrar,.btn-abrir,.btn-mesDia{
     color:black;
     /*background-color:#227dc7;
     border-color:#007bff*/
-    background-color:Aquamarine;
-    border-color:Aquamarine;
+    background-color:transparent;
+    /*background-color:Aquamarine;
+    border-color:white;
+    padding: 4px;
+    margin: 4px;
+    width:100%;*/
+    font-size: 3vw;
+    margin: 0px;
+    padding: 6px;
+}
 
+.letraNormal{
+    color:black;
+    font-size: 3vw;
+}
+
+.comboNormal{
+    length: 100px;
 }
 
 .btn-filtro{
@@ -135,15 +176,12 @@ a:active {
 .btn-crear-mes{
     color:black;
     background-color:lightgray;
+    font-size: 1.1rem;
     /*border-color:white;*/
 }
 
 
-.btn-abrir{
-    color:Black;
-    background-color:lightgray;
-    border-color:lightgray;
-}
+
 
 .btn-sucPermitida{
     color:black;
@@ -155,8 +193,16 @@ a:active {
 
  .btn-dia{
     color:black;
-    background-color:#f0b74b;
-    border-color:#f0b74b;
+
+    /*background-color:#f0b74b;
+    border-color:white;
+border-color:#f0b74b;
+    padding: 6px;
+    margin: 4px;
+    width:100%;*/
+    font-size: 4vw;
+    margin: 0px;
+    padding: 6px;
 }
 
 .btn-sucNoPermitida{
@@ -172,6 +218,7 @@ a:active {
     border-color:#007bff*/
     background-color:SkyBlue;
     border-color:SkyBlue;
+    font-size: 3vw;
     padding: 1px;
 }
 
@@ -179,24 +226,28 @@ a:active {
     color:Black;
     background-color:lightgray;
     border-color:lightgray;
+    font-size:  3vw;
     padding: 1px;
 }
 
 .btn-horaDisponible{
     color:black;
     background-color:#f0b74b;
+    font-size: 2.5vw;
     padding: 10px;
 }
 
 .btn-agendar{
     color:black;
     background-color:#f0b74b;
+    font-size: 2.5vw;
     padding: 1px;
 }
 
 .btn-horaNoDisponible{
     color:Black;
     background-color:lightgray;
+    font-size: 3vw;
     padding: 1px;
 }
 
@@ -204,6 +255,7 @@ a:active {
     color:black;
     background-color: #f0b74b;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -213,6 +265,7 @@ a:active {
     color:black;
     background-color: lightgray;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -222,6 +275,7 @@ a:active {
     color:black;
     background-color: #72d2ec;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -230,6 +284,7 @@ a:active {
 .mes_activo{
     color:white;
     background-color: #db52a5;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -239,6 +294,7 @@ a:active {
 .mes_disponible{
     color:black;
     background-color: #f0b74b;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -248,6 +304,7 @@ a:active {
 .mes_no_disponible{
     color:black;
     background-color: lightgray;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -257,18 +314,24 @@ a:active {
 .mes_Nuevo{
     color:black;
     background-color: white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-color:white;
     border-style: groove;
 }
 
-
+.dia_estatus{
+    padding: 4px;
+    margin: 0px;
+    border-style: groove;
+}
 
 .dia_Abierto{
     color:black;
     background-color:#f0b74b;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -278,6 +341,7 @@ a:active {
     color:white;
     background-color:#db52a5 ;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -287,6 +351,7 @@ a:active {
     color:black;
     background-color: lightgray;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -296,6 +361,7 @@ a:active {
     color:black;
     background-color:SkyBlue;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -305,6 +371,7 @@ a:active {
     color:black;
     background-color:white;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -314,6 +381,7 @@ a:active {
     color:white;
     background-color:#db52a5;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -323,6 +391,7 @@ a:active {
     color:white;
     background-color:darkgray;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -332,6 +401,7 @@ a:active {
     color:black;
     background-color:lightgray;
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -340,8 +410,8 @@ a:active {
 .estatusCita_Valoracion{
     color:black;
     background-color:SkyBlue;
-
     border-color:white;
+    font-size: 3vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -366,7 +436,7 @@ a:active {
   height: 100%;
   width: 50%;
   position: fixed;
-  z-index: 1;
+  z-index: 4;
   top: 50px;
   right: 0;
   background-color: #02b1aa;

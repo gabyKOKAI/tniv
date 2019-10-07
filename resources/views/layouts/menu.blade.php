@@ -1,4 +1,19 @@
+<?php
+    date_default_timezone_set('America/Mexico_City');
+    $fecha = date('d/m/Y', time());
+    $mesFecha = date('m', time());
+    $mesFecha = DateTime::createFromFormat('!m', $mesFecha);
+    setlocale(LC_TIME, 'es');
+    $mesFecha1 = strftime("%B", $mesFecha->getTimestamp());
+    $anoFecha = date('Y', time());
 
+    $sucsSes = session('sucursalesSession');
+    $sucSes = session('sucursalSession');
+
+    $numCitas = session('numCitas');
+    $numCitasTomPerAg = session('numCitasTomPerAg');
+    $numCitasPosibles = session('numCitasPosibles');
+?>
 <div class="navbar navbar-default menuVint" role="navigation" id="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">
@@ -7,7 +22,6 @@
             <!--/a-->
             <span class="navbar-brand hidden-sm hidden-md hidden-lg hidden-xl">
                 @if(Session::has('sucursalSession'))
-                    <?php $sucSes = session('sucursalSession'); ?>
                     <h6>{{$sucSes->nombre}}</h6>
                 @endif
             </span>
@@ -40,17 +54,12 @@
         </div>
     </div>
 
-    <?php $sucsSes = session('sucursalesSession'); ?>
     <div class="hidden-xs hidden-sm hidden-md hidden-lg hidden-xl collapse navbar-collapse">
         <span class="">
             <ul class="nav navbar-nav ">
                 @if(Session::has('sucursalSession'))
-                    <?php $sucSes = session('sucursalSession'); ?>
                     @if(in_array(Auth::user()->rol, ['Cliente']))
                         <li class="dropdown">
-                            <?php $numCitas = session('numCitas'); ?>
-                            <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
-                            <?php $numCitasPosibles = session('numCitasPosibles'); ?>
                             <li class="dropdown">
                                 <a href="/">Citas</a>
                             </li>
@@ -68,16 +77,6 @@
                                Agenda<span class="caret"/>
                             </a>
                             <ul class="dropdown-menu">
-                                <?php
-                                    date_default_timezone_set('America/Mexico_City');
-                                    $fecha = date('d/m/Y', time());
-                                    $mesFecha = date('m', time());
-                                    $mesFecha = DateTime::createFromFormat('!m', $mesFecha);
-                                    setlocale(LC_TIME, 'es');
-                                    $mesFecha1 = strftime("%B", $mesFecha->getTimestamp());
-                                    $anoFecha = date('Y', time());
-                                ?>
-
                                 <li>
                                     <a href="/meses">Meses</a>
                                 </li>
@@ -99,7 +98,7 @@
                 @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
-                           Administración {{$sucSes->nombre}}<span class="caret"/>
+                           Administración <span class="caret"/>
                         </a>
 
                         <ul class="dropdown-menu">
@@ -119,6 +118,22 @@
                             </li>
                             <li>
                                 <a href="/cliente/-1">Registrar Cliente</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
+                           Citas <span class="caret"/>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="/citasHoy">Hoy</a>
+                            </li>
+                            <li>
+                                <a href="/citasMes">Mes</a>
+                            </li>
+                            <li>
+                                <a href="/citasCliente">Cliente</a>
                             </li>
                         </ul>
                     </li>
@@ -144,13 +159,21 @@
                                 <ul class="dropdown-menu">
                                     @foreach($sucsSes as $suc)
                                         <li>
-                                            <a href="/sucursalSelected/{{$suc->id}}">{{$suc->nombre}}</a>
+                                            <a href="/sucursalSelected/{{$suc->id}}">
+                                                @if($sucSes == $suc)
+                                                    <strong>
+                                                         {{$suc->nombre}}
+                                                    </strong>
+                                                @else
+                                                    {{$suc->nombre}}
+                                                @endif
+                                                </a>
                                         </li>
                                     @endforeach
                                 </ul>
                             @else
                                 @if(Session::has('sucursalSession'))
-                                    <a>{{$sucSes->nombre}}</a>
+                                    <!--a>{{$sucSes->nombre}}</a-->
                                     <!--a>{{$sucSes->nombre}} tiene {{$sucSes->horasCancelar}} hr para cancelar</a-->
                                 @endif
                             @endif
@@ -158,17 +181,18 @@
                     @endif
 
                     <li class="dropdown">
-                        <a href="/clienteUser/{{Auth::user()->id}}">Perfil {{ Auth::user()->name }}</a>
+                        <a href="/clienteUser/{{Auth::user()->id}}"> <span class="glyphicon glyphicon-user"></span>{{Auth::user()->name }}</a>
                     </li>
                     <li class="dropdown">
-                        <a href="/" class="glyphicon glyphicon-home">
+                        <a href="/">
+                        <span class="glyphicon glyphicon-home"></span>
                         </a>
                     </li>
                     <li class="dropdown">
                         <a href="{{ route('logout') }}"
                             onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();"
-                            class="glyphicon glyphicon-log-out">
+                            document.getElementById('logout-form').submit();">
+                            <span class="glyphicon glyphicon-log-out"></span>
                         </a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             {{ csrf_field() }}
@@ -180,68 +204,7 @@
     </div>
 </div>
 
-@if(Session::has('abrirMenu'))
-<?php Session::forget('abrirMenu'); ?>
-<span class="hidden-sm hidden-md hidden-lg hidden-xl">
-    <!--div class="navbar-collapse" role="navigation" id="navigation"-->
-        <div id="mySidenav" class="sidenav">
-            @if(in_array(Auth::user()->rol, ['Cliente']))
-                <?php $numCitas = session('numCitas'); ?>
-                <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
-                <?php $numCitasPosibles = session('numCitasPosibles'); ?>
-                <a class="letraMenu" href="/">Citas</a>
-                @if($numCitas < 6 and $numCitasTomPerAg<$numCitasPosibles)
-                    <a class="letraMenu" href="/agendaCita">Solicitar Cita</a>
-                @endif
-            @endif
-            @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
-                <a class="letraMenu" href="/meses">Meses</a>
-                <a class="letraMenu" href="/anoActual">Este Año ({{$anoFecha}})</a>
-                <a class="letraMenu" href="/mesActual">Este Mes ({{$mesFecha1}})</a>
-                <a class="letraMenu" href="/diaActual">Hoy ({{$fecha}})</a>
-                <hr class="">
-                @if(in_array(Auth::user()->rol, ['Master','Admin']))
-                        <a class="letraMenu" href="/usuarios">Usuarios</a>
-                        <a class="letraMenu" href="/usuario/-1">Registrar Usuario</a>
-                        <a class="letraMenu" href="/sucursales">Sucursales</a>
-                @endif
-                <a class="letraMenu" href="/clientes">Clientes</a>
-                <a class="letraMenu" href="/cliente/-1">Registrar Cliente</a>
-            @endif
-            @if(Session::has('sucursalesSession'))
-                @if(count($sucsSes)>1)
-                    <hr class="">
-                    @foreach($sucsSes as $suc)
-                        @if($sucSes == $suc)
-                            <strong>
-                        @endif
-                                <a class="letraMenu" href="/sucursalSelected/{{$suc->id}}">{{$suc->nombre}}</a>
-                        @if($sucSes == $suc)
-                            </strong>
-                        @endif
-                    @endforeach
-                @endif
-            @endif
-            <hr class="">
-            <a class="letraMenu" href="/clienteUser/{{Auth::user()->id}}">Perfil {{ Auth::user()->name }}</a>
-            <br>
-            <br>
-            <br>
-        </div>
-    <!--/div-->
-</span>
-@endif
-
 @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
-    <?php
-        date_default_timezone_set('America/Mexico_City');
-        $fecha = date('d/m/Y', time());
-        $mesFecha = date('m', time());
-        $mesFecha = DateTime::createFromFormat('!m', $mesFecha);
-        setlocale(LC_TIME, 'es');
-        $mesFecha1 = strftime("%B", $mesFecha->getTimestamp());
-        $anoFecha = date('Y', time());
-    ?>
     <div class="col-sm-12 hidden-xs center">
         Agenda: <a class="btn btn-pagInicio" href="/diaActual">Hoy ({{$fecha}})</a>
         <a class="btn btn-pagInicio" href="/mesActual">{{$mesFecha1}}</a>

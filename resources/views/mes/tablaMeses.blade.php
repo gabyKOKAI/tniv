@@ -1,5 +1,5 @@
 @if(count($meses)>0)
-    <a href="{{ URL::to('mes/-1/')}}" class="btn btn-primary btn-small grisC">Crear Mes de otro año</a>
+    <a href="{{ URL::to('mes/-1/')}}" class="btn btn-crear-mes">Crear Mes de otro año</a>
     <?php
         $anoAnt = 1900;
         $mesAnt = 0;
@@ -16,7 +16,7 @@
 
             @if($mesAnt < 12 and $anoAnt != 1900)
                 @foreach(range($mesAnt+1,12,1) as $mesVacio)
-                    <div class="col-sm-2 mes_Nuevo" align="center">
+                    <div class="col-xs-4 mes_Nuevo" align="center">
                         <form method='POST' action='/mes/guardar/-1'>
                             {{ csrf_field() }}
                             <input type="hidden" name="ano" value="{{$mes->ano}}">
@@ -32,10 +32,10 @@
                     </div>
                 @endforeach
             @endif
-            <div class="col-sm-12">
+            <div class="col-xs-12">
                 <br>
             </div>
-            <div class="col-sm-12 SeaGreen border align-self-center">
+            <div class="col-xs-12 SeaGreen border align-self-center">
                 {{$mes->ano}}
             </div>
             <?php
@@ -45,7 +45,7 @@
 
          @if($mesAnt+1 < $mesAct)
             @foreach(range($mesAnt+1,$mesAct-1,1) as $mesVacio)
-                <div class="col-sm-2 mes_Nuevo" align="center">
+                <div class="col-xs-4 mes_Nuevo" align="center">
                     <form method='POST' action='/mes/guardar/-1'>
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
@@ -63,7 +63,7 @@
             @endforeach
          @endif
 
-        <div class="col-sm-2 mes_{{$mes->estatus}}" align="center">
+        <div class="col-xs-4 mes_{{$mes->estatus}}" align="center">
             <form method='POST' action='{{ URL::to('mes/' . $mes->id) }}'>
                 {{ csrf_field() }}
                 <input type='submit' value='{{$mes1}}' class="btn btn-mes">
@@ -79,7 +79,7 @@
     @endforeach
     @if($mesAnt < 12 and $anoAnt != 1900)
         @foreach(range($mesAnt+1,12,1) as $mesVacio)
-            <div class="col-sm-2 mes_Nuevo" align="center">
+            <div class="col-xs-4 mes_Nuevo" align="center">
                 <form method='POST' action='/mes/guardar/-1'>
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
@@ -91,7 +91,7 @@
                         $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
                         $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
                     ?>
-                    <input type='submit' value='Crear {{$mesVacio1}} {{$mes->ano}}' class='btn btn-crear-mes'>
+                    <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-crear-mes'>
                 </form>
             </div>
         @endforeach
@@ -100,7 +100,7 @@
 @else
     <div class="container">
         <div class="row">
-            <div class="col-sm-12 align-center">
+            <div class="col-xs-12 align-center">
                 <h4 class="center">
                     Sin Meses <a href="{{ URL::to('mes/-1/')}}" class="glyphicon glyphicon glyphicon-plus-sign"></a>
                 </h4>

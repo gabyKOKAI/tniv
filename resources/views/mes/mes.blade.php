@@ -8,91 +8,85 @@
     <?php setlocale(LC_TIME, 'es_ES'); ?>
     <div class="container">
         <div class="row">
-            @if($mes->estatus=="Abierto")
-                <div class="col-sm-12 form-group required control-label SkyBlue" align="center">
-                    El mes esta {{$mes->estatus}}
-                </div>
-            @elseif($mes->estatus=="Inactivo")
-                <div class="col-sm-12 form-group required control-label grisC" align="center">
-                    El mes esta {{$mes->estatus}}
-                </div>
-            @elseif($mes->estatus=="Cerrado")
-                <div class="col-sm-12 form-group required control-label red" align="center">
-                    El mes esta {{$mes->estatus}}
+            @if($mes->id <> -1)
+                <div class="col-sm-12 form-group required control-label mes_{{$mes->estatus}}" align="center">
+                    Mes {{$mes->estatus}}
                 </div>
             @endif
-
             <div class="col-sm-12 align-center">
-               @if($mes->id != -1)
-                    <form method='POST' action='/mes/guardar/{{$mes->id}}'>
-               @else
-                    <form method='POST' action='/mes/guardar/-1'>
-               @endif
-                       {{ csrf_field() }}
-                       <input type="hidden" name="_method" value="PUT">
-                       <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <div class="container center">
-                            <div class="row">
+                <div class="container center">
+                    @if($mes->id != -1)
+                        <form method='POST' action='/mes/guardar/{{$mes->id}}'>
+                    @else
+                        <form method='POST' action='/mes/guardar/-1'>
+                    @endif
 
-                                <div class="col-sm-2 form-group control-label" align="center">
-                                    <a href="{{ URL::to('meses/'.$mes->ano)}}" class="glyphicon glyphicon-calendar"></a>
-                                    <label for='ano'>Año</label>
+                        {{ csrf_field() }}
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <div class="row letraNormal">
+                            <div class="col-xs-4 form-group control-label" align="center">
+                                @if($mes->id == -1)
                                     <div class="input-group">
-                                        @if($mes->id == -1)
-                                            <input type='number' name='ano' id='ano' value='{{$mes->ano}}'  class='form-control' required>
-                                        @else
-                                            <input type="hidden" name="ano" value="{{$mes->ano}}">
-                                            <input type='number' name='ano' id='ano' value='{{$mes->ano}}'  class='form-control' disabled>
-                                        @endif
+                                        <label for='ano'>
+                                        <a href="{{ URL::to('meses/'.$mes->ano)}}" class="glyphicon glyphicon-calendar"></a> Año</label>
+                                        <input type='number' name='ano' id='ano' value='{{$mes->ano}}'  class='form-control' required>
                                     </div>
-                                </div>
+                                @else
+                                    <a href="{{ URL::to('meses/'.$mes->ano)}}" class="glyphicon glyphicon-calendar"></a>
+                                    <input type="hidden" name="ano" value="{{$mes->ano}}">
+                                    <input type="hidden" name="mes" value="{{$mes->mes}}">
+                                    <!--input type='number' name='ano' id='ano' value='{{$mes->ano}}'  class='form-control' disabled-->
+                                    <?php
+                                        setlocale(LC_TIME, 'es_ES');
+                                        $fecha = DateTime::createFromFormat('!m', $mes->mes);
+                                        $mes2 = strftime("%B", $fecha->getTimestamp()); // marzo
+                                    ?>
+                                    <br>
+                                    {{$mes2}} {{$mes->ano}}
+                                @endif
+                            </div>
 
-                                <div class="col-sm-2 form-group control-label" align="center">
+                            @if($mes->id == -1)
+                                <div class="col-xs-4 form-group control-label" align="center">
                                     <label for='mes'>Mes </label>
-                                        @if($mes->id == -1)
-                                            <select name="mes"  class="form-control" required>
-                                        @else
-                                            <input type="hidden" name="mes" value="{{$mes->mes}}">
-                                            <select name="mes"  class="form-control" disabled>
-                                        @endif
-
-                                            @foreach (range(1, 12, 1) as $mes1)
-                                                <?php
-                                                    setlocale(LC_TIME, 'es_ES');
-                                                    $fecha = DateTime::createFromFormat('!m', $mes1);
-                                                    $mes2 = strftime("%B", $fecha->getTimestamp()); // marzo
-                                                ?>
-                                                <option value="{{ $mes1 }}" {{ $mes1 == $mes->mes ? 'selected="selected"' : '' }}>{{ $mes2 }} </option>
-                                            @endforeach
-                                        </select>
-                                </div>
-
-                                <div class="col-sm-2" align="center">
-                                    <label for='estatus'>Estatus</label>
-                                    <select name="estatus"  class="form-control" required>
-                                    @foreach($estatusForDropdown as $estatus)
-                                    <option value="{{ $estatus }}" {{ $estatus == $estatusSelected ? 'selected="selected"' : '' }}> {{ $estatus }} </option>
-                                    @endforeach
+                                    <select name="mes"  class="form-control" required>
+                                        @foreach (range(1, 12, 1) as $mes1)
+                                            <?php
+                                                setlocale(LC_TIME, 'es_ES');
+                                                $fecha = DateTime::createFromFormat('!m', $mes1);
+                                                $mes2 = strftime("%B", $fecha->getTimestamp()); // marzo
+                                            ?>
+                                            <option value="{{ $mes1 }}" {{ $mes1 == $mes->mes ? 'selected="selected"' : '' }}>{{ $mes2 }} </option>
+                                        @endforeach
                                     </select>
                                 </div>
+                            @endif
 
-                                <div class="col-sm-2 align-self-center">
-                                    <br>
-                                        @if($mes->id == -1)
-                                            <input type='submit' value='Crear Mes' class='btn btn-primary btn-small'>
-                                        @else
-                                            <input type='submit' value='Actualiza' class='btn btn-primary btn-small'>
-                                        @endif
-                                </div>
+                            <div class="col-xs-4" align="center">
+                                <label for='estatus'>Estatus</label>
+                                <select name="estatus"  class="form-control" required>
+                                    @foreach($estatusForDropdown as $estatus)
+                                        <option value="{{ $estatus }}" {{ $estatus == $estatusSelected ? 'selected="selected"' : '' }} class="letraNormal"> {{ $estatus }} </option>
+                                    @endforeach
+                                </select>
                             </div>
-               </form>
 
-                        <!--/div-->
-               @include('mes.diasCalendarioMes')
-
-
+                            @if($mes->id == -1)
+                                <div class="col-xs-12 align-self-center">
+                                    <input type='submit' value='Crear Mes' class='btn btn-primary btn-small letraNormal'>
+                                </div>
+                            @else
+                                <div class="col-xs-2 align-self-center">
+                                    <br>
+                                    <input type='submit' value='Actualiza' class='btn btn-primary btn-small letraNormal'>
+                                </div>
+                            @endif
+                        </div>
+                    </form>
+                    @include('mes.diasCalendarioMes')
+                </div>
 			</div>
 		</div>
     </div>
-
 @endsection

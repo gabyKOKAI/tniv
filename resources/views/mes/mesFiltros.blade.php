@@ -6,7 +6,7 @@
                 @if(count($anosForDropdown)>1)
 
                 <div class="col-sm-12 form-group control-label" align="left">
-                    <label for='ano'>Año</label>
+                    <label for='ano'>Año:</label>
                             @if($anoSelected=="")
                                 <a href="/meses" class="btn btn-filtroSelected">Todos</a>
                             @else

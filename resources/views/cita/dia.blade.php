@@ -15,7 +15,7 @@
                     <span class="hidden-xs">
                 @endif
                 @if($hora->estatus == 1)
-                    <div class="col-md-1 col-sm-2 col-xs-3 border" align="center">
+                    <div class="col-md-2 col-sm-2 col-xs-3 border" align="center">
                 @else
                     <!--div class="col-md-1 col-sm-2 col-xs-3 border grisC" align="center"-->
                 @endif
