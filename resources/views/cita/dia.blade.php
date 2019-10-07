@@ -29,7 +29,7 @@
                                 <button type="submit" value="Submit" class='btn btn-horaDisponible'>{{\Carbon\Carbon::createFromFormat('H:i:s',$hora->hora)->format('g:i a')}} </button>
                             @else
                                 @if($hora->estatus == 1)
-                                    <input type='submit' value='Cupo Completo' class='btn btn-horaNoDisponible ' disabled>
+                                    <input type='submit' value='Completo' class='btn btn-horaNoDisponible ' disabled>
                                 @else
                                     <!--input type='submit' value='Cerrado' class='btn btn-horaNoDisponible ' disabled-->
                                 @endif

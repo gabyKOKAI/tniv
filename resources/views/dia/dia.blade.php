@@ -143,7 +143,7 @@
                                                         <input type='submit' value='Agendar' class='btn btn-agendar '>
                                                     @else
                                                         <!--input type='submit' value='Cupo Completo' class='btn btn-agendar ' disabled-->
-                                                        <input type='submit' value='Agendar' class='btn btn-agendar '>
+                                                        <input type='submit' value='Completo*' class='btn btn-agendar '>
                                                     @endif
                                                 @endif
                                             @elseif($mes->estatus=="Cerrado")
@@ -153,7 +153,7 @@
                                                     @if($hora->citasActivas<$hora->numCitasMax)
                                                         <input type='submit' value='Cerrado' class='btn btn-agendar ' disabled>
                                                     @else
-                                                        <input type='submit' value='Cupo Completo' class='btn btn-agendar ' disabled>
+                                                        <input type='submit' value='Completo' class='btn btn-agendar ' disabled>
                                                     @endif
                                                 @endif
                                             @endif

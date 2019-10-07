@@ -20,7 +20,7 @@
     text-align: center;
     font-family: questrial, sans-serif;
     font-weight: 400;
-    font-size:5vw;
+    font-size:4vw; //ok4
     color: #00A299;
     line-height: 51px;
 }
@@ -102,7 +102,7 @@ a:active {
  }
 
 .fondoCalendario{
-    font-size: 4vw;
+    font-size: 2vw;
 }
 
 .fondoCalendarioCerrar, .dia_1{
@@ -135,14 +135,14 @@ a:active {
     padding: 4px;
     margin: 4px;
     width:100%;*/
-    font-size: 3vw;
+    font-size: 2vw;
     margin: 0px;
     padding: 6px;
 }
 
 .letraNormal{
     color:black;
-    font-size: 3vw;
+    font-size: 2vw;
 }
 
 .comboNormal{
@@ -193,16 +193,15 @@ a:active {
 
  .btn-dia{
     color:black;
-
     /*background-color:#f0b74b;
     border-color:white;
-border-color:#f0b74b;
+    border-color:#f0b74b;
     padding: 6px;
     margin: 4px;
     width:100%;*/
-    font-size: 4vw;
+    font-size: 2vw;
     margin: 0px;
-    padding: 6px;
+    padding: 10px;
 }
 
 .btn-sucNoPermitida{
@@ -218,7 +217,7 @@ border-color:#f0b74b;
     border-color:#007bff*/
     background-color:SkyBlue;
     border-color:SkyBlue;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 1px;
 }
 
@@ -226,36 +225,36 @@ border-color:#f0b74b;
     color:Black;
     background-color:lightgray;
     border-color:lightgray;
-    font-size:  3vw;
+    font-size:  2vw;
     padding: 1px;
 }
 
 .btn-horaDisponible{
     color:black;
     background-color:#f0b74b;
-    font-size: 2.5vw;
+    font-size: 2vw;
     padding: 10px;
 }
 
 .btn-agendar{
     color:black;
     background-color:#f0b74b;
-    font-size: 2.5vw;
+    font-size: 2vw;
     padding: 1px;
 }
 
 .btn-horaNoDisponible{
     color:Black;
     background-color:lightgray;
-    font-size: 3vw;
-    padding: 1px;
+    font-size: 2vw;
+    padding: 10px;
 }
 
 .mes_Abierto{
     color:black;
     background-color: #f0b74b;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -265,7 +264,7 @@ border-color:#f0b74b;
     color:black;
     background-color: lightgray;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -275,7 +274,7 @@ border-color:#f0b74b;
     color:black;
     background-color: #72d2ec;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -314,7 +313,7 @@ border-color:#f0b74b;
 .mes_Nuevo{
     color:black;
     background-color: white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -331,7 +330,7 @@ border-color:#f0b74b;
     color:black;
     background-color:#f0b74b;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -341,7 +340,7 @@ border-color:#f0b74b;
     color:white;
     background-color:#db52a5 ;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -351,7 +350,7 @@ border-color:#f0b74b;
     color:black;
     background-color: lightgray;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -361,7 +360,7 @@ border-color:#f0b74b;
     color:black;
     background-color:SkyBlue;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -371,7 +370,7 @@ border-color:#f0b74b;
     color:black;
     background-color:white;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -381,7 +380,7 @@ border-color:#f0b74b;
     color:white;
     background-color:#db52a5;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -391,7 +390,7 @@ border-color:#f0b74b;
     color:white;
     background-color:darkgray;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -401,7 +400,7 @@ border-color:#f0b74b;
     color:black;
     background-color:lightgray;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -411,7 +410,7 @@ border-color:#f0b74b;
     color:black;
     background-color:SkyBlue;
     border-color:white;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -447,7 +446,7 @@ border-color:#f0b74b;
 
 .letraMenu{
     padding: 2px 2px 2px 2px;
-    font-size:5vw;
+    font-size:4vw; //ok4
     color: #f1f1f1;
     display: block;
     text-align: left;
@@ -457,7 +456,7 @@ border-color:#f0b74b;
 .sidenav a {
   padding: 2px 2px 2px 2px;
   text-decoration: none;,
-  font-size:1vw;
+  font-size:2vw;
   color: #f1f1f1;
   display: block;
   transition: 0.3s;
