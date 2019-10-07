@@ -64,11 +64,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="clienteFiltros.blade.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="clienteFiltros.blade.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/resources/views/cita/clienteFiltros.blade.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="405">
-              <caret line="15" column="71" lean-forward="false" selection-start-line="15" selection-start-column="71" selection-end-line="15" selection-end-column="71" />
+            <state relative-caret-position="459">
+              <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
               <folding />
             </state>
           </provider>
@@ -94,7 +94,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dia.blade.php" pinned="false" current-in-tab="true">
+      <file leaf-file-name="dia.blade.php" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/resources/views/dia/dia.blade.php">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="180">
@@ -104,11 +104,20 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="menu.blade.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/layouts/menu.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="648">
+              <caret line="138" column="26" lean-forward="false" selection-start-line="138" selection-start-column="26" selection-end-line="138" selection-end-column="26" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
     </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>@screen</find>
       <find>Sucursales</find>
       <find>sucursales</find>
       <find>Perfil</find>
@@ -138,6 +147,7 @@
       <find>activas</find>
       <find>horarios</find>
       <find>abrir</find>
+      <find>abrir h</find>
     </findStrings>
     <replaceStrings>
       <replace>sucursal</replace>
@@ -202,22 +212,22 @@
         <option value="$PROJECT_DIR$/resources/views/mes/mesFiltros.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/mes/tablaMeses.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/master.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/layouts/menuMovil.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/mes/diasCalendarioMes.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/cita/dia.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/mes/mes.blade.php" />
         <option value="$PROJECT_DIR$/public/css/vint.css" />
-        <option value="$PROJECT_DIR$/resources/views/cita/clienteFiltros.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/cita/tablaClientes.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/dia/dia.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/menu.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/cita/clienteFiltros.blade.php" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-9" />
     <option name="y" value="-9" />
-    <option name="width" value="874" />
+    <option name="width" value="891" />
     <option name="height" value="1098" />
   </component>
   <component name="ProjectView">
@@ -754,14 +764,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/layouts/menu.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="183" column="142" lean-forward="true" selection-start-line="183" selection-start-column="24" selection-end-line="183" selection-end-column="142" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/cita/citasDisponibles.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="622">
@@ -818,14 +820,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/cita/clienteFiltros.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="15" column="71" lean-forward="false" selection-start-line="15" selection-start-column="71" selection-end-line="15" selection-end-column="71" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Hora.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="288">
@@ -862,6 +856,22 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="84" column="94" lean-forward="false" selection-start-line="84" selection-start-column="94" selection-end-line="84" selection-end-column="94" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/menu.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="648">
+          <caret line="138" column="26" lean-forward="false" selection-start-line="138" selection-start-column="26" selection-end-line="138" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/cita/clienteFiltros.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="17" column="36" lean-forward="false" selection-start-line="17" selection-start-column="36" selection-end-line="17" selection-end-column="36" />
           <folding />
         </state>
       </provider>

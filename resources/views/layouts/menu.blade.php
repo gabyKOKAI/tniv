@@ -121,7 +121,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="dropdown">
+                    <!--li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true">
                            Citas <span class="caret"/>
                         </a>
@@ -136,7 +136,7 @@
                                 <a href="/citasCliente">Cliente</a>
                             </li>
                         </ul>
-                    </li>
+                    </li-->
                 @endif
             </ul>
 

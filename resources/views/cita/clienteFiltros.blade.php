@@ -13,15 +13,10 @@
                         <input type="text" name="nombre" value='{{ app('request')->input('nombre') }}'>
                         <input type='submit' value='Buscar' class='btn btn-filtro letraNormal'>
                 </div>
-                <div class="col-xs-12 col-sm-3 form-group control-label" align="center">
-                    <span class="hidden-sm hidden-md hidden-lg hidden-xl"><hr></span>
-                    <a href="/dia/{{$hora->dia_id}}" class="btn btn-filtro"><span class=" letraNormal glyphicon glyphicon-remove"></span> Regresar</a>
-                </div>
-                <!--div class="col-xs-4 form-group control-label" align="center">
-                    <label for='correo'>Correo:</label>
-                    <input type="text" name="correo" value='{{ app('request')->input('correo') }}'>
-                </div-->
             </form>
+        </div>
+        <div class="col-sm-12 center">
+            <a href="/dia/{{$hora->dia_id}}" class="btn btn-filtro letraNormal"><span class="glyphicon glyphicon-remove"></span> Regresar</a>
         </div>
 
 </div>
