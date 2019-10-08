@@ -62,6 +62,7 @@ class UsuarioController extends Controller
                 # Instantiate a new Model object
                 $usuario = new User();
                 $res = "creado";
+                $usuario->password = 'TEPORALkokai123456.!*';
             }else{
                 $res = "ya existe";
             }
@@ -76,7 +77,6 @@ class UsuarioController extends Controller
             # Set the parameters
             $usuario->name = $request->input('name');
             $usuario->email = $request->input('email');
-            $usuario->password = 'TEPORALkokai123456.!*';
             $usuario->rol = $request->input('rol');
 
             $usuario->save();
