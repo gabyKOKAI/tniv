@@ -8,6 +8,7 @@ use tniv\Dia;
 use tniv\Hora;
 use tniv\Cita;
 use tniv\Cliente;
+use tniv\Servicio;
 use tniv\User;
 use Datetime;
 use URL;
@@ -122,9 +123,8 @@ class CitaController extends Controller
 
         $numCitas = Cita::getNumCitas($request['id_cliente']);
         $numCitasTomadas = Cita::getNumCitasTomadas($request['id_cliente']);
-        $numCitasValoracion = Cita::getValoracionTomada($request['id_cliente']);
-        $numCitasTomPerAg = Cita::getNumCitasTomPerAg(-1);
-        $numCitasPosibles = 21*Cliente::getNumServicio($cliente->id);
+        $numCitasTomPerAg = Cita::getNumCitasTomPerAg($cliente->id);
+        $numCitasPosibles = Cliente::getNumCitasServicio($cliente->id);
         if($numCitas<5 and $numCitasTomPerAg<$numCitasPosibles){
             $cita = Cita::join('horas', 'citas.hora_id', '=', 'horas.id')
             ->join('dias', 'horas.dia_id', '=', 'dias.id')
@@ -138,57 +138,75 @@ class CitaController extends Controller
             ->select('horas.hora', 'dias.numDia','meses.mes','meses.ano','clientes.nombre','citas.estatus','dias.id as diaId','meses.id as mesId' )
             ->first();
 
-            if(!$cita){
-                $cita = Cita::where('cliente_id','=',$cliente->id)->where('hora_id','=',$hora->id)->first();
-                if(!$cita){
-                    $cita = new Cita();
-                }
-
-                #se checa en el view que no haya mas del numero máximo de citas por hora
-                # Set the parameters
-                if($tipo == "valoracion" and ($numCitas+$numCitasTomadas+$numCitasValoracion<=0)){
-                    $cita->estatus = "Valoracion";
-                }else{
-                    if($tipo == "valoracion"){
-                        $tipo = "cita, ya no puede agendar valoracion,";
+            $servicio = Servicio::where('cliente_id','=',$cliente->id)->where('estatus','=','Iniciado')->first();
+            if($servicio) {
+                if (!$cita) {
+                    $cita = Cita::where('cliente_id', '=', $cliente->id)->where('hora_id', '=', $hora->id)->first();
+                    if (!$cita) {
+                        $cita = new Cita();
                     }
-                    $cita->estatus = "Agendada"; #'Agendada', 'Cancelada', 'Tomada', 'Perdida','Valoracion','VTomada'
-                }
-                $cita->hora_id = $request['hora'];
-                $cita->cliente_id = $cliente->id;
 
-                $cita->save();
+                    #se checa en el view que no haya mas del numero máximo de citas por hora
+                    # Set the parameters
+                    if ($tipo == "valoracion" and ($servicio->valoracion == 0)) {
+                        $cita->estatus = "Valoracion";
+                    } else {
+                        if ($tipo == "valoracion") {
+                            $tipo = "cita, ya no puede agendar valoracion,";
+                        }
+                        $cita->estatus = "Agendada"; #'Agendada', 'Cancelada', 'Tomada', 'Perdida','Valoracion','VTomada'
+                    }
+                    $cita->hora_id = $request['hora'];
+                    $cita->cliente_id = $cliente->id;
 
-                #Enviar correo
-                $agendadas =  Cita::getNumCitas($request['id_cliente']);
-                $tomadas = Cita::getNumCitasTomadas($request['id_cliente']);
-                $posibles = 21*Cliente::getNumServicio($request['id_cliente']);
-                $mensaje = [];
-                $mensaje[0] = "Quedó agendada su ". $tipo.' del '.$fecha.'.';
-                $mensaje[1] = "Le recordamos que tiene agendades ".$agendadas." citas y ha tomado ".$tomadas." de ".$posibles.".";
-                $mensaje[2] = "Para cualquier cambio o cancelación, favor de hacerlo directamente en la página o comunicarte con nosotros.";
-                $mensaje[3] = "Muchas Gracias";
-                $mensaje[4] = "";
-                $this->enviarCorreo($cliente->nombre, $cliente->correo, 'Cita agendada el '.$fecha, $mensaje);
+                    $cita->save();
 
-                if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
-                    return redirect('dia/'.$dia->id)->with('success', 'Quedó agendada la '. $tipo .' para '.$cliente->nombre.' el '.$fecha);
-                }else{
-                    return redirect('/')->with('success', 'Quedó agendada su '. $tipo .' del '.$fecha);
+                    #Actualizo el numero de citas agendadas en el servicio
+
+                    $servicio->numCitasAgendadas = $servicio->numCitasAgendadas + 1;
+                    if($cita->estatus == "Valoracion"){
+                        $servicio->valoracion = 1;
+                    }
+                    $servicio->save();
+
+                    if ($cliente->correoAgendar == 1 and Cita::regresaFechaCodigo($hora) >= Cita::regresaFechaCodigoHoy()) {
+                        #Enviar correo
+                        $agendadas = Cita::getNumCitas($request['id_cliente']);
+                        $tomadas = Cita::getNumCitasTomadas($request['id_cliente']);
+                        $posibles = Cliente::getNumCitasServicio($request['id_cliente']);
+                        $mensaje = [];
+                        $mensaje[0] = "Quedó agendada su " . $tipo . ' del ' . $fecha . '.';
+                        $mensaje[1] = "Le recordamos que tiene agendades " . $agendadas . " citas y ha tomado " . $tomadas . " de " . $posibles . ".";
+                        $mensaje[2] = "Para cualquier cambio o cancelación, favor de hacerlo directamente en la página o comunicarte con nosotros.";
+                        $mensaje[3] = "Muchas Gracias";
+                        $mensaje[4] = "";
+                        $this->enviarCorreo($cliente->nombre, $cliente->correo, 'Cita agendada el ' . $fecha, $mensaje);
+                    }
+                    if (in_array($usuario->rol, ['Master', 'Admin', 'AdminSucursal'])) {
+                        return redirect('dia/' . $dia->id)->with('success', 'Quedó agendada la ' . $tipo . ' para ' . $cliente->nombre . ' el ' . $fecha);
+                    } else {
+                        return redirect('/')->with('success', 'Quedó agendada su ' . $tipo . ' del ' . $fecha);
+                    }
+                } else {
+                    if (in_array($usuario->rol, ['Master', 'Admin', 'AdminSucursal'])) {
+                        return redirect('dia/' . $dia->id)->with('error', 'El cliente ' . $cliente->nombre . ' ya tiene una cita agendada este dia');
+                    } else {
+                        return redirect('/agendaCita/' . $cita->mesId . '/' . $cita->diaId)->with('error', 'Ya tiene una cita agendada este día.');
+                    }
                 }
             }else{
                 if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
-                    return redirect('dia/'.$dia->id)->with('error', 'El cliente '.$cliente->nombre.' ya tiene una cita agendada este dia');
+                    return redirect('dia/'.$dia->id)->with('error', 'El cliente '.$cliente->nombre.' ya no puede agendar más citas o no tiene servicio iniciado.');
                 }else{
-                    return redirect('/agendaCita/'.$cita->mesId.'/'.$cita->diaId)->with('error', 'Ya tiene una cita agendada este día.');
+                    return redirect('/')->with('error', 'Ya tiene el número máximo de citas que puede agendar o no tiene servicio iniciado.');
                 }
             }
         }else
         {
             if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
-                return redirect('dia/'.$dia->id)->with('error', 'El cliente '.$cliente->nombre.' ya no puede agendar más citas');
+                return redirect('dia/'.$dia->id)->with('error', 'El cliente '.$cliente->nombre.' ya no puede agendar más citas o no tiene servicio iniciado.');
             }else{
-                return redirect('/')->with('error', 'Ya tiene el número máximo de citas que puede agendar.');
+                return redirect('/')->with('error', 'Ya tiene el número máximo de citas que puede agendar o no tiene servicio iniciado.');
             }
         }
     }
@@ -205,40 +223,83 @@ class CitaController extends Controller
             $cliente = Cliente::find($cita->cliente_id);
         }
 
-        if($cita->estatus == 'Valoracion' and $estatus != 'Cancelada'){
-            $estatus = 'VTomada';
-        }
+        $servicio = Servicio::where('cliente_id','=',$cita->cliente_id)->where('estatus','=','Iniciado')->first();
+        if($servicio) {
+            if ($cita->estatus == 'Valoracion' and $estatus != 'Cancelada') {
+                $estatus = 'VTomada';
+            }
+            if ($cita->estatus == 'VTomada' and $estatus == 'Agendada') {
+                $estatus = 'Valoracion';
+            }
 
-        if($cita->estatus == 'VTomada' and $estatus == 'Agendada'){
-            $estatus = 'Valoracion';
-        }
+            #Actualizo el numero de citas toadas o perdidas en el servicio
+            if ($estatus == 'Agendada' and $cita->estatus == 'Tomada') {
+                $servicio->numCitasTomadas = $servicio->numCitasTomadas - 1;
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas + 1;
+            } elseif ($estatus == 'Agendada' and $cita->estatus == 'Perdida') {
+                $servicio->numCitasPerdidas = $servicio->numCitasPerdidas - 1;
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas + 1;
+            } elseif (in_array($estatus, ['Agendada'])) {
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas + 1;
+            } elseif (in_array($estatus, ['Tomada', 'Perdida', 'Cancelada']) and $cita->estatus == 'Agendada') {
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas - 1;
+                if (in_array($estatus, ['Tomada'])) {
+                    $servicio->numCitasTomadas = $servicio->numCitasTomadas + 1;
+                } elseif (in_array($estatus, ['Perdida'])) {
+                    $servicio->numCitasPerdidas = $servicio->numCitasPerdidas + 1;
+                }
+            } elseif ($cita->estatus == 'Valoracion' and $estatus != 'Cancelada') {
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas - 1;
+                $servicio->valoracion = 1;
+            } elseif ($cita->estatus == 'VTomada') {
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas + 1;
+                $servicio->valoracion = 1;
+            }elseif ($estatus == 'Cancelada' and $cita->estatus == 'Valoracion') {
+                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas - 1;
+                $servicio->valoracion = 0;
+            }
+            $servicio->save();
 
-        # Set the parameters
-        $cita->estatus = $estatus;
+            # Set the parameters
+            $cita->estatus = $estatus;
 
-        $cita->save();
+            $cita->save();
 
-        $hora = Hora::find($cita->hora_id);
-        $dia = Dia::find($hora->dia_id);
-        $fecha = Cita::regresaFecha($hora);
 
-        if(in_array($estatus,['Cancelada', 'Agendada','Valoracion']) and Cita::regresaFechaCodigo($hora) >= Cita::regresaFechaCodigoHoy()){
-            #Enviar correo
-            $agendadas =  Cita::getNumCitas($cliente->id);
-            $tomadas = Cita::getNumCitasTomadas($cliente->id);
-            $posibles = 21*Cliente::getNumServicio($cliente->id);
-            $mensaje = [];
-            $mensaje[0] = 'Quedó '.$estatus.' su cita del '.$fecha.'.';
-            $mensaje[1] = "Le recordamos que tiene agendades ".$agendadas." citas y ha tomado ".$tomadas." de ".$posibles.".";
-            $mensaje[2] = "Para cualquier cambio o cancelación, favor de hacerlo directamente en la página o comunicarte con nosotros.";
-            $mensaje[3] = "Muchas Gracias";
-            $mensaje[4] = "";
-            $this->enviarCorreo($cliente->nombre, $cliente->correo, 'Cita '.$estatus.' el '.$fecha, $mensaje);
-        }
-        if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
-            return redirect('dia/'.$dia->id)->with('success', 'Quedó '.$estatus.' la cita para el cliente '.$cliente->nombre.' el '.$fecha);
+            $hora = Hora::find($cita->hora_id);
+            $dia = Dia::find($hora->dia_id);
+            $fecha = Cita::regresaFecha($hora);
+
+            if (in_array($estatus, ['Cancelada', 'Agendada', 'Valoracion']) and Cita::regresaFechaCodigo($hora) >= Cita::regresaFechaCodigoHoy()) {
+                if (($estatus == 'Cancelada' and $cliente->correoCancelar == 1) or (in_array($estatus, ['Agendada', 'Valoracion']) and $cliente->correoAgendar == 1)) {
+
+                    #Enviar correo
+                    $agendadas = Cita::getNumCitas($cliente->id);
+                    $tomadas = Cita::getNumCitasTomadas($cliente->id);
+                    $posibles = Cliente::getNumCitasServicio($cliente->id);
+                    $mensaje = [];
+                    $mensaje[0] = 'Quedó ' . $estatus . ' su cita del ' . $fecha . '.';
+                    $mensaje[1] = "Le recordamos que tiene agendades " . $agendadas . " citas y ha tomado " . $tomadas . " de " . $posibles . ".";
+                    $mensaje[2] = "Para cualquier cambio o cancelación, favor de hacerlo directamente en la página o comunicarte con nosotros.";
+                    $mensaje[3] = "Muchas Gracias";
+                    $mensaje[4] = "";
+                    $this->enviarCorreo($cliente->nombre, $cliente->correo, 'Cita ' . $estatus . ' el ' . $fecha, $mensaje);
+                }
+            }
+
+            if (in_array($usuario->rol, ['Master', 'Admin', 'AdminSucursal'])) {
+                return back()->with('success', 'Quedó ' . $estatus . ' la cita para el cliente ' . $cliente->nombre . ' el ' . $fecha);
+                #redirect('dia/'.$dia->id)
+            } else {
+                return redirect('/')->with('success', 'Quedó ' . $estatus . ' su cita del ' . $fecha);
+            }
         }else{
-            return redirect('/')->with('success', 'Quedó '.$estatus.' su cita del '.$fecha);
+            if (in_array($usuario->rol, ['Master', 'Admin', 'AdminSucursal'])) {
+                return back()->with('error', 'El cliente no tiene servicio iniciado.');
+                #redirect('dia/'.$dia->id)
+            } else {
+                return back()->with('error', 'No tiene servicio iniciado.');
+            }
         }
 
     }
@@ -250,6 +311,7 @@ class CitaController extends Controller
 
     public function tomarCita(Request $request,$id = -1)
     {
+
         return $this->modificarEstatusCita($request, $id, "Tomada");
     }
 

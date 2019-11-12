@@ -4,6 +4,7 @@ namespace tniv;
 
 use Illuminate\Database\Eloquent\Model;
 use Datetime;
+use tniv\Servicio;
 
 class Cita extends Model
 {
@@ -65,13 +66,18 @@ class Cita extends Model
         return strftime("%y%m%d", $fecha->getTimestamp());
     }
 
-    public static function getProximasCitas()
+    public static function getProximasCitas($idCliente)
     {
         setlocale(LC_TIME, 'es_ES');
         $res = [];
         $usuario = auth()->user();
         if($usuario){
-            $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                $cliente = Cliente::find($idCliente);
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            }
+
             if($cliente){
                 #$citas = Cita::where('cliente_id','=',$cliente->id)->whereIn('estatus',['Agendada','Valoracion'])->get();
                 $citas = Cita::where('cliente_id','=',$cliente->id)->whereIn('estatus',['Agendada', 'Tomada', 'Perdida','Valoracion','VTomada'])->get();
@@ -122,22 +128,46 @@ class Cita extends Model
 
     public static function getNumCitas($idCliente)
     {
-        return Cita::getNumCitasEstatus($idCliente,['Agendada','Valoracion']);
+        #return Cita::getNumCitasEstatus($idCliente,['Agendada','Valoracion']);
+        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
+        if($servicio) {
+            return $servicio->numCitasAgendadas;
+        }else{
+            return 0;
+        }
     }
 
     public static function getNumCitasTomPerAg($idCliente)
     {
-        return Cita::getNumCitasEstatus($idCliente,['Tomada','Perdida','Agendada']);
+        #return Cita::getNumCitasEstatus($idCliente,['Tomada','Perdida','Agendada']);
+        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
+        if($servicio) {
+            return $servicio->numCitasTomadas + $servicio->numCitasPerdidas + $servicio->numCitasAgendadas;
+        }else{
+            return 0;
+        }
     }
 
     public static function getNumCitasTomadas($idCliente)
     {
-        return Cita::getNumCitasEstatus($idCliente,['Tomada', 'Perdida']);
+        #return Cita::getNumCitasEstatus($idCliente,['Tomada', 'Perdida']);
+        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
+        if($servicio) {
+            return $servicio->numCitasTomadas + $servicio->numCitasPerdidas;
+        }else{
+            return 0;
+        }
     }
 
     public static function getValoracionTomada($idCliente)
     {
-        return Cita::getNumCitasEstatus($idCliente,['VTomada']);
+        #return Cita::getNumCitasEstatus($idCliente,['VTomada','Valoracion']);
+        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
+        if($servicio) {
+            return $servicio->valoracion;
+        }else{
+            return 0;
+        }
     }
 
 
@@ -166,6 +196,14 @@ class Cita extends Model
                     foreach ($citas as $cita){
                         if($cita->estatus == "Agendada"){
                             $cita->estatus = "Tomada";
+
+                            #Actualizo el numero de citas tomadas en el servicio
+                            $servicio = Servicio::where('cliente_id','=',$cita->cliente_id)->where('estatus','=','Iniciado')->first();
+                            if($servicio) {
+                                $servicio->numCitasTomadas = $servicio->numCitasTomadas + 1;
+                                $servicio->save();
+                            }
+
                         }
 
                         if($cita->estatus == "Valoracion"){

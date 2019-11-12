@@ -1,17 +1,17 @@
 @if(count($meses)>0)
     <a href="{{ URL::to('mes/-1/')}}" class="btn btn-crear-mes">Crear Mes de otro año</a>
-    <?php
+    @php
         $anoAnt = 1900;
         $mesAnt = 0;
-    ?>
+    @endphp
     @foreach($meses as $mes)
-        <?php
+        @php
             $anoAct = $mes->ano;
             $mesAct = $mes->mes;
             setlocale(LC_TIME, 'es_ES');
             $fecha = DateTime::createFromFormat('!m', $mes->mes);
             $mes1 = strftime("%B", $fecha->getTimestamp());
-        ?>
+        @endphp
         @if($anoAnt != $anoAct)
 
             @if($mesAnt < 12 and $anoAnt != 1900)
@@ -38,9 +38,9 @@
             <div class="col-xs-12 SeaGreen border align-self-center">
                 {{$mes->ano}}
             </div>
-            <?php
+            @php
                 $mesAnt = 0;
-            ?>
+            @endphp
          @endif
 
          @if($mesAnt+1 < $mesAct)
@@ -70,10 +70,10 @@
             </form>
         </div>
 
-        <?php
+        @php
             $anoAnt = $anoAct;
             $mesAnt = $mesAct;
-        ?>
+        @endphp
         @if($anoAnt != $anoAct)
         @endif
     @endforeach

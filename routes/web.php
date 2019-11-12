@@ -27,14 +27,16 @@ Route::get('/', function (Request $request) {
     Cita::tomarCitas();
 
     $request->session()->put('sucursalesSession', $sucursales);
-    $proxCitas = Cita::getProximasCitas();
+    $proxCitas = Cita::getProximasCitas(-1);
     $request->session()->put('proxCitas', $proxCitas);
     $numCitas = Cita::getNumCitas(-1);
     $request->session()->put('numCitas', $numCitas);
     $numCitasTomPerAg = Cita::getNumCitasTomPerAg(-1);
     $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
-    $numCitasPosibles = 21*Cliente::getNumServicio($request['id_cliente']);
+    $numCitasPosibles = Cliente::getNumCitasServicio(-1);
     $request->session()->put('numCitasPosibles', $numCitasPosibles);
+    $valoracion = Cita::getValoracionTomada(-1);
+    $request->session()->put('valoracion', $valoracion);
 
     if(Session::get('sucursalSession1')){
         $suc = Session::get('sucursalSession1');
@@ -105,19 +107,21 @@ Route::group(['middleware' => ['auth','adminSucursal']], function () {
     Route::post('/abrirCerrarHora', 'HoraController@abrirCerrarHora');
 
     Route::get('/clientes', 'ClienteController@lista')->name('clientes');
-    Route::get('/cliente/{id?}', 'ClienteController@cliente')->name('cliente');
     Route::post('/clientes', 'ClienteController@lista')->name('clientes');
 
     Route::post('/agendarCitaACliente','CitaController@agendarCitaACliente');
     Route::get('/tomoCita/{id?}','CitaController@tomarCita');
     Route::get('/perdioCita/{id?}','CitaController@perderCita');
     Route::get('/reagendaCita/{id?}','CitaController@reagendarCita');
+
+    Route::put('/servicio/guardar', 'ServicioController@guardar');
 });
 
 Route::group(['middleware' => ['auth','cliente']], function () {
     Route::get('/sucursalSelected/{id}','SucursalController@seleccionaSucursal');
 
-    Route::get('/clienteUser/{idUser}', 'ClienteController@clienteUser')->name('clienteUser');
+    Route::get('/cliente/{pestana}/{id?}', 'ClienteController@cliente')->name('cliente');
+    Route::get('/clienteUser/{id?}', 'ClienteController@clienteUser')->name('clienteUser');
     Route::put('/cliente/guardar/{id?}','ClienteController@guardar');
 
     Route::get('/agendaCita/{idMes?}/{idDia?}','CitaController@citasDisponibles')->name('agendaCita');
@@ -126,12 +130,16 @@ Route::group(['middleware' => ['auth','cliente']], function () {
     Route::get('/cancelaCita/{id?}','CitaController@cancelarCita');
     Route::get('/pierdeCita/{id?}','CitaController@perderCita');
 
+    Route::put('/medida/guardar', 'MedidaController@guardar');
+
 });
 
 Route::group(['middleware' => ['auth','clienteNuevo']], function () {
-    Route::get('/clienteUser/{idUser}', 'ClienteController@clienteUser')->name('clienteUser');
+    Route::get('/cliente/{pestana}/{id?}', 'ClienteController@cliente')->name('cliente');
+    Route::get('/clienteUser/{id?}', 'ClienteController@clienteUser')->name('clienteUser');
     Route::put('/cliente/guardar/{id?}','ClienteController@guardar');
 
     Route::get('/contacto', function () {return view('emails.contacto');});
+    Route::post('/aceptoCondiciones','ClienteController@aceptoCondiciones');
 });
 

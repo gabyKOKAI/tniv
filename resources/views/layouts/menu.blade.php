@@ -22,7 +22,7 @@
             <!--/a-->
             <span class="navbar-brand hidden-sm hidden-md hidden-lg hidden-xl">
                 @if(Session::has('sucursalSession'))
-                    <h6>{{$sucSes->nombre}}</h6>
+                    {{$sucSes->nombre}}
                 @endif
             </span>
 
@@ -78,16 +78,16 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a href="/meses">Meses</a>
+                                    <a class="letraMenu" href="/meses">Meses</a>
                                 </li>
                                 <li>
-                                    <a href="/anoActual">Este Año ({{$anoFecha}})</a>
+                                    <a class="letraMenu" href="/anoActual">Este Año ({{$anoFecha}})</a>
                                 </li>
                                 <li>
-                                    <a href="/mesActual">Este Mes ({{$mesFecha1}})</a>
+                                    <a class="letraMenu" href="/mesActual">Este Mes ({{$mesFecha1}})</a>
                                 </li>
                                 <li>
-                                    <a href="/diaActual">Hoy ({{$fecha}})</a>
+                                    <a class="letraMenu" href="/diaActual">Hoy ({{$fecha}})</a>
                                 </li>
 
                             </ul>
@@ -101,24 +101,28 @@
                            Administración <span class="caret"/>
                         </a>
 
-                        <ul class="dropdown-menu">
+                        <ul class="dropdown-menu ">
+                            @if(in_array(Auth::user()->rol, ['Master']))
+                                <li>
+                                    <a class="letraMenu" href="/usuarios">Usuarios</a>
+                                </li>
+                                <li>
+                                    <a class="letraMenu" href="/usuario/-1">Registrar Usuario</a>
+                                </li>
+                            @endif
                             @if(in_array(Auth::user()->rol, ['Master','Admin']))
                                 <li>
-                                    <a href="/usuarios">Usuarios</a>
-                                </li>
-                                <li>
-                                    <a href="/usuario/-1">Registrar Usuario</a>
-                                </li>
-                                <li>
-                                    <a href="/sucursales">Sucursales</a>
+                                    <a class="letraMenu" href="/sucursales">Sucursales</a>
                                 </li>
                             @endif
                             <li>
-                                <a href="/clientes">Clientes</a>
+                                <a class="letraMenu" href="/clientes">Clientes</a>
                             </li>
-                            <li>
-                                <a href="/cliente/-1">Registrar Cliente</a>
-                            </li>
+                            @if(in_array(Auth::user()->rol, ['Master']))
+                                <li>
+                                    <a class="letraMenu" href="/cliente/-1">Registrar Cliente</a>
+                                </li>
+                            @endif
                         </ul>
                     </li>
                     <!--li class="dropdown">
@@ -127,13 +131,13 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="/citasHoy">Hoy</a>
+                                <a class="letraMenu" href="/citasHoy">Hoy</a>
                             </li>
                             <li>
-                                <a href="/citasMes">Mes</a>
+                                <a class="letraMenu" href="/citasMes">Mes</a>
                             </li>
                             <li>
-                                <a href="/citasCliente">Cliente</a>
+                                <a class="letraMenu" href="/citasCliente">Cliente</a>
                             </li>
                         </ul>
                     </li-->
@@ -159,7 +163,7 @@
                                 <ul class="dropdown-menu">
                                     @foreach($sucsSes as $suc)
                                         <li>
-                                            <a href="/sucursalSelected/{{$suc->id}}">
+                                            <a class="letraMenu" href="/sucursalSelected/{{$suc->id}}">
                                                 @if($sucSes == $suc)
                                                     <strong>
                                                          {{$suc->nombre}}
@@ -181,15 +185,15 @@
                     @endif
 
                     <li class="dropdown">
-                        <a href="/clienteUser/{{Auth::user()->id}}"> <span class="glyphicon glyphicon-user"></span>{{Auth::user()->name }}</a>
+                        <a class="letraMenu"  href="/clienteUser/{{Auth::user()->id}}"> <span class="glyphicon glyphicon-user"></span>{{Auth::user()->name }}</a>
                     </li>
                     <li class="dropdown">
-                        <a href="/">
+                        <a class="letraMenu" href="/">
                         <span class="glyphicon glyphicon-home"></span>
                         </a>
                     </li>
                     <li class="dropdown">
-                        <a href="{{ route('logout') }}"
+                        <a class="letraMenu" href="{{ route('logout') }}"
                             onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
                             <span class="glyphicon glyphicon-log-out"></span>

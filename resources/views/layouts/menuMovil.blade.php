@@ -33,13 +33,17 @@
                 <a class="letraMenu" href="/mesActual">Este Mes ({{$mesFecha1}})</a>
                 <a class="letraMenu" href="/diaActual">Hoy ({{$fecha}})</a>
                 <hr class="">
-                @if(in_array(Auth::user()->rol, ['Master','Admin']))
+                @if(in_array(Auth::user()->rol, ['Master']))
                         <a class="letraMenu" href="/usuarios">Usuarios</a>
                         <a class="letraMenu" href="/usuario/-1">Registrar Usuario</a>
+                @endif
+                @if(in_array(Auth::user()->rol, ['Master','Admin']))
                         <a class="letraMenu" href="/sucursales">Sucursales</a>
                 @endif
                 <a class="letraMenu" href="/clientes">Clientes</a>
-                <a class="letraMenu" href="/cliente/-1">Registrar Cliente</a>
+                @if(in_array(Auth::user()->rol, ['Master']))
+                    <a class="letraMenu" href="/cliente/-1">Registrar Cliente</a>
+                @endif
             @endif
             @if(Session::has('sucursalesSession'))
                 @if(count($sucsSes)>1)

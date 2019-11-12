@@ -1,100 +1,93 @@
 @extends('layouts.master')
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <div class="panel panel-default">
-                <div class="panel-heading">
 
-                    @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
-                        Cliente <a href="{{ URL::to('clientes/')}}" class="glyphicon glyphicon glyphicon glyphicon-th-list"></a>
-                    @else
-                        {{$cliente->nombre}}
-                    @endif
-                </div>
+@if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
+    <?php
+    $ocultar = "";
+    $ocultarCliente = "";
+    $ocultarTodo = "";
+    ?>
+@else
+    <?php
+    $ocultar = "ocultar";
+    $ocultarCliente = "";
+    $ocultarTodo = "";
+    ?>
+@endif
 
-                <div class="panel-body">
-                   @if($cliente->id != -1)
-                        <form method='POST' action='/cliente/guardar/{{$cliente->id}}'>
-                   @else
-                        <form method='POST' action='/cliente/guardar/-1'>
-                   @endif
-                        {{ csrf_field() }}
-                        <input type="hidden" name="_method" value="PUT">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+@if(in_array(Auth::user()->rol, ['ClienteNuevo']))
+    <?php
+    $ocultarCliente = "ocultar";
+    ?>
+@endif
+@if($cliente->aceptoCondiciones==0 and $cliente->id != -1)
+    <div class="col-xs-12 red">
+        <label for="aceptoCondiciones" class="control-label">{{$cliente->nombre}} NO ha aceptado las condiciones de contrato y de servicio, favor de aceptarlas para poder continuar.</label>
+    @if(in_array(Auth::user()->rol, ['Cliente','ClienteNuevo','Inactivo']))
 
-                        <div class="form-group{{ $errors->has('nombre') ? ' has-error' : '' }}">
-                            <label for="nombre" class="col-md-4 control-label">Nombre</label>
+        <form method='POST' action='/aceptoCondiciones'>
+            {{ csrf_field() }}
+            <input type="hidden" name="user_id" value="{{Auth::user()->id }}">
+            <input type='submit' value='Acepto Condiciones de Contrato' class='btn btn-condiciones '>
+        </form>
 
-                            <div class="col-md-6">
-                                <input id="nombre" type="text" class="form-control" name="nombre" value="{{ $cliente->nombre }}" required autofocus>
-
-                                @if ($errors->has('nombre'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('nombre') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="form-group{{ $errors->has('correo') ? ' has-error' : '' }}">
-                            <label for="correo" class="col-md-4 control-label">Correo Electrónico</label>
-
-                            <div class="col-md-6">
-                                @if($cliente->id == -1)
-                                    <input id="correo" type="email" class="form-control" name="correo" value="{{ $cliente->correo }}" required>
-                                @else
-                                    <input type="hidden" name="correo" value="{{ $cliente->correo }}">
-                                    <input id="correo" type="email" class="form-control" name="correo" value="{{ $cliente->correo }}" disabled>
-                                @endif
-
-                                @if ($errors->has('correo'))
-                                    <span class="help-block">
-                                        <strong>{{ $errors->first('correo') }}</strong>
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
-                            <div class="form-group{{ $errors->has('estatus') ? ' has-error' : '' }}">
-                                <label for="rol" class="col-md-4 control-label">Estatus</label>
-
-                                <div class="col-md-6">
-                                    <select name="estatus"  class="form-control" required>
-                                        @foreach($estatusForDropdown as $estatus)
-                                        <option value="{{ $estatus }}" {{ $estatus == $estatusSelected ? 'selected="selected"' : '' }}> {{ $estatus }} </option>
-                                        @endforeach
-                                    </select>
-
-                                    @if ($errors->has('estatus'))
-                                        <span class="help-block">
-                                            <strong>{{ $errors->first('estatus') }}</strong>
-                                        </span>
-                                    @endif
-                                </div>
-                            </div>
-                        @endif
-
-                        <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
-                                <br>
-                                @if($cliente->id == -1)
-                                    <input type='submit' value='Crear Cliente' class='btn btn-primary btn-small'>
-                                @else
-                                    <input type='submit' value='Actualizar' class='btn btn-primary btn-small'>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                    @if(in_array(Auth::user()->rol, ['Master1','Admin1']))
-                        @if($cliente->id != -1)
-                            @include('usuario.sucursalesUsuario')
-                        @endif
-                    @endif
-                </div>
-            </div>
-        </div>
+        <?php
+        $ocultarTodo = "ocultar";
+        ?>
+    @endif
     </div>
+@endif
+<div class="col-md-12 {{$ocultarTodo}}">
+
+    <div class="col-xs-4 col-sm-2 pestañasCliente" >
+        <a id="iconoPestana" href="{{ URL::to('cliente/1/'.$cliente->id)}}">Información</a>
+    </div>
+    <div class="col-xs-4 col-sm-2 pestañasCliente {{$ocultar}}">
+        <a id="iconoPestana" href="{{ URL::to('cliente/4/'.$cliente->id)}}">Servicios</a>
+    </div>
+    <div class="col-xs-4 col-sm-2 pestañasCliente {{$ocultarCliente}}">
+        <a id="iconoPestana" href="{{ URL::to('cliente/2/'.$cliente->id)}}">Citas</a>
+    </div>
+    <div class="col-xs-4 col-sm-2 pestañasCliente {{$ocultarCliente}}">
+        <a id="iconoPestana" href="{{ URL::to('cliente/3/'.$cliente->id)}}">Medidas</a>
+    </div>
+    <div class="col-xs-4 col-sm-2 pestañasCliente {{$ocultarCliente}}" >
+        <a id="iconoPestana" href="{{ URL::to('cliente/5/'.$cliente->id)}}">Fotos</a>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading col-xs-12">
+
+            @if(in_array(Auth::user()->rol, ['Master','Admin','AdminSucursal']))
+                {{ $cliente->nombre }} <a href="{{ URL::to('clientes/')}}" class="glyphicon glyphicon glyphicon glyphicon-th-list"></a>
+            @else
+                {{$cliente->nombre}}
+            @endif
+        </div>
+
+        <div class="panel-body" {{$hiddenInfo}}>
+            @include('cliente.informacionCliente')
+        </div>
+        <div class="panel-body" {{$hiddenServ}}>
+            @include('cliente.serviciosCliente')
+        </div>
+        <div class="panel-body" {{$hiddenRegi}}>
+            @include('cliente.medidasCliente')
+        </div>
+        <div class="panel-body" {{$hiddenCita}}>
+                @if($cliente->id != -1)
+                    @include('cliente.citasCliente')
+                @endif
+        </div>
+        <div class="panel-body" {{$hiddenFoto}}>
+            @include('cliente.fotosCliente')
+        </div>
+
+    </div>
+    <div class="col-xs-12 ">
+        @if($cliente->aceptoCondiciones==1)
+            <label for="aceptoCondiciones" class="control-label">{{$cliente->nombre}} aceptó las condiciones de contrato y de servicio, si tiene alguna duda comuniquese a sucursal.</label>
+        @endif
+    </div>
+
 </div>
 @endsection

@@ -41,13 +41,13 @@
                     @if (! Auth::check())
                         <br>
                         <br>
-                        <div>¿Ya tienes una cuenta? <a href='/login'><span class="glyphicon glyphicon-log-in"> Entra aqui</a></div>
+                        <div>¿Ya tienes una cuenta? <a href='/login'><span class="glyphicon glyphicon-log-in"></span> Entra aqui </a></div>
                         <div> ¿Eres nuevo? <a href='/register'><span class="glyphicon glyphicon-user"></span> Registrate </a></div>
                     @elseif(Session::has('sucursalSession'))
                         <br>
                         <br>
                         <br>
-                        <h6>{{$sucSes->nombre}}</h6>
+                        <h6 class="letraRem">{{$sucSes->nombre}}</h6>
                     @endif
 			    </div>
             </div>

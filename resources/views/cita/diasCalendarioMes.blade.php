@@ -70,10 +70,11 @@
             @endif
 
             @if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo")
-                <div class="col-sm-1 col-xs-1 {{$diaEstatusDiseño}}" align="center">
+                        <?php $col = 1 ?>
             @else
-                <div class="col-sm-2 col-xs-2 {{$diaEstatusDiseño}}" align="center">
+                        <?php $col = 2 ?>
             @endif
+                <div class="col-xs-{{$col}} col-sm-{{$col}} {{$diaEstatusDiseño}}" align="center">
                 {{$dia->numDia}}
                  <span class="hidden-xs">
                     <br>

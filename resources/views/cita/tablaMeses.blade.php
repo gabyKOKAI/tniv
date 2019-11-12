@@ -1,9 +1,9 @@
 @if(count($meses)>0)
 <div class="row">
-    <?php
+    @php
         $anoAnt = 1900;
         $mesAnt = 0;
-    ?>
+    @endphp
     @foreach($meses as $mes)
         <?php
             $anoAct = $mes->ano;
@@ -93,7 +93,7 @@
     <div class="container">
         <div class="row">
             <div class="col-xs-12 align-center">
-                <h4 class="center">
+                <h4 class="center letraRem">
                     No hay horarios disponibles en este momento. Favor de ingresar más tarde.
                 </h4>
             </div>

@@ -15,10 +15,12 @@
             $mesSelectedNombre = strftime("%B", $fechaVacia->getTimestamp());
         }
     ?>
-    <?php $proxCitas = session('proxCitas'); ?>
-    <?php $numCitas = session('numCitas'); ?>
-    <?php $numCitasTomPerAg = session('numCitasTomPerAg'); ?>
-    <?php $numCitasPosibles = session('numCitasPosibles'); ?>
+    @php
+        $proxCitas = session('proxCitas');
+        $numCitas = session('numCitas');
+        $numCitasTomPerAg = session('numCitasTomPerAg');
+        $numCitasPosibles = session('numCitasPosibles');
+    @endphp
     @if($numCitas < 5 and $numCitasTomPerAg<$numCitasPosibles)
         @if($diaSelect)
             @include('cita.dia')

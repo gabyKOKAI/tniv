@@ -4,9 +4,14 @@ namespace tniv\Http\Controllers;
 
 use Illuminate\Http\Request;
 use tniv\Sucursale;
+use tniv\SucursalesUsuario;
 use tniv\Cliente;
+use tniv\Servicio;
+use tniv\Medida;
 use tniv\User;
+use tniv\Cita;
 use Session;
+use Auth;
 use tniv\Http\Controllers\UsuarioController;
 
 class ClienteController extends Controller
@@ -33,42 +38,107 @@ class ClienteController extends Controller
 
     }
 
-    public function cliente(Request $request,$id= '-1') {
-	    $cliente = Cliente::find($id);
+    public function clienteUser(Request $request,$idUser= '-1')
+    {
+        $cliente = Cliente::where('user_id', '=', $idUser)->first();
+
+        if (!$cliente) {
+            return redirect('/')->with('warning', 'No tiene un cliente asociado, pongase en contacto con alguien de la sucursal.');
+        } else {
+            return $this->cliente($request, 1, $cliente->id);
+        }
+    }
+
+    public function cliente(Request $request,$pestana='1',$idCliente= '-1') {
+
+        $hiddenInfo = "hidden";
+        $hiddenCita = "hidden";
+        $hiddenRegi = "hidden";
+        $hiddenServ = "hidden";
+        $hiddenFoto = "hidden";
+
+        switch ($pestana) {
+            case "1":
+                $hiddenInfo = "";
+                break;
+            case "2":
+                $hiddenCita = "";
+                break;
+            case "3":
+                $hiddenRegi = "";
+                break;
+            case "4":
+                $hiddenServ = "";
+                break;
+            case "5":
+                $hiddenFoto = "";
+                break;
+            default:
+                $hiddenInfo = "";
+        }
+
+        $usuario = auth()->user();
+        if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+            $cliente = Cliente::find($idCliente);
+        }else{
+            $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            if(in_array($usuario->rol, ['Cliente'])) {
+                $hiddenServ = "hidden";
+            }
+            if(in_array($usuario->rol, ['ClienteNuevo'])) {
+                $hiddenRegi = "hidden";
+                $hiddenCita = "hidden";
+            }
+        }
 
         # Get estatus
         $estatusForDropdown = Cliente::getEstatusDropDown();
-
         $estatusSelected = request('estatus');
+
+        $estatusServForDropdown = Servicio::getEstatusDropDown();
+        $estatusServSelected = request('estatusServ');
+
+        $seEnteroForDropdown = Cliente::getSeEnteroDropDown();
+        $seEnteroSelected = request('seEntero');
 
         if($cliente){
             $estatusSelected = $cliente->estatus;
+            $usuario = $cliente->user;
         }
         else{
             $cliente = new Cliente;
             $cliente->id = -1;
         }
 
+        $proxCitas = Cita::getProximasCitas($cliente->id);
+        $request->session()->put('proxCitas', $proxCitas);
+        $numCitas = Cita::getNumCitas($cliente->id);
+        $request->session()->put('numCitas', $numCitas);
+        $numCitasTomPerAg = Cita::getNumCitasTomPerAg($cliente->id);
+        $request->session()->put('numCitasTomPerAg', $numCitasTomPerAg);
+        $numCitasPosibles = Cliente::getNumCitasServicio($cliente->id);
+        $request->session()->put('numCitasPosibles', $numCitasPosibles);
+        $valoracion = Cita::getValoracionTomada($cliente->id);
+        $request->session()->put('valoracion', $valoracion);
+
+        $medida = new Medida;
+
         return view('cliente.cliente')->
         with([  'cliente' => $cliente,
                 'estatusForDropdown' => $estatusForDropdown,
-                'estatusSelected'=>$estatusSelected
+                'estatusSelected'=>$estatusSelected,
+                'estatusServForDropdown' => $estatusServForDropdown,
+                'estatusServSelected'=>$estatusServSelected,
+                'seEnteroForDropdown' => $seEnteroForDropdown,
+                'seEnteroSelected'=>$seEnteroSelected,
+                'usuario' => $usuario,
+                'hiddenInfo' => $hiddenInfo,
+                'hiddenCita' => $hiddenCita,
+                'hiddenRegi' => $hiddenRegi,
+                'hiddenServ' => $hiddenServ,
+                'hiddenFoto' => $hiddenFoto,
+                'medida' => $medida
                 ]);
-	}
-
-	public function clienteUser(Request $request,$id= '-1') {
-
-	    $cliente = Cliente::where('user_id','=',$id)->first();
-
-        if(!$cliente){
-            return redirect('/')->with('warning', 'No tiene un cliente asociado, pongase en contacto con alguien de la sucursal.');
-        }else{
-            return view('cliente.cliente')->
-            with([  'cliente' => $cliente
-                ]);
-        }
-
-
 	}
 
 	public function guardar(Request $request,$id) {
@@ -92,13 +162,28 @@ class ClienteController extends Controller
         }
         else{
             # Set the parameters
+            $cliente->numCliente = $request->input('numCliente');
             $cliente->nombre = $request->input('nombre');
             $cliente->correo = $request->input('correo');
-            $cliente->numCliente = '---';
             if($request->input('estatus')){
                 $cliente->estatus = $request->input('estatus');
             }
-            $cliente->seEntero = "probando";
+            $cliente->telefono1 = $request->input('telefono1');
+            $cliente->telefono2 = $request->input('telefono2');
+            $cliente->fechaNacimiento = $request->input('fechaNacimiento');
+            $cliente->altura = $request->input('altura');
+            if($request->input('correoAgendar')){
+                $cliente->correoAgendar = 1;
+            }else{
+                $cliente->correoAgendar = 0;
+            }
+            if($request->input('correoCancelar')){
+                $cliente->correoCancelar = 1;
+            }else{
+                $cliente->correoCancelar = 0;
+            }
+
+            $cliente->seEntero = $request->input('seEntero');
 
 
             $usuario = User::where('email', 'LIKE', $request['correo'])->first();
@@ -139,9 +224,19 @@ class ClienteController extends Controller
             $cliente->save();
         }
         if(in_array( auth()->user()->rol, ['Master','Admin','AdminSucursal'])){
-            return redirect('/cliente/'.$cliente->id)->with('success', 'El cliente '.$cliente->nombre.' fue '.$res);
+            return redirect('/cliente/1/'.$cliente->id)->with('success', 'El cliente '.$cliente->nombre.' fue '.$res);
         }else{
-            return redirect('/clienteUser/'.$usuario->id)->with('success', 'Tu perfil fue '.$res);
+            return redirect('/cliente/1/'.$cliente->id)->with('success', 'Tu perfil fue '.$res);
         }
+    }
+
+    public function aceptoCondiciones(Request $request) {
+        $cliente = Cliente::where('user_id','=',$request->input('user_id'))->first();
+
+        # Set the parameters
+        $cliente->aceptoCondiciones = 1;
+        $cliente->save();
+
+        return redirect('/cliente/1/'.$cliente->id)->with('success', 'Aceptaste las condiciones de Contrato y de servicio, favor de solicitar en sucursal que lo activen.');
     }
 }

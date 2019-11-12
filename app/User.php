@@ -6,7 +6,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Auth;
-use tniv\User;
 use Session;
 use Route;
 
@@ -76,5 +75,11 @@ class User extends Authenticatable
             ->wherein('users.rol', User::getRolesDropDown())
             ->paginate(15,['*'], '$sucursales_p');
         return $usuarios;
+    }
+
+    public static function getCliente($idUser)
+    {
+        $cliente = Cliente::where('user_id','=',$idUser)->first();
+        return $cliente;
     }
 }

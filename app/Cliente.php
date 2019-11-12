@@ -4,15 +4,43 @@ namespace tniv;
 
 use Illuminate\Database\Eloquent\Model;
 use Session;
+use tniv\Servicio;
 
 class Cliente extends Model
 {
     protected $table = 'clientes';
 
+    public function user()
+    {
+        # Define an inverse one-to-many relationship.
+        return $this->belongsTo('tniv\User');
+    }
+
+    public function servicios()
+    {
+        return $this->hasMany('\tniv\Servicio');
+    }
+
     public static function getEstatusDropDown()
     {
         $estatus = ['Activo', 'ClienteNuevo', 'Inactivo', 'Terminado', 'SinServicios'];
         return $estatus;
+    }
+
+    public static function getSeEnteroDropDown()
+    {
+        $seEnteroLista = ['Facebook', 'Instagram', 'Web', 'Recomendación', 'Twitter', 'Anuncio en Linea', 'Anuncio Papel', 'Otro'];
+        return $seEnteroLista;
+    }
+
+    public static function getServicios($idCliente)
+    {
+        return Servicio::getServicios($idCliente);
+    }
+
+    public static function getMedidas($idCliente)
+    {
+        return Medida::getMedidas($idCliente);
     }
 
     public static function getClientes()
@@ -43,24 +71,54 @@ class Cliente extends Model
         return $clientes;
     }
 
-    public static function getNumServicio($id = -1){
+    public static function getNumCitasServicio($idCliente = -1){
         $usuario = auth()->user();
         if($usuario){
             if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
-                $cliente = Cliente::find($id);
-                if($cliente){
-                    return 1; #GOP falta obterner el numero de servicios
-                }else{
+                $cliente = Cliente::find($idCliente);
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            }
+
+            if($cliente){
+                $servicio = Servicio::where('cliente_id','=',$cliente->id)->where('estatus','=','Iniciado')->first();
+                if($servicio){
+                    return $servicio->numCitas;
+                }
+                else{
                     return 0;
                 }
             }else{
-                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
-                return 1; #GOP falta obterner el numero de servicios
+                return 0;
             }
         }else{
             return 0;
         }
+    }
+
+    public static function getServicioActivo($idCliente = -1)
+    {
+        $usuario = auth()->user();
+        if ($usuario) {
+            if (in_array($usuario->rol, ['Master', 'Admin', 'AdminSucursal'])) {
+                $cliente = Cliente::find($idCliente);
+            } else {
+                $cliente = Cliente::where('user_id', '=', $usuario->id)->first();
+            }
 
 
+
+            if ($cliente) {
+                $servicio = Servicio::where('cliente_id', '=', $cliente->id)->where('estatus', '=', 'Iniciado')->first();
+                #($servicio->numCitasTomadas+$servicio->numCitasPerdidas)."(t:".$servicio->numCitasTomadas." p:".$servicio->numCitasPerdidas.") de ". $servicio->numCitas." ".$servicio->numCitasAgendadas." agendadas.";
+                if(!$servicio){
+                    $servicio = new Servicio();
+                }
+            }else{
+                $servicio = new Servicio();
+            }
+            return $servicio;
+
+        }
     }
 }

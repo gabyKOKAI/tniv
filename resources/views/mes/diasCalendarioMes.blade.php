@@ -28,29 +28,33 @@
         Sa
         </div>
         @foreach($diasMes as $dia)
+            @php
+                $espacioDiv = 0;
+                if($dia->numDia == 1){
+                    if($dia->diaSemana == "lunes"){
+                        $espacioDiv = 1;
+                    }
+                    if($dia->diaSemana == "martes"){
+                        $espacioDiv = 3;
+                    }
+                    if($dia->diaSemana == "miércoles"){
+                        $espacioDiv = 5;
+                    }
+                    if($dia->diaSemana == "jueves"){
+                        $espacioDiv = 7;
+                    }
+                    if($dia->diaSemana == "viernes"){
+                        $espacioDiv = 9;
+                    }
+                    if($dia->diaSemana == "sábado"){
+                        $espacioDiv = 11;
+                    }
+                    if($dia->diaSemana == "domingo"){
+                        $espacioDiv = 0;
+                    }
+                }
+            @endphp
             @if($dia->numDia == 1)
-                <?php $espacioDiv = 0 ?>
-                @if($dia->diaSemana == "lunes")
-                    <?php $espacioDiv = 1 ?>
-                @endif
-                @if($dia->diaSemana == "martes")
-                    <?php $espacioDiv = 3 ?>
-                @endif
-                @if($dia->diaSemana == "miércoles")
-                    <?php $espacioDiv = 5 ?>
-                @endif
-                @if($dia->diaSemana == "jueves")
-                    <?php $espacioDiv = 7 ?>
-                @endif
-                @if($dia->diaSemana == "viernes")
-                    <?php $espacioDiv = 9 ?>
-                @endif
-                @if($dia->diaSemana == "sábado")
-                    <?php $espacioDiv = 11 ?>
-                @endif
-                @if($dia->diaSemana == "domingo")
-                    <?php $espacioDiv = 0 ?>
-                @endif
                 <div class="col-xs-{{$espacioDiv}}" align="center">
                     <br>
                 </div>

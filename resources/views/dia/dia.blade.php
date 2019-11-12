@@ -17,10 +17,10 @@
                         <div class="container center">
                             <div class="row">
 
-                                <div class="col-xs-6 letraNormal mes_{{$mes->estatus}} " align="center">
+                                <div class="col-xs-6 letraRem mes_{{$mes->estatus}} " align="center">
                                    Mes {{$mes->estatus}}<a href="{{ URL::to('mes/'.$mes->id)}}" class="btn btn-mesDia glyphicon glyphicon-calendar"></a>
                                 </div>
-                                <div class="col-xs-6 dia_estatus letraNormal dia_{{$dia->estatus}}" align="center">
+                                <div class="col-xs-6 dia_estatus letraRem dia_{{$dia->estatus}}" align="center">
                                     <form method='POST' action='/abrirCerrarDia/Dia'>
                                         {{ csrf_field() }}
                                         <input type="hidden" name="dia" value="{{$dia->id}}">
@@ -46,8 +46,8 @@
                                         @endif
                                     </form>
                                 </div>
-                                <div class="col-xs-12 form-group required control-label" align="center">
-                                    <div class="input-group letraNormal">
+                                <div class="col-xs-12 form-group control-label" align="center">
+                                    <div class="input-group letraRem">
                                         <?php
                                             setlocale(LC_TIME, 'es_ES');
                                             $fecha = DateTime::createFromFormat('!m', $mes->mes);
@@ -69,10 +69,10 @@
                                     <div class="row border grisO">
                                 @endif
 
-                                    <div class="col-xs-12 col-sm-2 letraNormal" align="center">
+                                    <div class="col-xs-12 col-sm-2 letraRem" align="center">
                                         {{\Carbon\Carbon::createFromFormat('H:i:s',$hora->hora)->format('g:i a')}}
                                     </div>
-                                    <div class="col-xs-2 col-sm-2" align="center">
+                                    <div class="col-xs-12 col-sm-2" align="left">
 
                                         <form method='POST' action='/abrirCerrarHora'>
                                             {{ csrf_field() }}
@@ -100,38 +100,22 @@
                                             @endif
                                         </form>
                                     </div>
-                                    <div class="col-xs-8 col-sm-6" align="left">
+                                    <div class="col-xs-10 col-sm-6" align="left">
                                         <!--@ if($hora->estatus == 1)-->
                                             @foreach ($hora->citas as $cita)
 
                                                     <!--input type='text' name='cita' id='cita' value='{{$cita->nomCliente}}'  class='' disabled-->
-                                                    <div class="col-xs-12 col-sm-12 estatusCita_{{$cita->estatus}}" align="left" id="iconoCita">
-                                                        @if($cita->estatus == 'Agendada' or $cita->estatus == 'Valoracion')
-                                                            @if($cita->pasada == 0 or in_array(Auth::user()->rol, ['Master','Admin']))
-                                                                <a href="{{ URL::to('/cancelaCita/'.$cita->id)}}" class="glyphicon glyphicon-remove-sign aIconosCitas"></a>
-                                                            @endif
-                                                            <a href="{{ URL::to('/tomoCita/'.$cita->id)}}" class="glyphicon glyphicon-ok-sign aIconosCitas"></a>
-                                                            <a href="{{ URL::to('/perdioCita/'.$cita->id)}}" class="glyphicon glyphicon-minus-sign aIconosCitas"></a>
-                                                        @endif
-                                                        @if(in_array($cita->estatus, ['Cancelada']) and $hora->citasActivas<$hora->numCitasMax and ($cita->pasada == 0 or in_array(Auth::user()->rol, ['Master','Admin'])))
-                                                            <a href="{{ URL::to('/reagendaCita/'.$cita->id)}}" class="glyphicon glyphicon-repeat aIconosCitas"></a>
-                                                        @endif
-                                                        @if(in_array($cita->estatus, ['Tomada','VTomada','Perdida']) and in_array(Auth::user()->rol, ['Master','Admin']))
-                                                            <a href="{{ URL::to('/reagendaCita/'.$cita->id)}}" class="glyphicon glyphicon-repeat aIconosCitas"></a>
-                                                        @endif
-                                                        @if($cita->estatus == 'Valoracion' or $cita->estatus == 'VTomada')
-                                                            <span class="glyphicon glyphicon glyphicon-list-alt"></span>
-                                                        @endif
-
-                                                        {{$cita->nomCliente}}
+                                                    <div class="col-xs-12 col-sm-12 letraRem estatusCita_{{$cita->estatus}}" align="left" id="iconoCita">
+                                                        @include('cita.iconosAdminCitas')
+                                                        <a  class="letraRem" href="{{ URL::to('cliente/2/'.$cita->cliente_id)}}">{{$cita->nomCliente}}</a></td>
                                                     </div>
                                             @endforeach
                                         <!--@ else
                                             <br>
                                         @ endif-->
                                     </div>
-                                    <div class="col-xs-1 col-sm-1" align="center">
-                                    <form method='POST' action='/agendarCitaACliente'>
+                                    <div class="col-xs-12 col-sm-2" align="left" >
+                                        <form method='POST' action='/agendarCitaACliente'>
                                             {{ csrf_field() }}
                                             <input type="hidden" name="hora" value="{{$hora->id}}">
                                             <input type="hidden" name="estatus" value="Activo">

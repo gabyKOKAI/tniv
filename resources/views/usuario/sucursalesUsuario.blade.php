@@ -9,7 +9,7 @@
     </div>
     <div class="col-sm-12 form-group control-label" align="left">
         @foreach($sucursalesForDropdown as $sucursal)
-            <div class="col-sm-2 form-group control-label" align="left">
+            <div class=" col-xs-12 col-sm-3 col-md-2 form-group control-label" align="center">
             <?php $estatusSucUsu = tniv\SucursalesUsuario::getSucursalesUsuario($usuario->id, $sucursal->id) ?>
             <form method='POST' action='/modificaEstatusSucUsu'>
                {{ csrf_field() }}

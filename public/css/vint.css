@@ -20,7 +20,7 @@
     text-align: center;
     font-family: questrial, sans-serif;
     font-weight: 400;
-    font-size:4vw; //ok4
+    font-size:3.5rem; //ok4
     color: #00A299;
     line-height: 51px;
 }
@@ -37,7 +37,7 @@
     text-transform: none;
     display: block;
     max-height: 1000000px;
-    font-size: 14px;
+    font-size: 2rem;
     text-align: justify;
     line-height: 30px;
     font-family: questrial, sans-serif;
@@ -54,17 +54,22 @@
 	color:white;
 }
 
-#iconoCita a:link {
-    color: blue;
+ a:link#iconoPestana {
+    color: white;
+    font-size: 1.5rem;
+
 }
-#iconoCita a:visited {
-    color: blue;
+a:visited#iconoPestana {
+    color: white;
+    font-size: 1.5rem;
 }
-#iconoCita a:hotpink {
+a:hotpink#iconoPestana {
     color: #f00;
+    font-size: 1.5rem;
 }
-#iconoCita a:blue {
+a:blue#iconoPestana {
     color: #f00;
+    font-size: 1.5rem;
 }
 
 /* unvisited link */
@@ -102,7 +107,7 @@ a:active {
  }
 
 .fondoCalendario{
-    font-size: 2vw;
+    font-size: 1.5rem;
 }
 
 .fondoCalendarioCerrar, .dia_1{
@@ -135,14 +140,26 @@ a:active {
     padding: 4px;
     margin: 4px;
     width:100%;*/
-    font-size: 2vw;
+    font-size: 1.5rem;
+    margin: 0px;
+    padding: 6px;
+}
+
+.btn-actualizaServ{
+    color:black;
+    background-color:transparent;
+    font-size: 2rem;
     margin: 0px;
     padding: 6px;
 }
 
 .letraNormal{
     color:black;
-    font-size: 2vw;
+    font-size: 1.5rem;
+}
+
+.letraRem{
+    font-size: 1.5rem;
 }
 
 .comboNormal{
@@ -171,6 +188,7 @@ a:active {
     border-color:blue;
     padding: 4px;
     margin: 2px;
+    font-size: 1.5rem;
 }
 
 .btn-crear-mes{
@@ -199,7 +217,7 @@ a:active {
     padding: 6px;
     margin: 4px;
     width:100%;*/
-    font-size: 2vw;
+    font-size: 1rem;
     margin: 0px;
     padding: 10px;
 }
@@ -217,36 +235,43 @@ a:active {
     border-color:#007bff*/
     background-color:SkyBlue;
     border-color:SkyBlue;
-    font-size: 2vw;
-    padding: 1px;
+    font-size: 1.5rem;
+    padding: 1.5px;
 }
 
 .btn-abrirH{
     color:Black;
     background-color:lightgray;
     border-color:lightgray;
-    font-size:  2vw;
-    padding: 1px;
+    font-size:  1.5rem;
+    padding: 1.5px;
 }
 
 .btn-horaDisponible{
     color:black;
     background-color:#f0b74b;
-    font-size: 2vw;
+    font-size: 1.2rem;
     padding: 10px;
 }
 
 .btn-agendar{
     color:black;
     background-color:#f0b74b;
-    font-size: 2vw;
-    padding: 1px;
+    font-size: 1.5rem;
+    padding: 1.5px;
 }
 
 .btn-horaNoDisponible{
     color:Black;
     background-color:lightgray;
-    font-size: 2vw;
+    font-size: 1.2rem;
+    padding: 10px;
+}
+
+.btn-condiciones{
+    color:Black;
+    background-color:lightgray;
+    font-size: 2rem;
     padding: 10px;
 }
 
@@ -254,7 +279,7 @@ a:active {
     color:black;
     background-color: #f0b74b;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -264,7 +289,7 @@ a:active {
     color:black;
     background-color: lightgray;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -274,7 +299,7 @@ a:active {
     color:black;
     background-color: #72d2ec;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -283,7 +308,7 @@ a:active {
 .mes_activo{
     color:white;
     background-color: #db52a5;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -293,7 +318,7 @@ a:active {
 .mes_disponible{
     color:black;
     background-color: #f0b74b;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -303,7 +328,7 @@ a:active {
 .mes_no_disponible{
     color:black;
     background-color: lightgray;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -313,7 +338,7 @@ a:active {
 .mes_Nuevo{
     color:black;
     background-color: white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-color:white;
@@ -330,7 +355,7 @@ a:active {
     color:black;
     background-color:#f0b74b;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -340,7 +365,7 @@ a:active {
     color:white;
     background-color:#db52a5 ;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -350,7 +375,7 @@ a:active {
     color:black;
     background-color: lightgray;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -360,7 +385,7 @@ a:active {
     color:black;
     background-color:SkyBlue;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -370,7 +395,7 @@ a:active {
     color:black;
     background-color:white;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -380,7 +405,7 @@ a:active {
     color:white;
     background-color:#db52a5;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -390,7 +415,7 @@ a:active {
     color:white;
     background-color:darkgray;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -400,7 +425,7 @@ a:active {
     color:black;
     background-color:lightgray;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
@@ -410,10 +435,53 @@ a:active {
     color:black;
     background-color:SkyBlue;
     border-color:white;
-    font-size: 2vw;
+    font-size: 1.5rem;
     padding: 4px;
     margin: 0px;
     border-style: groove;
+}
+
+.pestañasCliente{
+    color:white;
+    background-color:#02b1aa;
+    border-color:white;
+    font-size: 1.5rem;
+    padding: 2px;
+    margin: 0px;
+    border-style: groove;
+}
+
+#pestañasClienteLetra a:hover{
+  color: white;
+}
+
+.estatusServicio_Inactivo{
+    background-color:lightgray;
+}
+
+.estatusServicio_Pagado{
+    background-color:#db52a5;
+}
+
+.estatusServicio_Iniciado{
+    background-color:SkyBlue;
+}
+
+.estatusServicio_Terminado{
+    background-color:white;
+}
+
+.estatusServicio_Suspendido{
+    background-color:darkgray;
+}
+
+.vendas_1{
+    background-color:#02b1aa;
+    color:white;
+}
+
+.vendas_0{
+    background-color:white;
 }
 
 .iconoCita {
@@ -424,6 +492,7 @@ a:active {
     border-color: #02b1aa;
     background-color: #02b1aa;
     color: white;
+    font-size: 1.5rem;
 }
 /*rosa #db52a5*/
 
@@ -446,7 +515,7 @@ a:active {
 
 .letraMenu{
     padding: 2px 2px 2px 2px;
-    font-size:4vw; //ok4
+    font-size:1.5rem; //ok4
     color: #f1f1f1;
     display: block;
     text-align: left;
@@ -456,7 +525,7 @@ a:active {
 .sidenav a {
   padding: 2px 2px 2px 2px;
   text-decoration: none;,
-  font-size:2vw;
+  font-size:1.5rem;
   color: #f1f1f1;
   display: block;
   transition: 0.3s;
@@ -476,3 +545,14 @@ a:active {
     padding: 0px;
     margin: 0px;
   }
+
+  .form-group.required.control-label:before{
+   color: red;
+   content: "*";
+   position: absolute;
+   margin-left: -10px;
+}
+
+.ocultar{
+    display: none;
+}

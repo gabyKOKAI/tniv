@@ -36,7 +36,7 @@ class SucursalController extends Controller
 
         $sucUsu->save();
 
-        return redirect('/usuario/'.$sucUsu->usuario_id)->with('success', 'Se cambiaron los permisos' )->withInput();
+        return back()->with('success', 'Se cambiaron los permisos' )->withInput();
 
 	 }
 
