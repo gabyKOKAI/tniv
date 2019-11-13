@@ -158,7 +158,7 @@ class ClienteController extends Controller
         }
 
         if($res == "ya existe"){
-            return redirect('/cliente/'.$cliente->id)->with('warning', 'El cliente '.$cliente->correo.' ya esta creado, si no pudes verlo pertenece a otra sucursal y debes comunicarte con el administrador.');
+            return redirect('/cliente/'.$cliente->id)->with('warning', 'El cliente '.$cliente->correo.' ya esta creado, si no puedes verlo pertenece a otra sucursal y debes comunicarte con el administrador.');
         }
         else{
             # Set the parameters
