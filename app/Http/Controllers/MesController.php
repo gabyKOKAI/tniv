@@ -171,6 +171,7 @@ class MesController extends Controller
                 foreach (range(1, 31, 1) as $dia1){
                     $formato = 'd-m-Y';
                     $mesNuevo = DateTime::createFromFormat($formato, $dia1.'-'.$mes->mes.'-'.$mes->ano)->format('m');
+                    dd($mesNuevo);
                     if($mesNuevo==$mes->mes){
                         $this->crearDia($dia1, $sucursal, $mes);
                     }
@@ -201,6 +202,7 @@ class MesController extends Controller
         #setlocale(LC_TIME, 'es_ES');
         $fecha = DateTime::createFromFormat($formato, $dia->numDia.'-'.$mes->mes.'-'.$mes->ano);
         $dia->diaSemana = strftime("%A", $fecha->getTimestamp());
+        dd($dia->diaSemana);
         if($dia->diaSemana == "sábado" or $dia->diaSemana == "domingo"){
             $dia->estatus = 0;
         }else{
