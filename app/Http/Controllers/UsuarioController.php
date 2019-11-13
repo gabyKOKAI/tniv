@@ -49,7 +49,7 @@ class UsuarioController extends Controller
                 with([  'usuario' => $usuario,
                         'rolesForDropdown' => $rolesForDropdown,
                         'rolSelected'=>$rolSelected
-                        ])->with('warning', 'El usuario '.$usuario->email.' ya esta creado, si no pudes verlo pertenece a otra sucursal y debes comunicarte con el administrador.');
+                        ])->with('warning', 'El usuario '.$usuario->email.' ya esta creado, si no puedes verlo pertenece a otra sucursal y debes comunicarte con el administrador.');
         }
 	}
 
@@ -71,7 +71,7 @@ class UsuarioController extends Controller
         }
 
         if($res == "ya existe"){
-            return redirect('/usuario/'.$usuario->id)->with('warning', 'El usuario '.$usuario->email.' ya esta creado, si no pudes verlo pertenece a otra sucursal y debes comunicarte con el administrador.');
+            return redirect('/usuario/'.$usuario->id)->with('warning', 'El usuario '.$usuario->email.' ya esta creado, si no puedes verlo pertenece a otra sucursal y debes comunicarte con el administrador.');
         }
         else{
             # Set the parameters

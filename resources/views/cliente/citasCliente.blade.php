@@ -1,4 +1,4 @@
-@endphp
+@php
     $proxCitas = session('proxCitas');
     $sucSes = session('sucursalSession');
     $numCitas = session('numCitas');

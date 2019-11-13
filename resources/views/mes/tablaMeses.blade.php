@@ -19,6 +19,8 @@
                     <div class="col-xs-4 mes_Nuevo" align="center">
                         <form method='POST' action='/mes/guardar/-1'>
                             {{ csrf_field() }}
+                            <input type="hidden" name="_method" value="PUT">
+                            <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="ano" value="{{$mes->ano}}">
                             <input type="hidden" name="mes" value="{{$mes->mes}}">
                             <input type="hidden" name="estatus" value="Inactivo">
@@ -49,6 +51,7 @@
                     <form method='POST' action='/mes/guardar/-1'>
                         {{ csrf_field() }}
                         <input type="hidden" name="_method" value="PUT">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="ano" value="{{$anoAct}}">
                         <input type="hidden" name="mes" value="{{$mesVacio}}">
                         <input type="hidden" name="estatus" value="Inactivo">
@@ -83,6 +86,7 @@
                 <form method='POST' action='/mes/guardar/-1'>
                     {{ csrf_field() }}
                     <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="ano" value="{{$mes->ano}}">
                     <input type="hidden" name="mes" value="{{$mesVacio}}">
                     <input type="hidden" name="estatus" value="Inactivo">

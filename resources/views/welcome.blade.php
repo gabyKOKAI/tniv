@@ -12,6 +12,7 @@
             @if(Auth::user()->getCliente(Auth::user()->id)->aceptoCondiciones==0)
                 <form method='POST' action='/aceptoCondiciones'>
                     {{ csrf_field() }}
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <input type="hidden" name="user_id" value="{{Auth::user()->id}}">
                     <input type='submit' value='Acepto Condiciones de Contrato' class='btn btn-condiciones '>
                 </form>
