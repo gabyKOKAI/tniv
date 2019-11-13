@@ -1,4 +1,4 @@
-<?php
+@php
     date_default_timezone_set('America/Mexico_City');
     $fecha = date('d/m/Y', time());
     $mesFecha = date('m', time());
@@ -13,7 +13,7 @@
     $numCitas = session('numCitas');
     $numCitasTomPerAg = session('numCitasTomPerAg');
     $numCitasPosibles = session('numCitasPosibles');
-?>
+@endphp
 <div class="navbar navbar-default menuVint" role="navigation" id="navigation">
 	<div class="container-fluid">
 		<div class="navbar-header">

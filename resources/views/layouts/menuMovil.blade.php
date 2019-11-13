@@ -1,5 +1,5 @@
 @if(Session::has('abrirMenu'))
-<?php
+@php
     date_default_timezone_set('America/Mexico_City');
     $fecha = date('d/m/Y', time());
     $mesFecha = date('m', time());
@@ -16,7 +16,7 @@
     $numCitasPosibles = session('numCitasPosibles');
 
     Session::forget('abrirMenu');
-?>
+@endphp
 <span class="hidden-sm hidden-md hidden-lg hidden-xl">
     <!--div class="navbar-collapse" role="navigation" id="navigation"-->
         <div id="mySidenav" class="sidenav">
