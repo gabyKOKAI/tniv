@@ -13,7 +13,6 @@
             $mes1 = strftime("%B", $fecha->getTimestamp());
         @endphp
         @if($anoAnt != $anoAct)
-
             @if($mesAnt < 12 and $anoAnt != 1900)
                 @foreach(range($mesAnt+1,12,1) as $mesVacio)
                     <div class="col-xs-4 mes_Nuevo" align="center">
@@ -22,13 +21,13 @@
                             <input type="hidden" name="_method" value="PUT">
                             <input type="hidden" name="_token" value="{{ csrf_token() }}">
                             <input type="hidden" name="ano" value="{{$mes->ano}}">
-                            <input type="hidden" name="mes" value="{{$mes->mes}}">
+                            <input type="hidden" name="mes" value="{{$mesVacio}}">
                             <input type="hidden" name="estatus" value="Inactivo">
-                            <?php
+                            @php
                                 setlocale(LC_TIME, 'es_ES');
                                 $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
                                 $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
-                            ?>
+                            @endphp
                             <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-crear-mes'>
                         </form>
                     </div>
@@ -90,11 +89,11 @@
                     <input type="hidden" name="ano" value="{{$mes->ano}}">
                     <input type="hidden" name="mes" value="{{$mesVacio}}">
                     <input type="hidden" name="estatus" value="Inactivo">
-                    <?php
+                    @php
                         setlocale(LC_TIME, 'es_ES');
                         $fechaVacia = DateTime::createFromFormat('!m', $mesVacio);
                         $mesVacio1 = strftime("%B", $fechaVacia->getTimestamp());
-                    ?>
+                    @endphp
                     <input type='submit' value='Crear {{$mesVacio1}}' class='btn btn-crear-mes'>
                 </form>
             </div>

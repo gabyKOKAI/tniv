@@ -66,7 +66,7 @@
                     </td>
                     <td class="hidden-xs center">
                         @if(in_array(Auth::user()->rol, ['Cliente']))
-                            @if(in_array($cita->estatus, ['Agendada','VAgendada']))
+                            @if(in_array($cita->estatus, ['Agendada','Valoracion']))
                                 @if($cita->diferenciaDias >= $sucSes->horasCancelar )
                                     <a href="/cancelaCita/{{$cita->id}}">Cancelar cita</a>
                                 @else

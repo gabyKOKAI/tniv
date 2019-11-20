@@ -109,7 +109,7 @@ class Cita extends Model
 
     public static function getNumCitasEstatus($idCliente, $estatusArray)
     {
-        setlocale(LC_TIME, 'es_ES');
+        #setlocale(LC_TIME, 'es_ES');
         $numCitas = 0;
         $usuario = auth()->user();
         if($usuario){
@@ -129,45 +129,95 @@ class Cita extends Model
     public static function getNumCitas($idCliente)
     {
         #return Cita::getNumCitasEstatus($idCliente,['Agendada','Valoracion']);
-        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
-        if($servicio) {
-            return $servicio->numCitasAgendadas;
-        }else{
-            return 0;
+        $numCitas = 0;
+        $usuario = auth()->user();
+        if($usuario){
+            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                $cliente = Cliente::find($idCliente);
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            }
+            if($cliente){
+                $servicio = Servicio::where('cliente_id','=',$cliente->id)->where('estatus','=','Iniciado')->first();
+                if($servicio) {
+                    $numCitas = $servicio->numCitasAgendadas;
+                }else{
+                    $numCitas = 0;
+                }
+            }
         }
+
+        return $numCitas;
     }
 
     public static function getNumCitasTomPerAg($idCliente)
     {
         #return Cita::getNumCitasEstatus($idCliente,['Tomada','Perdida','Agendada']);
-        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
-        if($servicio) {
-            return $servicio->numCitasTomadas + $servicio->numCitasPerdidas + $servicio->numCitasAgendadas;
-        }else{
-            return 0;
+        $numCitas = 0;
+        $usuario = auth()->user();
+        if($usuario){
+            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                $cliente = Cliente::find($idCliente);
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            }
+            if($cliente){
+                $servicio = Servicio::where('cliente_id','=',$cliente->id)->where('estatus','=','Iniciado')->first();
+                if($servicio) {
+                    $numCitas = $servicio->numCitasTomadas + $servicio->numCitasPerdidas + $servicio->numCitasAgendadas;
+                }else{
+                    $numCitas = 0;
+                }
+            }
         }
+        return $numCitas;
+
     }
 
     public static function getNumCitasTomadas($idCliente)
     {
         #return Cita::getNumCitasEstatus($idCliente,['Tomada', 'Perdida']);
-        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
-        if($servicio) {
-            return $servicio->numCitasTomadas + $servicio->numCitasPerdidas;
-        }else{
-            return 0;
+        $numCitas = 0;
+        $usuario = auth()->user();
+        if($usuario){
+            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                $cliente = Cliente::find($idCliente);
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            }
+            if($cliente){
+                $servicio = Servicio::where('cliente_id','=',$cliente->id)->where('estatus','=','Iniciado')->first();
+                if($servicio) {
+                    $numCitas = $servicio->numCitasTomadas + $servicio->numCitasPerdidas;
+                }else{
+                    $numCitas = 0;
+                }
+            }
         }
+        return $numCitas;
     }
 
     public static function getValoracionTomada($idCliente)
     {
         #return Cita::getNumCitasEstatus($idCliente,['VTomada','Valoracion']);
-        $servicio = Servicio::where('cliente_id','=',$idCliente)->where('estatus','=','Iniciado')->first();
-        if($servicio) {
-            return $servicio->valoracion;
-        }else{
-            return 0;
+        $numCitas = 0;
+        $usuario = auth()->user();
+        if($usuario){
+            if(in_array($usuario->rol, ['Master','Admin','AdminSucursal'])){
+                $cliente = Cliente::find($idCliente);
+            }else{
+                $cliente = Cliente::where('user_id','=',$usuario->id)->first();
+            }
+            if($cliente){
+                $servicio = Servicio::where('cliente_id','=',$cliente->id)->where('estatus','=','Iniciado')->first();
+                if($servicio) {
+                    $numCitas = $servicio->valoracion;
+                }else{
+                    $numCitas = 0;
+                }
+            }
         }
+        return $numCitas;
     }
 
 
@@ -180,7 +230,6 @@ class Cita extends Model
         $dia1 = strftime("%d", $fecha->getTimestamp());
         $hora1 = strftime("%H", $fecha->getTimestamp());
         $min1 = (int)strftime("%M", $fecha->getTimestamp());
-
 
 	    $meses = Mese::where('mes','=',$mes1)->where('ano','=',$ano1)->get();
 
@@ -196,18 +245,20 @@ class Cita extends Model
                     foreach ($citas as $cita){
                         if($cita->estatus == "Agendada"){
                             $cita->estatus = "Tomada";
-
-                            #Actualizo el numero de citas tomadas en el servicio
-                            $servicio = Servicio::where('cliente_id','=',$cita->cliente_id)->where('estatus','=','Iniciado')->first();
-                            if($servicio) {
-                                $servicio->numCitasTomadas = $servicio->numCitasTomadas + 1;
-                                $servicio->save();
-                            }
-
                         }
 
                         if($cita->estatus == "Valoracion"){
                             $cita->estatus = "VTomada";
+                        }
+
+                        if(in_array($cita->estatus, ['Tomada','VTomada'])) {
+                            #Actualizo el numero de citas tomadas en el servicio
+                            $servicio = Servicio::where('cliente_id', '=', $cita->cliente_id)->where('estatus', '=', 'Iniciado')->first();
+                            if ($servicio) {
+                                $servicio->numCitasTomadas = $servicio->numCitasTomadas + 1;
+                                $servicio->numCitasAgendadas = $servicio->numCitasAgendadas - 1;
+                                $servicio->save();
+                            }
                         }
                         $cita->save();
                     }
@@ -225,6 +276,16 @@ class Cita extends Model
 
                             if($cita->estatus == "Valoracion"){
                                 $cita->estatus = "VTomada";
+                            }
+
+                            if(in_array($cita->estatus, ['Tomada','VTomada'])) {
+                                #Actualizo el numero de citas tomadas en el servicio
+                                $servicio = Servicio::where('cliente_id', '=', $cita->cliente_id)->where('estatus', '=', 'Iniciado')->first();
+                                if ($servicio) {
+                                    $servicio->numCitasTomadas = $servicio->numCitasTomadas + 1;
+                                    $servicio->numCitasAgendadas = $servicio->numCitasAgendadas - 1;
+                                    $servicio->save();
+                                }
                             }
                             $cita->save();
                         }
